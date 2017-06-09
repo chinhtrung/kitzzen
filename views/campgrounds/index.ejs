@@ -10,7 +10,7 @@
             </p>
         </div>
     </header>
-    <div class="row" style="display: flex; flex-wrap: wrap;">
+    <div class="row text-center" style="display: flex; flex-wrap: wrap;">
         <% campgrounds.forEach(function(each){ %>
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
@@ -21,6 +21,7 @@
                     <p>
                         <a href="/campgrounds/<%= each._id%>" class="btn btn-primary">More Info</a>
                     </p>
+                    
                 </div>
             </div>
         <% }); %>
