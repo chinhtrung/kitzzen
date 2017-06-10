@@ -16,7 +16,6 @@ var commentRoutes       = require("./routes/comments"),
     campgroundRoutes    = require("./routes/campgrounds"),
     indexRoutes         = require("./routes/index")
 
-console.log(process.env.DATABASEURL);
 mongoose.connect(process.env.DATABASEURL);
 
 app.set("view engine","ejs");
