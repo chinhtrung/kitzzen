@@ -17,6 +17,7 @@ var commentRoutes       = require("./routes/comments"),
     indexRoutes         = require("./routes/index")
 //https://secret-chamber-24227.herokuapp.com/
 
+//DATABASE=mongodb://localhost/yelp_camp_v9
 mongoose.connect(process.env.DATABASEURL);
 
 app.set("view engine","ejs");
