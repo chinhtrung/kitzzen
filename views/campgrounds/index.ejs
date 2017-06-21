@@ -10,16 +10,17 @@
             </p>
         </div>
     </header>
-    <div class="row text-left" style="display: flex; flex-wrap: wrap;">
+    <div class="row " style="display: flex; flex-wrap: wrap;">
         <% campgrounds.forEach(function(each){ %>
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
                     <img src=<%= each.image %>>
                     <div class="caption">
-                        <h4><%= each.name %></h4>
+                        <h3><%= each.name %></h3>
+                        <h5><strong>$ <%= each.price %></strong> by <a href="#"> <%= each.author.username %></a></h5>
                         <p><%= each.description.slice(0,100) %></p>
                         <p>
-                            <a href="/campgrounds/<%= each._id%>" class="btn btn-primary">$ <%= each.price %></a>
+                            <a href="/campgrounds/<%= each._id%>" class="btn btn-primary">More</a>
                         </p>
                     </div>
                 </div>
