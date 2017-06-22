@@ -17,7 +17,7 @@ var commentRoutes       = require("./routes/comments"),
     indexRoutes         = require("./routes/index")
 //https://secret-chamber-24227.herokuapp.com/
 
-//DATABASEUR=mongodb://localhost/yelp_camp_v9
+//DATABASEURL=mongodb://localhost/yelp_camp_v9
 mongoose.connect(process.env.DATABASEURL);
 
 app.set("view engine","ejs");
@@ -27,6 +27,7 @@ app.use(methodOverride("_method"));
 app.use(flash());
 // seedDB(); //seed the database
 
+app.locals.moment = require('moment');
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
     secret: "Once again Rusty wins cutest dog!",
