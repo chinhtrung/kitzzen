@@ -17,7 +17,8 @@
                     <img src=<%= each.image %>>
                     <div class="caption">
                         <h3><%= each.name %></h3>
-                        <h5><strong>$ <%= each.price %></strong> by <a href="#"> <%= each.author.username %></a></h5>
+                        <h5><strong>$ <%= each.price %></strong> by <a href="#"> <%= each.author.username %></a>, <%= moment(each.createdAt).fromNow() %></h5>
+                        <hr class="style13">
                         <p><%= each.description.slice(0,100) %></p>
                         <p>
                             <a href="/campgrounds/<%= each._id%>" class="btn btn-primary">More</a>
