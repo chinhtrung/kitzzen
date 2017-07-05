@@ -16,11 +16,13 @@
     "express": "^4.15.3",
     "express-session": "^1.15.3",
     "geocoder": "^0.2.3",
+    "locus": "^2.0.1",
     "method-override": "^2.3.9",
     "moment": "^2.18.1",
     "mongoose": "^4.9.9",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^4.0.0"
+    "passport-local-mongoose": "^4.0.0",
+    "request": "^2.81.0"
   }
 }

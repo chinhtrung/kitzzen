@@ -1,18 +1,33 @@
 var express = require("express");
 var router  = express.Router();
 var Campground = require("../models/campground");
+var Comment = require("../models/comment");
 var middleware = require("../middleware");
 var geocoder = require("geocoder");
 
+
 // INDEX - show app campground
 router.get("/",function(req,res){
-    Campground.find({},function(err,allCampgrounds){
-        if(err){
-            console.log(err);
-        }else{
-            res.render("./campgrounds/index",{campgrounds : allCampgrounds, currentUser: req.user});
-        }
-    });
+    if (req.query.search){
+        const regex = new RegExp(escapeRegex(req.query.search),'gi');
+        // Get all the campground
+        Campground.find({name: regex},function(err,allCampgrounds){
+            if(err){
+                console.log(err);
+            }else{
+                res.render("./campgrounds/index",{campgrounds : allCampgrounds, currentUser: req.user});
+            }
+        });
+    } else {
+    // Get all the campground 
+        Campground.find({},function(err,allCampgrounds){
+            if(err){
+                console.log(err);
+            }else{
+                res.render("./campgrounds/index",{campgrounds : allCampgrounds, currentUser: req.user});
+            }
+        });
+    }
 });
 
 // CREATE - add new campground to DB
@@ -101,5 +116,10 @@ router.delete("/:id",middleware.checkCampgroundOwnership,function(req,res){
         }
     });
 });
+
+// Define escapeRegex function for search feature
+function escapeRegex(text){
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g,"\\$&");
+};
 
 module.exports = router;
