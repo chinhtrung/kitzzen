@@ -3,13 +3,18 @@ var express     = require("express"),
     bodyParser  = require("body-parser"),
     mongoose    = require("mongoose"),
     flash       = require("connect-flash"),
+    cookieParser = require("cookie-parser"),
     passport    = require("passport"),
     LocalStrategy = require("passport-local"),
     methodOverride = require("method-override"),
     Campground  = require("./models/campground.js"),
     Comment     = require("./models/comment"),
     User        = require("./models/user"),
-    seedDB      = require("./seeds.js")
+    seedDB      = require("./seeds.js"),
+    geocoder    = require('geocoder')
+    
+// configure dotenv
+require('dotenv').load();
     
 // requiring routes    
 var commentRoutes       = require("./routes/comments"),
