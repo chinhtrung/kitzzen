@@ -25,7 +25,7 @@ router.post("/register",function(req,res){
     }
     User.register(newUser, req.body.password,function(err,user){
         if(err){
-            req.flash("error", err.message + " - the email address may have been used ");
+            req.flash("error", err.message + " or the email address may have been used ");
             return res.redirect("register");
         }
         passport.authenticate("local")(req,res,function(){
