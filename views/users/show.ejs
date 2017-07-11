@@ -1,0 +1,40 @@
+<% include ../partials/header %>
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+				<h1><%= user.firstName + " " + user.lastName %></h1>
+			<div class="thumbnail">
+				<img src="<%= user.avatar %>" alt="user profile image">
+				<div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
+			</div>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quasi similique architecto ad modi sunt quaerat possimus, officiis quos. Voluptatibus repellendus exercitationem, id saepe sunt consectetur non quam sapiente assumenda.
+
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quasi similique architecto ad modi sunt quaerat possimus, officiis quos. Voluptatibus repellendus exercitationem, id saepe sunt consectetur non quam sapiente assumenda.
+		</div>
+		<div class="ui main text col-md-6">
+    		<div class="ui medium header">Campground list</div>
+    			<div class="ui top attached segment">
+    			    <div class="ui divided items">
+    			        <% campgrounds.forEach(function(campground){ %>
+            			<div class="item">
+                			<div class="ui tiny rounded image">
+            			        <img src=<%= campground.image %>>
+        			        </div>
+    			            <div class="content">
+        			            <a class="header" href="/campgrounds/<%= campground._id %>"><%= campground.name %></a>
+        			            <div class="meta">
+            			            <span><%= moment(campground.createdAt).fromNow() %></span>
+            			        </div>
+                    			<div class="description">
+                			        <p><%- campground.description.substring(0,100)%>...</p>
+            			        </div>
+            			    </div>
+        			    </div>
+        			    <% }); %>
+   				    </div>
+    			</div>
+		</div>
+	</div>
+</div>
+
+<% include ../partials/footer %>

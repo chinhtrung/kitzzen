@@ -51,9 +51,10 @@ body {
   flex-wrap: wrap;
 }
 
-/*style for the horizontal line*/
-.style13 {
-	height: 10px;
-	border: 0;
-	box-shadow: 0 10px 10px -10px #8c8b8b inset;
+i.icon{
+    font-size: 2em;
+}
+
+.container.main{
+    margin-top: 7em;
 }
