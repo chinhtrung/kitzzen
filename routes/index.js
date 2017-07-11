@@ -19,13 +19,19 @@ router.get("/register",function(req,res){
 
 // handle signup
 router.post("/register",function(req,res){
-    var newUser = new User({username: req.body.username});
+    var newUser = new User({
+        username: req.body.username,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        avatar: req.body.avatar
+      });
     if(req.body.adminCode === "secretcodetrung"){
         newUser.isAdmin = true;
     }
     User.register(newUser, req.body.password,function(err,user){
         if(err){
-            req.flash("error", err.message + " or the email address may have been used ");
+            req.flash("error", err.message + " or the email address may have been used by different user");
             return res.redirect("register");
         }
         passport.authenticate("local")(req,res,function(){
