@@ -7,27 +7,31 @@ var geocoder = require("geocoder");
 
 
 // INDEX - show app campground
-router.get("/",function(req,res){
-    if (req.query.search){
-        const regex = new RegExp(escapeRegex(req.query.search),'gi');
-        // Get all the campground
-        Campground.find({name: regex},function(err,allCampgrounds){
-            if(err){
-                console.log(err);
-            }else{
-                res.render("./campgrounds/index",{campgrounds : allCampgrounds, currentUser: req.user});
+router.get("/", function(req, res){
+  if(req.query.search && req.xhr) {
+      const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+      // Get all campgrounds from DB
+      Campground.find({name: regex}, function(err, allCampgrounds){
+         if(err){
+            console.log(err);
+         } else {
+            res.status(200).json(allCampgrounds);
+         }
+      });
+  } else {
+      // Get all campgrounds from DB
+      Campground.find({}, function(err, allCampgrounds){
+         if(err){
+             console.log(err);
+         } else {
+            if(req.xhr) {
+              res.json(allCampgrounds);
+            } else {
+              res.render("campgrounds/index",{campgrounds: allCampgrounds, page: 'campgrounds'});
             }
-        });
-    } else {
-    // Get all the campground 
-        Campground.find({},function(err,allCampgrounds){
-            if(err){
-                console.log(err);
-            }else{
-                res.render("./campgrounds/index",{campgrounds : allCampgrounds, currentUser: req.user});
-            }
-        });
-    }
+         }
+      });
+  }
 });
 
 // CREATE - add new campground to DB

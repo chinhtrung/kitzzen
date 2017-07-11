@@ -9,14 +9,12 @@
                 <a class="btn btn-primary btn-lg" href="/campgrounds/new">Sell new item</a>
             </p>
             <p>
-                <form action="/campgrounds" method="GET" class="form-inline">
-                    <div class="input-group">
-                        <input type="text" name="search" placeholder="Anything you like... " class="form-control">
-                        <span class="input-group-btn">
-                            <input type="submit" value="Search" class="btn btn-default">
-                        </span>
-                    </div><!-- /input-group -->
-                </form>
+              <form action="/campgrounds" method="GET" class="form-inline" id="campground-search">
+                <div class="form-group ui icon input">
+                  <input type="text" name="search" placeholder="Anything you like ..." class="form-control">
+                  <i class="search icon"></i>
+                </div>
+              </form>
             </p>
         </div>
     </header>
@@ -24,7 +22,7 @@
         <li role="presentation"><a href="#">Social Trading</a></li>
         <li role="presentation" class="active"><a href="#">Social Store</a></li>
     </ul>
-    <div class="row " style="display: flex; flex-wrap: wrap; margin-top: 25px;">
+    <div class="row " style="display: flex; flex-wrap: wrap; margin-top: 25px;" id="campground-grid">
         <% campgrounds.forEach(function(each){ %>
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
