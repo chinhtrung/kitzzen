@@ -10,8 +10,8 @@
             </p>
             <p>
               <form action="/campgrounds" method="GET" class="form-inline" id="campground-search">
-                <div class="form-group ui icon input">
-                  <input type="text" name="search" placeholder="Anything you like ..." class="form-control">
+                <div class="form-group ui search icon input">
+                  <input type="text" name="search" placeholder="Anything you like ..." class="prompt">
                   <i class="search icon"></i>
                 </div>
               </form>
@@ -26,10 +26,11 @@
         <% campgrounds.forEach(function(each){ %>
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
+                    <% each.timestring = moment(each.createdAt).fromNow()%>
                     <img src=<%= each.image %>>
                     <div class="caption">
                         <h3><%= each.name %></h3>
-                        <h5><strong>$ <%= each.price %></strong> by <a href="/users/<%= each.author.id %>"> <%= each.author.username %></a>, <%= moment(each.createdAt).fromNow() %></h5>
+                        <h5><strong>$ <%= each.price %></strong> by <a href="/users/<%= each.author.id %>"> <%= each.author.username %></a>, <%= each.timestring %></h5>
                         <h5><%= each.location %></h5>
                         <hr class="style13">
                         <p><%= each.description.slice(0,100) %></p>
