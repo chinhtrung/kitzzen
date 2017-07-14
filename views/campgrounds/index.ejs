@@ -3,7 +3,7 @@
 <div class="container">
     <header class="jumbotron">
         <div class="container">
-            <h1>Welcome to Tizzen!</h1>
+            <h1><i class="idea icon"></i>Welcome to Tizzen!</h1>
             <p>Simple and Effective, start your online business and spread out your brand today!</p>
             <p>
                 <a class="btn btn-primary btn-lg" href="/campgrounds/new">Sell new item</a>
@@ -35,7 +35,23 @@
                         <hr class="style13">
                         <p><%= each.description.slice(0,100) %></p>
                         <p>
-                            <a href="/campgrounds/<%= each._id%>" class="btn btn-primary">More</a>
+                            <div>
+                                <form style="display: inline-block" action="/campgrounds/addview/<%=each._id%>?_method=PUT" method="POST">
+                                    <% campgrounds.forEach(function(eachin){ %>
+                                    <%   eachin.timestring = moment(eachin.createdAt).fromNow();%>
+                                    <input class="hide" name="datelist" value="<%= eachin.timestring %>">
+                                    <% });%>
+                                    <button class="ui primary basic button">View</button>
+                                </form>
+                                <div class="ui labeled button" tabindex="0">
+                                  <div class="ui basic red button">
+                                    <i class="trophy icon"></i> Seen
+                                  </div>
+                                  <button class="ui basic red left pointing label">
+                                    <%= each.seen %>
+                                  </button>
+                                </div>
+                            </div>
                         </p>
                     </div>
                 </div>

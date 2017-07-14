@@ -11,6 +11,7 @@ var campgroundSchema = new mongoose.Schema({
     lng: Number,
     createdAt: {type: Date, default: Date.now },
     timestring: String,
+    seen: {type: Number, default: 0},
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,

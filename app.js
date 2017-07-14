@@ -12,7 +12,7 @@ var express     = require("express"),
     User        = require("./models/user"),
     seedDB      = require("./seeds.js"),
     geocoder    = require('geocoder')
-    
+
 // configure dotenv
 require('dotenv').load();
     

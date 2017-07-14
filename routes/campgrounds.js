@@ -72,7 +72,6 @@ router.get("/:id",function(req,res){
         if(err){
             console.log(err);
         }else{
-            console.log(foundCampground);
             // render show template with that campground
             res.render("./campgrounds/show",{campground: foundCampground});
         }
@@ -90,6 +89,38 @@ router.get("/:id/edit",middleware.checkCampgroundOwnership,function(req,res){
     });
 });
 
+
+//UPDATE VIEW COUNT NUMBER ROUTE, THIS ONE IS JUST A TRIAL 
+router.put("/addview/:id",function(req,res){
+    // console.log(req.body.datelist);
+    Campground.find({},function(err,allcamp){
+        var numindex = 0;
+        allcamp.forEach(function(eachin){
+            var timestring = req.body.datelist[numindex];
+            numindex = numindex + 1;
+            Campground.findByIdAndUpdate(eachin._id,{timestring: timestring},function(err){
+                if(err){
+                    console.log(err);
+                }
+            });
+        });
+    });
+    Campground.findById(req.params.id,function(err,campground){
+        if(err){
+            console.log(err.message);
+        } else {
+            //should be an if statement for the fair of view count, might use fingerprintjs2
+            var seen = campground.seen + 1;
+            Campground.findByIdAndUpdate(req.params.id,{seen: seen},function(err){
+                if(err){
+                    console.log(err.message);
+                } else {
+                    res.redirect("/campgrounds/" + campground._id);
+                }
+            });
+        }
+    });
+});
 
 //UPDATE CAMPGROUND ROUTE
 router.put("/:id",middleware.checkCampgroundOwnership,function(req,res){

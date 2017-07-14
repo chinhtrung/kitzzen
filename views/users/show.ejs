@@ -1,19 +1,9 @@
 <% include ../partials/header %>
 <div class="container">
 	<div class="row">
-		<div class="col-md-4">
-				<h1><%= user.firstName + " " + user.lastName %></h1>
-			<div class="thumbnail">
-				<img src="<%= user.avatar %>" alt="user profile image">
-				<div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
-			</div>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quasi similique architecto ad modi sunt quaerat possimus, officiis quos. Voluptatibus repellendus exercitationem, id saepe sunt consectetur non quam sapiente assumenda.
-
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quasi similique architecto ad modi sunt quaerat possimus, officiis quos. Voluptatibus repellendus exercitationem, id saepe sunt consectetur non quam sapiente assumenda.
-		</div>
-		<div class="ui main text col-md-6">
-    		<div class="ui medium header">Selling...</div>
-    			<div class="ui top attached segment">
+		<div class="ui main text col-md-4">
+			<div class="ui massive header"></div>
+    			<div class="ui top attached left">
     			    <div class="ui divided items">
     			        <% campgrounds.forEach(function(campground){ %>
             			<div class="item">
@@ -33,6 +23,16 @@
         			    <% }); %>
    				    </div>
     			</div>
+		</div>
+		<div class="col-md-4">
+				<h1><%= user.firstName + " " + user.lastName %></h1>
+			<div class="thumbnail">
+				<img src="<%= user.avatar %>" alt="user profile image">
+				<div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
+			</div>
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quasi similique architecto ad modi sunt quaerat possimus, officiis quos. Voluptatibus repellendus exercitationem, id saepe sunt consectetur non quam sapiente assumenda.
+
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quasi similique architecto ad modi sunt quaerat possimus, officiis quos. Voluptatibus repellendus exercitationem, id saepe sunt consectetur non quam sapiente assumenda.
 		</div>
 	</div>
 </div>

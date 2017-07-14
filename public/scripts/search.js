@@ -17,7 +17,17 @@ $('#campground-search').on('input', function() {
               <hr class="style13">
               <p>${ campground.description.slice(0,100) }</p>
               <p>
-                <a href="/campgrounds/${ campground._id }" class="btn btn-primary">More Info</a>
+                <div>
+                  <a href="/campgrounds/${ campground._id }" class="ui primary basic button">View</a>
+                  <div class="ui labeled button" tabindex="0">
+                    <div class="ui basic red button">
+                      <i class="trophy icon"></i> Seen
+                    </div>
+                    <a class="ui basic red left pointing label">
+                      ${campground.seen}
+                    </a>
+                  </div>
+                </div>
               </p>
             </div>
           </div>
