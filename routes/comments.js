@@ -72,6 +72,7 @@ router.delete("/:comment_id",middleware.checkCommentOwnership,function(req,res){
     //findByIdAndRemove
     Comment.findByIdAndRemove(req.params.comment_id,function(err){
         if(err){
+            req.flash("error",err.message);
             res.redirect("back");
         } else {
             req.flash("success","Comment deleted");

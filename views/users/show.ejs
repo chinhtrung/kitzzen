@@ -1,8 +1,18 @@
 <% include ../partials/header %>
+
 <div class="container">
 	<div class="row">
 		<div class="ui main text col-md-4">
-			<div class="ui massive header"></div>
+			<div class="ui massive header" style="margin-top: 20px;">
+				Selling list
+				<% if(currentUser && currentUser._id.equals(user.id) || currentUser && currentUser.isAdmin === true){ %>
+					<div style="margin-top:3.5%;">
+						<a class="ui primary basic button" href="/campgrounds/new" style="display:inline-block;"><i class="add square icon"></i> Add New</a>
+						<a class="ui brown basic button delete-form" href="/users/<%= user._id%>/edit"><i class="write icon"></i> Edit My Profile</a>
+					</div>
+				<% }; %>
+			</div>
+			<hr class="style2">
     			<div class="ui top attached left">
     			    <div class="ui divided items">
     			        <% campgrounds.forEach(function(campground){ %>
@@ -25,14 +35,12 @@
     			</div>
 		</div>
 		<div class="col-md-4">
-				<h1><%= user.firstName + " " + user.lastName %></h1>
+			<h1><%= user.firstName + " " + user.lastName %></h1>
 			<div class="thumbnail">
 				<img src="<%= user.avatar %>" alt="user profile image">
 				<div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
 			</div>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quasi similique architecto ad modi sunt quaerat possimus, officiis quos. Voluptatibus repellendus exercitationem, id saepe sunt consectetur non quam sapiente assumenda.
-
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quasi similique architecto ad modi sunt quaerat possimus, officiis quos. Voluptatibus repellendus exercitationem, id saepe sunt consectetur non quam sapiente assumenda.
+			<%= user.description %>
 		</div>
 	</div>
 </div>

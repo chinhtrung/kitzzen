@@ -7,6 +7,7 @@ var UserSchema = mongoose.Schema({
     avatar: String,
     firstName: String,
     lastName: String,
+    description: {type: String, default: 'This is my introduction about myself. I do not want you to be messed up because of this introduction. I should say something in this introduction so that why you are reading this introduction. I appreciate your reading and your time for this introduction and I hope you find it helpful for you'},
     email: {type: String, unique: true, required: true},
     resetPasswordToken: String,
     resetPasswordExpires: Date,

@@ -145,8 +145,10 @@ router.put("/:id",middleware.checkCampgroundOwnership,function(req,res){
 router.delete("/:id",middleware.checkCampgroundOwnership,function(req,res){
     Campground.findByIdAndRemove(req.params.id, function(err){
         if(err){
+            req.flash("error",err.message);
             res.redirect("/campgrounds");
         }else{
+            req.flash("success","Item deleted");
             res.redirect("/campgrounds");
         }
     });

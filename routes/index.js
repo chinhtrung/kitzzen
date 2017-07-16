@@ -6,6 +6,7 @@ var Campground = require("../models/campground");
 var async = require("async");
 var nodemailer = require("nodemailer");
 var crypto = require("crypto");
+var middleware = require("../middleware");
 
 // root route
 router.get("/",function(req,res){
@@ -101,7 +102,7 @@ router.post('/forgot', function(req, res, next) {
       });
       var mailOptions = {
         to: user.email,
-        from: 'learntocodeinfo@gmail.com',
+        from: 'tizzeninfo@gmail.com',
         subject: 'Node.js Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -197,5 +198,74 @@ router.get("/users/:id", function(req, res) {
   });
 });
 
+//EDIT USER PROFILE
+router.get("/users/:id/edit",middleware.isLoggedIn,middleware.checkMatchingUser,function(req,res){
+  User.findById(req.params.id,function(err,foundUser){
+    if(err){
+      req.flash("error","Something went wrong.");
+      res.redirect("/");
+    }
+    Campground.find().where('author.id').equals(foundUser._id).exec(function(err, campgrounds) {
+      if(err){
+        req.flash("error","Something went wrong.");
+        res.redirect("/")
+      }
+      res.render("users/edit",{user: foundUser, campgrounds: campgrounds});
+    });
+  });
+});
+
+// UPDATE USER PROFILE
+router.put("/users/:id",function(req,res){
+  var lastname = req.body.lastname;
+  var firstname = req.body.firstname;
+  var avatar = req.body.avatar;
+  var email = req.body.email;
+  var description = req.body.description;
+  var isAdmin = false;
+  if(req.body.isadmin === "secretcodetrung"){
+    var isAdmin = true;
+  }
+  User.findByIdAndUpdate(req.params.id,{lastName: lastname, firstName: firstname, avatar: avatar, email: email, description: description, isAdmin: isAdmin},function(err,thisuser){
+    if(err){
+      req.flash("error",err.message);
+    } else {
+      req.flash("success","Successfully update user profile");
+      res.redirect("/users/"+req.params.id);
+    }
+  });
+});
+
+// DESTROY USER ACCOUNT
+router.delete("/users/:id",middleware.checkMatchingUser,function(req,res){
+    if(req.params.id === req.body.deleteId){
+      Campground.find().where('author.id').equals(req.params.id).exec(function(err,campgrounds){
+        if(err){
+          req.flash("error",err.message);
+          res.redirect("/campgrounds");
+        } else {
+          campgrounds.forEach(function(campground){
+            Campground.findByIdAndRemove(campground._id,function(err){
+              if(err){
+                req.flash("error",err.message);
+              }
+            });
+          });
+          User.findByIdAndRemove(req.params.id,function(err){
+            if(err){
+              req.flash("error",err.message);
+              res.redirect("back");
+            } else {
+              req.flash("Success","successfully remove account");
+              res.redirect("/campgrounds");
+            }
+          });
+        }
+      });
+    } else {
+      req.flash("success","Please type in the right id to perform deleting action");
+      res.redirect("back");
+    }
+});
 
 module.exports = router;
