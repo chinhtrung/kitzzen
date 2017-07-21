@@ -4,6 +4,7 @@ var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 var middleware = require("../middleware");
 var geocoder = require("geocoder");
+var User = require("../models/user");
 
 
 // INDEX - show app campground

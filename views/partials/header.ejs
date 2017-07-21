@@ -31,8 +31,13 @@
                     <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>"><a href="/login">Login</a></li>
                     <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"><a href="/register">Sign Up</a></li>
                 <% } else { %>
-                    <li><a href="/users/<%=currentUser._id %>">Signed In As <%= currentUser.username %></a></li>
-                    <li><a href="/logout">Logout</a></li>
+                    <li>
+                      <a style="font-size:15px;padding-top:10.1px;" class="navbar-brand" href="/users/<%=currentUser._id %>">
+                        <img style="display:inline-block;" class="header-avatar" src="<%= currentUser.avatar%>">
+                        <%= currentUser.username %>
+                      </a>
+                    </li>
+                    <li><a class="nav navbar-nav" href="/logout">Logout</a></li>
                 <% } %>
             </ul>
           </div>

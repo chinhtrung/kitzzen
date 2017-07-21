@@ -8,7 +8,7 @@ var middleware = require("../middleware");
 
 router.get("/new",middleware.isLoggedIn,function(req,res){
     // find campground by Id
-    Campground.findById(req.params.id,function(err, campground){
+    Campground.findById(req.params.id).populate("comments").exec(function(err, campground){
         if(err){
             console.log(err);
         }else{
@@ -33,11 +33,11 @@ router.post("/",middleware.isLoggedIn,function(req,res){
                     //add username and id to comment
                     comment.author.id = req.user._id;
                     comment.author.username = req.user.username;
+                    comment.author.avatar = req.user.avatar;
                     // save comment
                     comment.save();
                     campground.comments.push(comment);
                     campground.save();
-                    console.log(comment);
                     req.flash("success","Successfully added comment");
                     res.redirect("/campgrounds/" + campground._id);
                 }

@@ -7,6 +7,7 @@ var async = require("async");
 var nodemailer = require("nodemailer");
 var crypto = require("crypto");
 var middleware = require("../middleware");
+var Comment = require("../models/comment");
 
 // root route
 router.get("/",function(req,res){

@@ -29,31 +29,39 @@
                     <% }%>
                 </div>
             </div>
-            <div class="well">
-                <div class="text-right">
-                    <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
+            <div style="margin-top:10%" class="ui threaded comments">
+                <div class="ui dividing header">
+                    <h2>Comments</h2>
                 </div>
-                <hr>
-                <% campground.comments.forEach(function(comment){ %>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a href="/users/<%=comment.author.id%>"><strong><%= comment.author.username %></strong></a>
-                            <span class="pull-right"><%= moment(campground.createdAt).fromNow() %></span>
-                            <p>
-                                <%= comment.text %>
-                            </p>
-                        <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
-                            <a class="btn btn-xs btn-warning" 
-                                href="/campgrounds/<%= campground._id %>/comments/<%=comment._id %>/edit">
-                                Edit
+                <% campground.comments.forEach(function(comment){%> 
+                    <div class="row comment">
+                            <a class="avatar">
+                                 <img class="header-avatar" src="<%=comment.author.avatar%>">
                             </a>
-                            <form class="delete-form" action="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
-                                <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-                            </form>
-                        <% } %>
+                            <div class="content">
+                                <a class="author" href="/users/<%=comment.author.id%>"><strong><%= comment.author.username %></strong></a>
+                                <div class="metadata">
+                                    <span class="date"><%= moment(comment.createdAt).fromNow() %></span>
+                                </div>
+                                <div class="text">
+                                    <%= comment.text %>
+                                </div>
+                                <div class="actions">
+                                <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
+                                    <a class="reply" 
+                                        href="/campgrounds/<%= campground._id %>/comments/<%=comment._id %>/edit">
+                                        Edit
+                                    </a>
+                                    <form class="delete-form" action="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
+                                        <input type="submit" class="ui mini icon button" value="Delete">
+                                    </form>
+                                <% } %>
+                            </div>
                         </div>
                     </div>
                 <% }); %>
+                <hr class="style1">
+                <a style="padding-top:5px;" class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
             </div>
         </div>
     </div>

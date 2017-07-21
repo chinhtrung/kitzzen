@@ -68,3 +68,14 @@ hr.style13 {
 hr.style2 {
 	border-top: 3px double #8c8b8b;
 }
+
+.header-avatar {
+  object-fit: cover;
+  border-radius:25%;
+  width: 32px;
+  height: 32px;
+}
+
+hr.style1{
+	border-top: 1px solid rgba(34,36,38,.2);
+}
