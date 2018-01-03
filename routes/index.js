@@ -252,6 +252,13 @@ router.delete("/users/:id",middleware.checkMatchingUser,function(req,res){
               }
             });
           });
+          Campground.find({},function(err,allCamp){
+            if(err){
+              console.log(err);
+            } else {
+              console.log(allCamp);
+            }
+          });
           User.findByIdAndRemove(req.params.id,function(err){
             if(err){
               req.flash("error",err.message);

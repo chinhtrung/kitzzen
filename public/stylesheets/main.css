@@ -69,6 +69,7 @@ hr.style2 {
 	border-top: 3px double #8c8b8b;
 }
 
+/* small user avatar for header*/
 .header-avatar {
   object-fit: cover;
   border-radius:25%;
@@ -78,4 +79,24 @@ hr.style2 {
 
 hr.style1{
 	border-top: 1px solid rgba(34,36,38,.2);
+}
+
+/* avatar for reply session*/
+.add-reply-avatar {
+  object-fit: cover;
+  border-radius:5%;
+  width: 65px;
+  height: 65px;
+}
+
+/*reply comment box*/
+.add-reply{
+  margin-left: 15px;
+  border-radius: 2px;
+  margin-bottom: 5px;
+  padding: 10px;
+  box-shadow: inset 0 0 1px rgba(0,0,0,.05);
+  border: 1px solid #d5d5d5;
+  height:65px;
+  width:87%;
 }

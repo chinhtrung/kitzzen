@@ -31,8 +31,21 @@
             </div>
             <div style="margin-top:10%" class="ui threaded comments">
                 <div class="ui dividing header">
-                    <h2>Comments</h2>
+                    <h5>COMMENTS ﹣ <%= campground.comments.length%></h5>
                 </div>
+                <% if(currentUser){ %>
+                <div>
+                    <img style="float:left;" class="add-reply-avatar" src="<%=currentUser.avatar%>">
+                    <form class="answer-box" action="/campgrounds/<%=campground._id %>/comments" method="POST">
+                        <textarea required class="add-reply" name="comment[text]" placeholder="Add a public comment..."></textarea>
+                        <button style="float:left;margin-left:72.5%;" class="ui mini button hidden-button submit">Add Comment</button>
+                    </form>
+                        <button class="ui mini button hidden-button cancel-button">Cancel</button>
+                </div>
+                <hr class="style1">
+                <% } else { %>
+                <a style="padding-top:5px;padding-bot:10px;" class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
+                <% }%>
                 <% campground.comments.forEach(function(comment){%> 
                     <div class="row comment">
                             <a class="avatar">
@@ -61,7 +74,6 @@
                     </div>
                 <% }); %>
                 <hr class="style1">
-                <a style="padding-top:5px;" class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
             </div>
         </div>
     </div>

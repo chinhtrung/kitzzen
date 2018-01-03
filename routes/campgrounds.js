@@ -62,7 +62,7 @@ router.post("/",middleware.isLoggedIn,function(req,res){
     });
 });
 
-//NEW - show fomr to create new campground
+//NEW - show form to create new campground
 router.get("/new",middleware.isLoggedIn,function(req,res){
     res.render("./campgrounds/new");
 });

@@ -63,8 +63,8 @@
 </form>
    	        <div>
    	        	<a class="ui button" href="/forgot"><i class="undo icon"></i> Change Password</a>
-   	        	<a href="/users/<%=user._id%>/edit">Delete account</a>
-   	        	<form class="delete-form" action="/users/<%= user._id %>?_method=DELETE" method="POST">
+   	        	<span id="delete-request" class="ui button">Delete account</span>
+   	        	<form id="delete-confirmation" class="delete-form" action="/users/<%= user._id %>?_method=DELETE" method="POST">
    	        		<div style="margin-top: 10%" class="form-group">
    	        		    <p>Your account and all of your posts will be deleted!</p>
    		    	        <label for="deleteId">Please type in <strong><%= user._id%></strong> to confirm</label>

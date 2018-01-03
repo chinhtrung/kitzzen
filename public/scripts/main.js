@@ -1,0 +1,13 @@
+$(document).ready(function(){
+    $("#delete-confirmation").hide();
+    $('#delete-request').click(function(){
+        $('#delete-confirmation').fadeToggle('fast');
+    });
+    $(".hidden-button").hide();
+    $('.add-reply').click(function(){
+        $('.hidden-button').fadeIn('fast');
+        $('.cancel-button').click(function(){
+            $('.hidden-button').hide();
+        });
+    });
+});
