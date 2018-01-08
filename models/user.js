@@ -7,7 +7,7 @@ var UserSchema = mongoose.Schema({
     avatar: {type: String, default: 'https://web.ziipr.com/images/default-profile-pic.jpg'},
     firstName: String,
     lastName: String,
-    description: {type: String, default: 'This is my introduction about myself. I do not want you to be messed up because of this introduction. I should say something in this introduction so that why you are reading this introduction. I appreciate your reading and your time for this introduction and I hope you find it helpful for you'},
+    description: {type: String, default: 'Hi I have a vision to let everyone get to know my products and use it, I want to bring the valuable thing into our flat World. Here I find the easiest way to do it, thanks Tizzen!!!'},
     email: {type: String, unique: true, required: true},
     resetPasswordToken: String,
     resetPasswordExpires: Date,

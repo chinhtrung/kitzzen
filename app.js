@@ -19,6 +19,7 @@ require('dotenv').load();
 // requiring routes    
 var commentRoutes       = require("./routes/comments"),
     campgroundRoutes    = require("./routes/campgrounds"),
+    ratingRoutes     = require("./routes/ratings"),
     indexRoutes         = require("./routes/index")
 
 //DATABASEURL=mongodb://localhost/yelp_camp_v9
@@ -34,7 +35,7 @@ app.use(flash());
 app.locals.moment = require('moment');
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
-    secret: "Once again Rusty wins cutest dog!",
+    secret: "My name is Trung",
     resave: false,
     saveUninitialized: false
 }));
@@ -53,9 +54,10 @@ app.use(function(req,res,next){
 
 app.use("/",indexRoutes);
 app.use("/campgrounds",campgroundRoutes);
+app.use("/campgrounds/:id/ratings", ratingRoutes);
 app.use("/campgrounds/:id/comments",commentRoutes);
 
     
 app.listen(process.env.PORT,process.env.IP,function(){
-    console.log("The YelpCamp server has started");
+    console.log("The server has started");
 });

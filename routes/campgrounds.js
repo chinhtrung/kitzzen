@@ -6,58 +6,104 @@ var middleware = require("../middleware");
 var geocoder = require("geocoder");
 var User = require("../models/user");
 
-
-// INDEX - show app campground
-router.get("/", function(req, res){
-  if(req.query.search && req.xhr) {
-      const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-      // Get all campgrounds from DB
-      Campground.find({name: regex}, function(err, allCampgrounds){
-         if(err){
-            console.log(err);
-         } else {
-            res.status(200).json(allCampgrounds);
-         }
-      });
-  } else {
-      // Get all campgrounds from DB
-      Campground.find({}, function(err, allCampgrounds){
-         if(err){
-             console.log(err);
-         } else {
-            if(req.xhr) {
-              res.json(allCampgrounds);
-            } else {
-              res.render("campgrounds/index",{campgrounds: allCampgrounds, page: 'campgrounds'});
-            }
-         }
-      });
+// CLOUDINARY SETUP
+var multer = require('multer');
+var storage = multer.diskStorage({
+  filename: function(req, file, callback) {
+    callback(null, Date.now() + file.originalname);
   }
+});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+var upload = multer({ storage: storage, fileFilter: imageFilter})
+
+var cloudinary = require('cloudinary');
+cloudinary.config({ 
+  cloud_name: 'projectstore', 
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+//INDEX - show all campgrounds
+router.get("/", function(req, res){
+    var perPage = 8;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+    var noMatch = null;
+    if(req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        Campground.find({name: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allCampgrounds) {
+            Campground.count({name: regex}).exec(function (err, count) {
+                if (err) {
+                    console.log(err);
+                    res.redirect("back");
+                } else {
+                    if(allCampgrounds.length < 1) {
+                        noMatch = "No campgrounds match that query, please try again.";
+                    }
+                    res.render("campgrounds/index", {
+                        campgrounds: allCampgrounds,
+                        current: pageNumber,
+                        pages: Math.ceil(count / perPage),
+                        noMatch: noMatch,
+                        search: req.query.search
+                    });
+                }
+            });
+        });
+    } else {
+        // get all campgrounds from DB
+        Campground.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allCampgrounds) {
+            Campground.count().exec(function (err, count) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.render("campgrounds/index", {
+                        campgrounds: allCampgrounds,
+                        current: pageNumber,
+                        pages: Math.ceil(count / perPage),
+                        noMatch: noMatch,
+                        search: false
+                    });
+                }
+            });
+        });
+    }
 });
 
 // CREATE - add new campground to DB
-router.post("/",middleware.isLoggedIn,function(req,res){
+router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, res) {
     var name = req.body.name;
     var price = req.body.price;
-    var image = req.body.image;
     var desc = req.body.description;
     var author = {
         id: req.user._id,
         username: req.user.username
     };
+    // var image = req.body.image;
     geocoder.geocode(req.body.location,function(err,data){
-        var lat = data.results[0].geometry.location.lat;
-        var lng = data.results[0].geometry.location.lng;
-        var location = data.results[0].formatted_address;
-        var newCampground = {name: name, image: image, description: desc, price: price, author: author, location: location, lat: lat, lng: lng};
-        // create a new campground and save to DB
-        Campground.create(newCampground,function(err,newlyCreated){
-            if(err){
-                console.log(err);
-            }else{
-                //redirect back to campgrounds page
-                res.redirect("/campgrounds");
-            }
+        cloudinary.uploader.upload(req.file.path, function(result) {
+            // add cloudinary url for the image to the campground object under image property
+            var image = result.secure_url;
+            // define variable
+            var lat = data.results[0].geometry.location.lat;
+            var lng = data.results[0].geometry.location.lng;
+            var location = data.results[0].formatted_address;
+            var newCampground = {name: name, image: image, description: desc, price: price, author: author, location: location, lat: lat, lng: lng};
+            // create a new campground and save to DB
+            Campground.create(newCampground,function(err,newlyCreated){
+                if(err){
+                    console.log(err);
+                }else{
+                    //redirect back to campgrounds page
+                    res.redirect("/campgrounds");
+                }
+            });
         });
     });
 });
@@ -68,13 +114,28 @@ router.get("/new",middleware.isLoggedIn,function(req,res){
 });
 
 // SHOW - shows more info about one campground
-router.get("/:id",function(req,res){
-    Campground.findById(req.params.id).populate("comments").exec(function(err,foundCampground){
+router.get("/:id", function(req, res){
+    //find the campground with provided ID
+    Campground.findById(req.params.id).populate("comments").populate("ratings").exec(function(err, foundCampground){
         if(err){
             console.log(err);
-        }else{
-            // render show template with that campground
-            res.render("./campgrounds/show",{campground: foundCampground});
+        } else {
+            if(foundCampground.ratings.length > 0) {
+              var ratings = [];
+              var length = foundCampground.ratings.length;
+              foundCampground.ratings.forEach(function(rating) { 
+                ratings.push(rating.rating) 
+              });
+              var rating = ratings.reduce(function(total, element) {
+                return total + element;
+              });
+              foundCampground.rating = rating / length;
+              foundCampground.save();
+            }
+            console.log("Ratings:", foundCampground.ratings);
+            console.log("Rating:", foundCampground.rating);
+            //render show template with that campground
+            res.render("campgrounds/show", {campground: foundCampground});
         }
     });
 });
