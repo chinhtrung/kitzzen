@@ -29,7 +29,7 @@
                         <h5><strong>$ <%= each.price %></strong> by <a href="/users/<%= each.author.id %>"> <%= each.author.username %></a>, <%= each.timestring %></h5>
                         <h5><%= each.location %></h5>
                         <hr class="style13">
-                        <p><%= each.description.slice(0,100) %></p>
+                        <p><%= each.description.slice(0,100) %>...</p>
                         <p>
                             <div>
                                 <form style="display: inline-block" action="/campgrounds/addview/<%=each._id%>?_method=PUT" method="POST">

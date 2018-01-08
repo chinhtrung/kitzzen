@@ -15,18 +15,26 @@ $('#campground-search').on('input', function() {
               <h5><strong>$ ${ campground.price }</strong> by <a href="/users/${ campground.author.id }"> ${ campground.author.username }</a>, ${ campground.timestring }</h5>
               <h5>${ campground.location }</h5>
               <hr class="style13">
-              <p>${ campground.description.slice(0,100) }</p>
+              <p>${ campground.description.slice(0,100) }...</p>
               <p>
                 <div>
-                  <a href="/campgrounds/${ campground._id }" class="ui primary basic button">View</a>
-                  <div class="ui labeled button" tabindex="0">
-                    <div class="ui basic red button">
-                      <i class="trophy icon"></i> Seen
-                    </div>
-                    <a class="ui basic red left pointing label">
+                  <div class="ui primary labeled button" tabindex="0">
+                    <button class="ui basic primary button">
+                      <i class="find icon"></i> View
+                    </button>
+                    <div class="ui basic blue left pointing label">
                       ${campground.seen}
-                    </a>
+                    </div>
                   </div>
+                  // <a href="/campgrounds/${ campground._id }" class="ui primary basic button">View</a>
+                  // <div class="ui labeled button" tabindex="0">
+                  //   <div class="ui basic red button">
+                  //     <i class="trophy icon"></i> Seen
+                  //   </div>
+                  //   <a class="ui basic red left pointing label">
+                  //     ${campground.seen}
+                  //   </a>
+                  // </div>
                 </div>
               </p>
             </div>
