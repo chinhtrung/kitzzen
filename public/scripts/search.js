@@ -20,21 +20,12 @@ $('#campground-search').on('input', function() {
                 <div>
                   <div class="ui primary labeled button" tabindex="0">
                     <button class="ui basic primary button">
-                      <i class="find icon"></i> View
+                      <a href="/campgrounds/${ campground._id }" class="ui primary basic button"><i class="find icon"></i> View</a>
                     </button>
                     <div class="ui basic blue left pointing label">
                       ${campground.seen}
                     </div>
                   </div>
-                  // <a href="/campgrounds/${ campground._id }" class="ui primary basic button">View</a>
-                  // <div class="ui labeled button" tabindex="0">
-                  //   <div class="ui basic red button">
-                  //     <i class="trophy icon"></i> Seen
-                  //   </div>
-                  //   <a class="ui basic red left pointing label">
-                  //     ${campground.seen}
-                  //   </a>
-                  // </div>
                 </div>
               </p>
             </div>
