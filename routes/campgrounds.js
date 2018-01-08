@@ -29,51 +29,32 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-//INDEX - show all campgrounds
+// INDEX - show app campground
 router.get("/", function(req, res){
-    var perPage = 8;
-    var pageQuery = parseInt(req.query.page);
-    var pageNumber = pageQuery ? pageQuery : 1;
-    var noMatch = null;
-    if(req.query.search) {
-        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-        Campground.find({name: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allCampgrounds) {
-            Campground.count({name: regex}).exec(function (err, count) {
-                if (err) {
-                    console.log(err);
-                    res.redirect("back");
-                } else {
-                    if(allCampgrounds.length < 1) {
-                        noMatch = "No campgrounds match that query, please try again.";
-                    }
-                    res.render("campgrounds/index", {
-                        campgrounds: allCampgrounds,
-                        current: pageNumber,
-                        pages: Math.ceil(count / perPage),
-                        noMatch: noMatch,
-                        search: req.query.search
-                    });
-                }
-            });
-        });
-    } else {
-        // get all campgrounds from DB
-        Campground.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allCampgrounds) {
-            Campground.count().exec(function (err, count) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    res.render("campgrounds/index", {
-                        campgrounds: allCampgrounds,
-                        current: pageNumber,
-                        pages: Math.ceil(count / perPage),
-                        noMatch: noMatch,
-                        search: false
-                    });
-                }
-            });
-        });
-    }
+  if(req.query.search && req.xhr) {
+      const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+      // Get all campgrounds from DB
+      Campground.find({name: regex}, function(err, allCampgrounds){
+         if(err){
+            console.log(err);
+         } else {
+            res.status(200).json(allCampgrounds);
+         }
+      });
+  } else {
+      // Get all campgrounds from DB
+      Campground.find({}, function(err, allCampgrounds){
+         if(err){
+             console.log(err);
+         } else {
+            if(req.xhr) {
+              res.json(allCampgrounds);
+            } else {
+              res.render("campgrounds/index",{campgrounds: allCampgrounds, page: 'campgrounds'});
+            }
+         }
+      });
+  }
 });
 
 // CREATE - add new campground to DB
