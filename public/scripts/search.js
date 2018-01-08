@@ -20,7 +20,7 @@ $('#campground-search').on('input', function() {
                 <div>
                   <div class="ui primary labeled button" tabindex="0">
                     <button class="ui basic primary button">
-                      <a href="/campgrounds/${ campground._id }" class="ui primary basic button"><i class="find icon"></i> View</a>
+                      <a href="/campgrounds/${ campground._id }"><i class="find icon"></i> View</a>
                     </button>
                     <div class="ui basic blue left pointing label">
                       ${campground.seen}
