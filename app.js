@@ -57,6 +57,9 @@ app.use("/campgrounds",campgroundRoutes);
 app.use("/campgrounds/:id/ratings", ratingRoutes);
 app.use("/campgrounds/:id/comments",commentRoutes);
 
+app.get("/*",function(req,res){
+    res.render("landing");
+});
     
 app.listen(process.env.PORT,process.env.IP,function(){
     console.log("The server has started");
