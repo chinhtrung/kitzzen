@@ -6,6 +6,7 @@ var middleware = require("../middleware");
 var geocoder = require("geocoder");
 var User = require("../models/user");
 
+
 // CLOUDINARY SETUP
 var multer = require('multer');
 var storage = multer.diskStorage({
@@ -93,6 +94,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
 router.get("/new",middleware.isLoggedIn,function(req,res){
     res.render("./campgrounds/new");
 });
+
 
 // SHOW - shows more info about one campground
 router.get("/:id", function(req, res){
