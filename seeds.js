@@ -110,6 +110,14 @@ function seedDB(){
         }
         console.log("removed campgrounds!");
     });
+    // remove all comments
+    Comment.remove({},function(err){
+        if(err){
+            console.log(err);
+        }
+        console.log("removed comments!");
+    });
+
     // add seeds
     foods.forEach(function(seed){
         Campground.create(seed,function(err,campground){
