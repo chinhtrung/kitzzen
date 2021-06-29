@@ -11,7 +11,7 @@ var express     = require("express"),
     Comment     = require("./models/comment"),
     User        = require("./models/user"),
     seedDB      = require("./seeds.js"),
-    geocoder    = require('geocoder')
+    geocoder    = require("geocoder");
 
 // configure dotenv
 require('dotenv').load();
@@ -25,7 +25,8 @@ var commentRoutes       = require("./routes/comments"),
 mongoose.connect(process.env.DATABASEURL, { 
     useUnifiedTopology: true, 
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useFindAndModify: false
 });
 
 app.set("view engine","ejs");
@@ -33,12 +34,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
-// seedDB(); //seed the database
+seedDB(); //seed the database
 
 app.locals.moment = require('moment');
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
-    secret: "My name is Trung",
+    secret: "Any secret? Trung",
     resave: false,
     saveUninitialized: false
 }));
