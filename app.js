@@ -19,11 +19,14 @@ require('dotenv').load();
 // requiring routes    
 var commentRoutes       = require("./routes/comments"),
     campgroundRoutes    = require("./routes/campgrounds"),
-    ratingRoutes     = require("./routes/ratings"),
+    ratingRoutes        = require("./routes/ratings"),
     indexRoutes         = require("./routes/index")
 
-//DATABASEURL=mongodb://localhost/yelp_camp_v9
-mongoose.connect(process.env.DATABASEURL);
+mongoose.connect(process.env.DATABASEURL, { 
+    useUnifiedTopology: true, 
+    useNewUrlParser: true,
+    useCreateIndex: true
+});
 
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -61,6 +64,8 @@ app.get("/*",function(req,res){
     res.render("landing");
 });
     
-app.listen(process.env.PORT, process.env.IP, function(){
+app.listen(process.env.PORT, function(){
     console.log("The server has started");
+    console.log("PORT", process.env.PORT);
+    console.log("IP", process.env.IP);
 });
