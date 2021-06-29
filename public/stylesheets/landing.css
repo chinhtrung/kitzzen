@@ -44,19 +44,19 @@ body {
 }
 .slideshow li:nth-child(2) { 
   background-image: url(https://images.unsplash.com/photo-1556911073-a6e37cb3a1c3);
-  animation-delay: 7s; 
+  animation-delay: 10s; 
 }
 .slideshow li:nth-child(3) { 
   background-image: url(https://images.unsplash.com/photo-1556908450-60aec6018662);
-  animation-delay: 14s; 
+  animation-delay: 20s; 
 }
 .slideshow li:nth-child(4) { 
   background-image: url(https://images.unsplash.com/photo-1605433247501-698725862cea);
-  animation-delay: 21s; 
+  animation-delay: 30s; 
 }
 .slideshow li:nth-child(5) { 
   background-image: url(https://images.unsplash.com/photo-1556910103-1c02745aae4d);
-  animation-delay: 28s; 
+  animation-delay: 40s; 
 }
 
 @keyframes imageAnimation { 
