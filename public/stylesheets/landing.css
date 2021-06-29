@@ -40,23 +40,23 @@ body {
 }
 
 .slideshow li:nth-child(1) { 
-  background-image: url(http://cou.on.ca/wp-content/uploads/2015/04/University-of-Waterloo-Stratford-Campus.jpg);
+  background-image: url(https://images.unsplash.com/photo-1556911261-6bd341186b2f);
 }
 .slideshow li:nth-child(2) { 
-  background-image: url(http://www.universityfairs.com/files/directory_images/waterloo-uae-pic1.jpg);
-  animation-delay: 10s; 
+  background-image: url(https://images.unsplash.com/photo-1556911073-a6e37cb3a1c3);
+  animation-delay: 7s; 
 }
 .slideshow li:nth-child(3) { 
-  background-image: url(http://static.panoramio.com/photos/large/76725639.jpg);
-  animation-delay: 20s; 
+  background-image: url(https://images.unsplash.com/photo-1556908450-60aec6018662);
+  animation-delay: 14s; 
 }
 .slideshow li:nth-child(4) { 
-  background-image: url(https://i.pinimg.com/564x/d5/0c/82/d50c82825005ba3a629a8b6fc832fc3f.jpg);
-  animation-delay: 30s; 
+  background-image: url(https://images.unsplash.com/photo-1605433247501-698725862cea);
+  animation-delay: 21s; 
 }
 .slideshow li:nth-child(5) { 
-  background-image: url(http://elemex.com/wp-content/uploads/2017/01/Perimeter-Institute-Waterloo-Ontario-2-slideshow.jpg);
-  animation-delay: 40s; 
+  background-image: url(https://images.unsplash.com/photo-1556910103-1c02745aae4d);
+  animation-delay: 28s; 
 }
 
 @keyframes imageAnimation { 
