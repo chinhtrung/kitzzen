@@ -34,4 +34,4 @@ var foodSchema = new mongoose.Schema({
     rating: { type: Number, default: 0 }
 });
 
-module.exports = mongoose.model("Food",foodSchema);
+module.exports = mongoose.model("Food", foodSchema);
