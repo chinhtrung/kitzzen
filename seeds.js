@@ -1,5 +1,5 @@
 var mongoose    = require("mongoose"),
-    Campground  = require("./models/campground.js"),
+    Food        = require("./models/campground.js"),
     Comment     = require("./models/comment.js");
     
 var foods = [
@@ -118,12 +118,12 @@ var foods = [
     ];
     
 function seedDB(){
-    // remove all campgrounds
-    Campground.remove({},function(err){
+    // remove all foods
+    Food.remove({},function(err){
         if(err){
             console.log(err);
         }
-        console.log("removed campgrounds!");
+        console.log("removed foods!");
     });
     // remove all comments
     Comment.remove({},function(err){
@@ -135,7 +135,7 @@ function seedDB(){
 
     // add seeds
     foods.forEach(function(seed){
-        Campground.create(seed,function(err,campground){
+        Food.create(seed,function(err,food){
             if(err){
                 console.log(err);
             }else{
@@ -143,17 +143,18 @@ function seedDB(){
                 // create a comment
                 Comment.create(
                     {
-                        text:"This place is great, but I wish there was internet",
+                        text:"When can I pick it up? It looks yummy",
                         author: "Homer"
                     },function(err,comment){
                         if(err){
                             console.log(err);
                         }else{
-                            campground.comments.push(comment);
-                            campground.save();
+                            food.comments.push(comment);
+                            food.save();
                             console.log("Added new comment");
                         }
-                    });
+                    }
+                );
             }
         });
     });
