@@ -1,6 +1,6 @@
 var express = require("express");
 var router  = express.Router({mergeParams: true});
-var Campground = require("../models/campground");
+var Food = require("../models/campground");
 var Comment = require("../models/comment");
 var middleware = require("../middleware");
 
@@ -8,11 +8,11 @@ var middleware = require("../middleware");
 
 router.get("/new",middleware.isLoggedIn,function(req,res){
     // find food by Id
-    Campground.findById(req.params.id).populate("comments").exec(function(err, campground){
+    Food.findById(req.params.id).populate("comments").exec(function(err, food){
         if(err){
             console.log(err);
         }else{
-            res.render("./comments/new",{campground: campground});
+            res.render("./comments/new",{food: food});
         }
     });
 });
@@ -20,8 +20,8 @@ router.get("/new",middleware.isLoggedIn,function(req,res){
 // Comments Create
 
 router.post("/",middleware.isLoggedIn,function(req,res){
-    //lookup campground using Id
-    Campground.findById(req.params.id,function(err,campground){
+    //lookup food using Id
+    Food.findById(req.params.id,function(err,food){
         if(err){
             req.flash("error","Something went wrong");
             console.log(err);
@@ -36,10 +36,10 @@ router.post("/",middleware.isLoggedIn,function(req,res){
                     comment.author.avatar = req.user.avatar;
                     // save comment
                     comment.save();
-                    campground.comments.push(comment);
-                    campground.save();
+                    food.comments.push(comment);
+                    food.save();
                     req.flash("success","Successfully added comment");
-                    res.redirect("/foods/" + campground._id);
+                    res.redirect("/foods/" + food._id);
                 }
             });
         }
