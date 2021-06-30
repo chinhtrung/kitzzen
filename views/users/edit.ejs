@@ -16,18 +16,18 @@
 			<hr class="style2">
     			<div class="ui top attached left">
     			    <div class="ui divided items">
-    			        <% campgrounds.forEach(function(campground){ %>
+    			        <% foods.forEach(function(food){ %>
             			<div class="item">
                 			<div class="ui tiny rounded image">
-            			        <img src=<%= campground.image %>>
+            			        <img src=<%= food.image %>>
         			        </div>
     			            <div class="content">
-        			            <a class="header" href="/foods/<%= campground._id %>"><%= campground.name %></a>
+        			            <a class="header" href="/foods/<%= food._id %>"><%= food.name %></a>
         			            <div class="meta">
-            			            <span><%= moment(campground.createdAt).fromNow() %></span>
+            			            <span><%= moment(food.createdAt).fromNow() %></span>
             			        </div>
                     			<div class="description">
-                			        <p><%- campground.description.substring(0,100)%>...</p>
+                			        <p><%- food.description.substring(0,100)%>...</p>
             			        </div>
             			    </div>
         			    </div>
