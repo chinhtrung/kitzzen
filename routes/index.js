@@ -2,7 +2,7 @@ var express = require("express");
 var router  = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
-var Campground = require("../models/campground");
+var Food = require("../models/campground");
 var async = require("async");
 var nodemailer = require("nodemailer");
 var crypto = require("crypto");
@@ -184,34 +184,34 @@ router.post('/reset/:token', function(req, res) {
 
 // USER PROFILE
 router.get("/users/:id", function(req, res) {
-  User.findById(req.params.id, function(err, foundUser) {
+  User.findById(req.params.id, function(err, resultUser) {
     if(err) {
       req.flash("error", "Something went wrong.");
       res.redirect("/");
     }
-    Campground.find().where('author.id').equals(foundUser._id).exec(function(err, campgrounds) {
+    Food.find().where('author.id').equals(resultUser._id).exec(function(err, resultFoods) {
       if(err) {
         req.flash("error", "Something went wrong.");
         res.redirect("/");
       }
-      res.render("users/show", {user: foundUser, campgrounds: campgrounds});
+      res.render("users/show", {user: resultUser, foods: resultFoods});
     })
   });
 });
 
 //EDIT USER PROFILE
-router.get("/users/:id/edit",middleware.isLoggedIn,middleware.checkMatchingUser,function(req,res){
-  User.findById(req.params.id,function(err,foundUser){
+router.get("/users/:id/edit", middleware.isLoggedIn, middleware.checkMatchingUser, function(req,res){
+  User.findById(req.params.id,function(err,resultUser){
     if(err){
       req.flash("error","Something went wrong.");
       res.redirect("/");
     }
-    Campground.find().where('author.id').equals(foundUser._id).exec(function(err, campgrounds) {
+    Food.find().where('author.id').equals(resultUser._id).exec(function(err, resultFoods) {
       if(err){
         req.flash("error","Something went wrong.");
         res.redirect("/")
       }
-      res.render("users/edit",{user: foundUser, campgrounds: campgrounds});
+      res.render("users/edit",{user: resultUser, foods: resultFoods});
     });
   });
 });
@@ -227,12 +227,19 @@ router.put("/users/:id",function(req,res){
   if(req.body.isadmin === "secretcodetrung"){
     var isAdmin = true;
   }
-  User.findByIdAndUpdate(req.params.id,{lastName: lastname, firstName: firstname, avatar: avatar, email: email, description: description, isAdmin: isAdmin},function(err,thisuser){
+  User.findByIdAndUpdate(req.params.id, {
+    lastName: lastname, 
+    firstName: firstname, 
+    avatar: avatar, 
+    email: email, 
+    description: description, 
+    isAdmin: isAdmin
+  },function(err,thisuser){
     if(err){
-      req.flash("error",err.message);
+      req.flash("error", err.message);
     } else {
-      req.flash("success","Successfully update user profile");
-      res.redirect("/users/"+req.params.id);
+      req.flash("success", "Successfully update user profile");
+      res.redirect("/users/" + req.params.id);
     }
   });
 });
@@ -240,19 +247,19 @@ router.put("/users/:id",function(req,res){
 // DESTROY USER ACCOUNT
 router.delete("/users/:id",middleware.checkMatchingUser,function(req,res){
     if(req.params.id === req.body.deleteId){
-      Campground.find().where('author.id').equals(req.params.id).exec(function(err,campgrounds){
+      Food.find().where('author.id').equals(req.params.id).exec(function(err,resultFoods){
         if(err){
           req.flash("error",err.message);
           res.redirect("/foods");
         } else {
-          campgrounds.forEach(function(campground){
-            Campground.findByIdAndRemove(campground._id,function(err){
+          resultFoods.forEach(function(food){
+            Food.findByIdAndRemove(food._id,function(err){
               if(err){
                 req.flash("error",err.message);
               }
             });
           });
-          Campground.find({},function(err,allCamp){
+          Food.find({},function(err,allCamp){
             if(err){
               console.log(err);
             } else {
