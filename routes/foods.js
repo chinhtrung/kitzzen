@@ -131,7 +131,7 @@ router.get("/:id", function(req, res){
 });
 
 //EDIT FOOD ROUTE
-router.get("/:id/edit",middleware.checkCampgroundOwnership,function(req,res){
+router.get("/:id/edit",middleware.checkFoodOwnership,function(req,res){
     Food.findById(req.params.id,function(err,resultFood){
         if(err){
             res.redirect("/foods");
@@ -175,7 +175,7 @@ router.put("/addview/:id",function(req,res){
 });
 
 //UPDATE FOOD ROUTE
-router.put("/:id", middleware.checkCampgroundOwnership, function(req,res){
+router.put("/:id", middleware.checkFoodOwnership, function(req,res){
     geocoder.geocode(req.body.location, function(err,data){
         console.dir(data);
         var lat = data.results[0].geometry.location.lat;
@@ -203,7 +203,7 @@ router.put("/:id", middleware.checkCampgroundOwnership, function(req,res){
 });
 
 // DESTROY FOOD ROUTE
-router.delete("/:id",middleware.checkCampgroundOwnership,function(req,res){
+router.delete("/:id",middleware.checkFoodOwnership,function(req,res){
     Campground.findByIdAndRemove(req.params.id, function(err){
         if(err){
             req.flash("error",err.message);

@@ -6,7 +6,7 @@ var User = require("../models/user");
 // all the middleware goes here
 var middlewareObj = {};
 
-middlewareObj.checkCampgroundOwnership = function(req, res, next){
+middlewareObj.checkFoodOwnership = function(req, res, next){
      if(req.isAuthenticated()){
         Food.findById(req.params.id,function(err, resultFood){
             if(err){
