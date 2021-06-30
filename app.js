@@ -18,9 +18,9 @@ require('dotenv').load();
     
 // requiring routes    
 var commentRoutes       = require("./routes/comments"),
-    campgroundRoutes    = require("./routes/campgrounds"),
+    foodRoutes          = require("./routes/foods"),
     ratingRoutes        = require("./routes/ratings"),
-    indexRoutes         = require("./routes/index")
+    indexRoutes         = require("./routes/index");
 
 mongoose.connect(process.env.DATABASEURL, { 
     useUnifiedTopology: true, 
@@ -57,9 +57,9 @@ app.use(function(req,res,next){
 });
 
 app.use("/",indexRoutes);
-app.use("/campgrounds",campgroundRoutes);
-app.use("/campgrounds/:id/ratings", ratingRoutes);
-app.use("/campgrounds/:id/comments",commentRoutes);
+app.use("/foods",foodRoutes);
+app.use("/foods/:id/ratings", ratingRoutes);
+app.use("/foods/:id/comments",commentRoutes);
 
 app.get("/*",function(req,res){
     res.render("landing");
