@@ -5,11 +5,11 @@
         <div class="col-md-3">
             <div class="list-group">
                 <li class="list-group-item active">Food Info</li>
-                <li class="list-group-item"><a href="/users/<%= campground.author.id %>">About Chief</a></li>
+                <li class="list-group-item"><a href="/users/<%= food.author.id %>">About Chief</a></li>
             </div>
             <div id="map"></div>
             <div class="ui raised segment">
-                <form action="/foods/<%= campground._id %>/ratings" method="POST">
+                <form action="/foods/<%= food._id %>/ratings" method="POST">
                     <div class="form-group">
                         <label for="rating">Rate this product:</label>
                         <fieldset class="starability-basic form-group" id="rating">
@@ -32,23 +32,23 @@
                     </div>
                 </form>
                 <div>
-                    Current Rating: <%= campground.rating.toFixed(2) %>
+                    Current Rating: <%= food.rating.toFixed(2) %>
                 </div>
             </div>
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
-                <img class="img-responsive" src=<%= campground.image %>>
+                <img class="img-responsive" src=<%= food.image %>>
                 <div class="caption-full">
-                    <h2 class="pull-right"><strong>$<%= campground.price %></strong></h2>
-                    <h2><a><%= campground.name%></a></h2>
-                    <h4><%= campground.description %></h4>
+                    <h2 class="pull-right"><strong>$<%= food.price %></strong></h2>
+                    <h2><a><%= food.name%></a></h2>
+                    <h4><%= food.description %></h4>
                     <p>
-                        <em>Submitted By <a href="/users/<%= campground.author.id %>"><%=campground.author.username %></a>, <%= moment(campground.createdAt).fromNow() %></em>
+                        <em>Submitted By <a href="/users/<%= food.author.id %>"><%=food.author.username %></a>, <%= moment(food.createdAt).fromNow() %></em>
                     </p>
-                    <% if(currentUser && campground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
-                        <a class="btn btn-xs btn-warning" href="/foods/<%= campground._id%>/edit">Edit</a>
-                        <form class="delete-form" action="/foods/<%= campground._id %>?_method=DELETE" method="POST">
+                    <% if(currentUser && food.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
+                        <a class="btn btn-xs btn-warning" href="/foods/<%= food._id%>/edit">Edit</a>
+                        <form class="delete-form" action="/foods/<%= food._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-xs btn-danger">Delete</button>
                         </form>
                     <% }%>
@@ -56,12 +56,12 @@
             </div>
             <div style="margin-top:10%" class="ui threaded comments">
                 <div class="ui dividing header">
-                    <h5>COMMENTS ﹣ <%= campground.comments.length%></h5>
+                    <h5>COMMENTS ﹣ <%= food.comments.length%></h5>
                 </div>
                 <% if(currentUser){ %>
                 <div>
                     <img style="float:left;" class="add-reply-avatar" src="<%=currentUser.avatar%>">
-                    <form class="answer-box" action="/foods/<%=campground._id %>/comments" method="POST">
+                    <form class="answer-box" action="/foods/<%=food._id %>/comments" method="POST">
                         <textarea required class="add-reply" name="comment[text]" placeholder="Add a public comment..."></textarea>
                         <button style="float:left;margin-left:72.5%;" class="ui mini button hidden-button submit">Add Comment</button>
                     </form>
@@ -69,9 +69,9 @@
                 </div>
                 <hr class="style1">
                 <% } else { %>
-                <a style="padding-top:5px; padding-bottom:10px;" class="btn btn-success" href="/foods/<%= campground._id %>/comments/new">Add New Comment</a>
+                <a style="padding-top:5px; padding-bottom:10px;" class="btn btn-success" href="/foods/<%= food._id %>/comments/new">Add New Comment</a>
                 <% }%>
-                <% campground.comments.forEach(function(comment){%> 
+                <% food.comments.forEach(function(comment){%> 
                     <div class="row comment">
                             <a class="avatar">
                                  <img class="header-avatar" src="<%=comment.author.avatar%>">
@@ -87,10 +87,10 @@
                                 <div class="actions">
                                 <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
                                     <a class="reply" 
-                                        href="/foods/<%= campground._id %>/comments/<%=comment._id %>/edit">
+                                        href="/foods/<%= food._id %>/comments/<%=comment._id %>/edit">
                                         Edit
                                     </a>
-                                    <form class="delete-form" action="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
+                                    <form class="delete-form" action="/foods/<%=food._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
                                         <input type="submit" class="ui mini icon button" value="Delete">
                                     </form>
                                 <% } %>
@@ -106,8 +106,8 @@
 
 <script>
   function initMap() {
-    var lat = <%= campground.lat %>;
-    var lng = <%= campground.lng %>;
+    var lat = <%= food.lat %>;
+    var lng = <%= food.lng %>;
     var center = {lat: lat, lng: lng };
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
@@ -115,9 +115,9 @@
         scrollwheel: false
     });
     var contentString = `
-      <strong><%= campground.name %><br />
-      <%= campground.location %></strong>
-      <p><%= campground.description %></p>
+      <strong><%= food.name %><br />
+      <%= food.location %></strong>
+      <p><%= food.description %></p>
     `
     var infowindow = new google.maps.InfoWindow({
       content: contentString

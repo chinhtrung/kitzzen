@@ -19,7 +19,7 @@
         </div>
     </header>
     <div class="row " style="display: flex; flex-wrap: wrap; margin-top: 25px;" id="campground-grid">
-        <% campgrounds.forEach(function(each){ %>
+        <% foods.forEach(function(each){ %>
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
                     <% each.timestring = moment(each.createdAt).fromNow()%>
@@ -33,7 +33,7 @@
                         <p>
                             <div>
                                 <form style="display: inline-block" action="/foods/addview/<%=each._id%>?_method=PUT" method="POST">
-                                    <% campgrounds.forEach(function(eachin){ %>
+                                    <% foods.forEach(function(eachin){ %>
                                     <%   eachin.timestring = moment(eachin.createdAt).fromNow();%>
                                     <input class="hide" name="datelist" value="<%= eachin.timestring %>">
                                     <% });%>
