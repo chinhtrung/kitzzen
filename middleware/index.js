@@ -6,14 +6,14 @@ var User = require("../models/user");
 // all the middleware goes here
 var middlewareObj = {};
 
-middlewareObj.checkCampgroundOwnership = function(req,res,next){
+middlewareObj.checkCampgroundOwnership = function(req, res, next){
      if(req.isAuthenticated()){
         Food.findById(req.params.id,function(err, resultFood){
             if(err){
                 req.flash("error","Post not found");
-                res.redirect("/campgrounds");
+                res.redirect("/foods");
             } else {
-                // does user own the campground?
+                // does user own the food?
                 if(req.user.isAdmin === true || resultFood.author.id.equals(req.user._id)){
                     next();
                 }else{
@@ -32,7 +32,7 @@ middlewareObj.checkCommentOwnership = function(req,res,next){
     if(req.isAuthenticated()){
         Comment.findById(req.params.comment_id,function(err, resultComment){
             if(err){
-                res.redirect("/campgrounds");
+                res.redirect("/foods");
             } else {
                 // does user own the comment?
                 if(req.user.isAdmin === true || resultComment.author.id.equals(req.user._id)){
@@ -86,6 +86,5 @@ middlewareObj.checkRatingExists = function(req, res, next){
     next();
   })
 }
-
 
 module.exports = middlewareObj;
