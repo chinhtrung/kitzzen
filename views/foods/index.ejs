@@ -3,13 +3,13 @@
 <div class="container">
     <header class="jumbotron">
         <div class="container">
-            <h1><i class="idea icon"></i>Welcome to Tizzen!</h1>
-            <p>You cook, we taste</p>
+            <h1><i class="utensils icon"></i>Welcome to Tizzen!</h1>
+            <p>The business at your kitchen</p>
             <p>
-                <a class="btn btn-primary btn-lg" href="/campgrounds/new">Add new food</a>
+                <a class="btn btn-primary btn-lg" href="/foods/new">Add new food</a>
             </p>
             <p>
-              <form action="/campgrounds" method="GET" class="form-inline" id="campground-search">
+              <form action="/foods" method="GET" class="form-inline" id="food-search">
                 <div class="form-group ui search icon input">
                   <input type="text" name="search" placeholder="Anything you like ..." class="prompt">
                   <i class="search icon"></i>
@@ -32,7 +32,7 @@
                         <p><%= each.description.slice(0,100) %>...</p>
                         <p>
                             <div>
-                                <form style="display: inline-block" action="/campgrounds/addview/<%=each._id%>?_method=PUT" method="POST">
+                                <form style="display: inline-block" action="/foods/addview/<%=each._id%>?_method=PUT" method="POST">
                                     <% campgrounds.forEach(function(eachin){ %>
                                     <%   eachin.timestring = moment(eachin.createdAt).fromNow();%>
                                     <input class="hide" name="datelist" value="<%= eachin.timestring %>">
@@ -40,7 +40,7 @@
                                     <!--<button class="ui primary basic button">View</button>-->
                                     <div class="ui primary labeled button" tabindex="0">
                                       <button class="ui basic primary button">
-                                        <i class="find icon"></i> View
+                                        <i class="book icon"></i> View
                                       </button>
                                       <div class="ui basic blue left pointing label">
                                         <%= each.seen %>

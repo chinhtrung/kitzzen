@@ -7,7 +7,7 @@
 				Selling list
 				<% if(currentUser && currentUser._id.equals(user.id) || currentUser && currentUser.isAdmin === true){ %>
 					<div style="margin-top:3.5%;">
-						<a class="ui primary basic button" href="/campgrounds/new" style="display:inline-block;"><i class="add square icon"></i> Add New</a>
+						<a class="ui primary basic button" href="/foods/new" style="display:inline-block;"><i class="add square icon"></i> Add New</a>
 						<a class="ui brown basic button delete-form" href="/users/<%= user._id%>/edit"><i class="write icon"></i> Edit My Profile</a>
 					</div>
 				<% }; %>
@@ -21,7 +21,7 @@
             			        <img src=<%= campground.image %>>
         			        </div>
     			            <div class="content">
-        			            <a class="header" href="/campgrounds/<%= campground._id %>"><%= campground.name %></a>
+        			            <a class="header" href="/foods/<%= campground._id %>"><%= campground.name %></a>
         			            <div class="meta">
             			            <span><%= moment(campground.createdAt).fromNow() %></span>
             			        </div>

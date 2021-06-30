@@ -22,8 +22,8 @@
                         <em>Submitted By <a href="/users/<%= campground.author.id %>"><%=campground.author.username %></a>, <%= moment(campground.createdAt).fromNow() %></em>
                     </p>
                     <% if(currentUser && campground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
-                        <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id%>/edit">Edit</a>
-                        <form class="delete-form" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                        <a class="btn btn-xs btn-warning" href="/foods/<%= campground._id%>/edit">Edit</a>
+                        <form class="delete-form" action="/foods/<%= campground._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-xs btn-danger">Delete</button>
                         </form>
                     <% }%>
@@ -49,10 +49,10 @@
                                 <div class="actions">
                                 <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
                                     <a class="reply" 
-                                        href="/campgrounds/<%= campground._id %>/comments/<%=comment._id %>/edit">
+                                        href="/foods/<%= campground._id %>/comments/<%=comment._id %>/edit">
                                         Edit
                                     </a>
-                                    <form class="delete-form" action="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
+                                    <form class="delete-form" action="/foods/<%=campground._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
                                         <input type="submit" class="ui mini icon button" value="Delete">
                                     </form>
                                 <% } %>
@@ -60,7 +60,7 @@
                         </div>
                     </div>
                 <% }); %>
-                <form class="ui reply form" action="/campgrounds/<%=campground._id %>/comments" method="POST">
+                <form class="ui reply form" action="/foods/<%=campground._id %>/comments" method="POST">
                     <textarea name="comment[text]" placeholder="Add your comment here ..."></textarea>
                     <button style="margin-top:15px;" class="ui blue labeled submit icon button">
                         <i class="icon edit"></i> Add Comment

@@ -4,12 +4,12 @@
     <div class="row">
         <div class="col-md-3">
             <div class="list-group">
-                <li class="list-group-item active">Item information</li>
-                <li class="list-group-item"><a href="/users/<%= campground.author.id %>">Seller information</a></li>
+                <li class="list-group-item active">Food Info</li>
+                <li class="list-group-item"><a href="/users/<%= campground.author.id %>">About Chief</a></li>
             </div>
             <div id="map"></div>
             <div class="ui raised segment">
-                <form action="/campgrounds/<%= campground._id %>/ratings" method="POST">
+                <form action="/foods/<%= campground._id %>/ratings" method="POST">
                     <div class="form-group">
                         <label for="rating">Rate this product:</label>
                         <fieldset class="starability-basic form-group" id="rating">
@@ -40,15 +40,15 @@
             <div class="thumbnail">
                 <img class="img-responsive" src=<%= campground.image %>>
                 <div class="caption-full">
-                    <h4 class="pull-right"><strong>$<%= campground.price %></strong></h4>
-                    <h4><a><%= campground.name%></a></h4>
-                    <p><%= campground.description %></p>
+                    <h2 class="pull-right"><strong>$<%= campground.price %></strong></h2>
+                    <h2><a><%= campground.name%></a></h2>
+                    <h4><%= campground.description %></h4>
                     <p>
                         <em>Submitted By <a href="/users/<%= campground.author.id %>"><%=campground.author.username %></a>, <%= moment(campground.createdAt).fromNow() %></em>
                     </p>
                     <% if(currentUser && campground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
-                        <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id%>/edit">Edit</a>
-                        <form class="delete-form" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                        <a class="btn btn-xs btn-warning" href="/foods/<%= campground._id%>/edit">Edit</a>
+                        <form class="delete-form" action="/foods/<%= campground._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-xs btn-danger">Delete</button>
                         </form>
                     <% }%>
@@ -61,7 +61,7 @@
                 <% if(currentUser){ %>
                 <div>
                     <img style="float:left;" class="add-reply-avatar" src="<%=currentUser.avatar%>">
-                    <form class="answer-box" action="/campgrounds/<%=campground._id %>/comments" method="POST">
+                    <form class="answer-box" action="/foods/<%=campground._id %>/comments" method="POST">
                         <textarea required class="add-reply" name="comment[text]" placeholder="Add a public comment..."></textarea>
                         <button style="float:left;margin-left:72.5%;" class="ui mini button hidden-button submit">Add Comment</button>
                     </form>
@@ -69,7 +69,7 @@
                 </div>
                 <hr class="style1">
                 <% } else { %>
-                <a style="padding-top:5px;padding-bot:10px;" class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
+                <a style="padding-top:5px; padding-bottom:10px;" class="btn btn-success" href="/foods/<%= campground._id %>/comments/new">Add New Comment</a>
                 <% }%>
                 <% campground.comments.forEach(function(comment){%> 
                     <div class="row comment">
@@ -87,7 +87,7 @@
                                 <div class="actions">
                                 <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
                                     <a class="reply" 
-                                        href="/campgrounds/<%= campground._id %>/comments/<%=comment._id %>/edit">
+                                        href="/foods/<%= campground._id %>/comments/<%=comment._id %>/edit">
                                         Edit
                                     </a>
                                     <form class="delete-form" action="/campgrounds/<%=campground._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
