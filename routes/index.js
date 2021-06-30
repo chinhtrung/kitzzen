@@ -33,7 +33,7 @@ router.post("/register",function(req,res){
     }
     User.register(newUser, req.body.password,function(err,user){
         if(err){
-            req.flash("error", err.message + " or the email address may have been used by different user");
+            req.flash("error", err.message + " or the email address may have been used by a different user");
             return res.redirect("register");
         }
         passport.authenticate("local")(req,res,function(){
@@ -51,7 +51,7 @@ router.get("/login",function(req,res){
 // handling login logic
 router.post("/login",passport.authenticate("local",
     {
-        successRedirect: "/campgrounds",
+        successRedirect: "/foods",
         failureRedirect: "/login",
         failureFlash: true,
         successFlash: 'Welcome to Tizzen!'
@@ -62,7 +62,7 @@ router.post("/login",passport.authenticate("local",
 router.get("/logout",function(req,res){
     req.logout();
     req.flash("success","See you later!");
-    res.redirect("/campgrounds");
+    res.redirect("/foods");
 });
 
 // forgot password
@@ -178,7 +178,7 @@ router.post('/reset/:token', function(req, res) {
       });
     }
   ], function(err) {
-    res.redirect('/campgrounds');
+    res.redirect('/foods');
   });
 });
 
@@ -243,7 +243,7 @@ router.delete("/users/:id",middleware.checkMatchingUser,function(req,res){
       Campground.find().where('author.id').equals(req.params.id).exec(function(err,campgrounds){
         if(err){
           req.flash("error",err.message);
-          res.redirect("/campgrounds");
+          res.redirect("/foods");
         } else {
           campgrounds.forEach(function(campground){
             Campground.findByIdAndRemove(campground._id,function(err){
@@ -265,7 +265,7 @@ router.delete("/users/:id",middleware.checkMatchingUser,function(req,res){
               res.redirect("back");
             } else {
               req.flash("Success","successfully remove account");
-              res.redirect("/campgrounds");
+              res.redirect("/foods");
             }
           });
         }

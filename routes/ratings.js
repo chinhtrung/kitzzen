@@ -23,7 +23,7 @@ router.post('/', middleware.isLoggedIn, middleware.checkRatingExists, function(r
 		} else {
 				req.flash("error", "Please select a rating");
 		}
-		res.redirect('/campgrounds/' + campground._id);
+		res.redirect('/foods/' + campground._id);
 	});
 });
 

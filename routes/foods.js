@@ -30,11 +30,11 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-// INDEX - show app campground
+// INDEX - show app food
 router.get("/", function(req, res){
   if(req.query.search && req.xhr) {
       const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-      // Get all campgrounds from DB
+      // Get all foods from DB
       Campground.find({name: regex}, function(err, allCampgrounds){
          if(err){
             console.log(err);
@@ -43,7 +43,7 @@ router.get("/", function(req, res){
          }
       });
   } else {
-      // Get all campgrounds from DB
+      // Get all foods from DB
       Campground.find({}, function(err, allCampgrounds){
          if(err){
              console.log(err);
@@ -51,14 +51,14 @@ router.get("/", function(req, res){
             if(req.xhr) {
               res.json(allCampgrounds);
             } else {
-              res.render("campgrounds/index",{campgrounds: allCampgrounds, page: 'campgrounds'});
+              res.render("foods/index",{campgrounds: allCampgrounds, page: 'campgrounds'});
             }
          }
       });
   }
 });
 
-// CREATE - add new campground to DB
+// CREATE - add new food to DB
 router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, res) {
     var name = req.body.name;
     var price = req.body.price;
@@ -83,7 +83,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
                     console.log(err);
                 }else{
                     //redirect back to campgrounds page
-                    res.redirect("/campgrounds");
+                    res.redirect("/foods");
                 }
             });
         });
@@ -92,7 +92,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
 
 //NEW - show form to create new campground
 router.get("/new",middleware.isLoggedIn,function(req,res){
-    res.render("./campgrounds/new");
+    res.render("./foods/new");
 });
 
 
@@ -115,10 +115,8 @@ router.get("/:id", function(req, res){
               foundCampground.rating = rating / length;
               foundCampground.save();
             }
-            console.log("Ratings:", foundCampground.ratings);
-            console.log("Rating:", foundCampground.rating);
-            //render show template with that campground
-            res.render("campgrounds/show", {campground: foundCampground});
+            //render show template with that food
+            res.render("foods/show", {campground: foundCampground});
         }
     });
 });
@@ -127,9 +125,9 @@ router.get("/:id", function(req, res){
 router.get("/:id/edit",middleware.checkCampgroundOwnership,function(req,res){
     Campground.findById(req.params.id,function(err,foundCampground){
         if(err){
-            res.redirect("/campgrounds");
+            res.redirect("/foods");
         } else {
-            res.render("campgrounds/edit",{campground: foundCampground});
+            res.render("foods/edit",{campground: foundCampground});
         }
     });
 });
@@ -160,15 +158,15 @@ router.put("/addview/:id",function(req,res){
                 if(err){
                     console.log(err.message);
                 } else {
-                    res.redirect("/campgrounds/" + campground._id);
+                    res.redirect("/foods/" + campground._id);
                 }
             });
         }
     });
 });
 
-//UPDATE CAMPGROUND ROUTE
-router.put("/:id",middleware.checkCampgroundOwnership,function(req,res){
+//UPDATE FOOD ROUTE
+router.put("/:id", middleware.checkCampgroundOwnership, function(req,res){
     geocoder.geocode(req.body.location, function(err,data){
         console.dir(data);
         var lat = data.results[0].geometry.location.lat;
@@ -181,21 +179,21 @@ router.put("/:id",middleware.checkCampgroundOwnership,function(req,res){
                 res.redirect("back");
             } else {
                 req.flash("success","Successfully Updated!");
-                res.redirect("/campgrounds/" + campground._id);
+                res.redirect("/foods/" + campground._id);
             }
         });
     });
 });
 
-// DESTROY CAMPGROUND ROUTE
+// DESTROY FOOD ROUTE
 router.delete("/:id",middleware.checkCampgroundOwnership,function(req,res){
     Campground.findByIdAndRemove(req.params.id, function(err){
         if(err){
             req.flash("error",err.message);
-            res.redirect("/campgrounds");
+            res.redirect("/foods");
         }else{
             req.flash("success","Item deleted");
-            res.redirect("/campgrounds");
+            res.redirect("/foods");
         }
     });
 });
