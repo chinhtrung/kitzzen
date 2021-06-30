@@ -52,7 +52,7 @@ router.get("/:comment_id/edit",middleware.checkCommentOwnership,function(req,res
         if(err){
             res.redirect("back");
         } else {
-            res.render("comments/edit",{campground_id: req.params.id, comment: foundComment});
+            res.render("comments/edit",{food_id: req.params.id, comment: foundComment});
         }
     });
 });
