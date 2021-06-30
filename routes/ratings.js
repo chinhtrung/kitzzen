@@ -1,11 +1,11 @@
 var express = require("express");
 var router  = express.Router({mergeParams: true});
-var Campground = require("../models/campground");
+var Food = require("../models/campground");
 var Rating = require("../models/rating");
 var middleware = require("../middleware");
 
 router.post('/', middleware.isLoggedIn, middleware.checkRatingExists, function(req, res) {
-	Campground.findById(req.params.id, function(err, campground) {
+	Food.findById(req.params.id, function(err, resultFood) {
 		if(err) {
 			console.log(err);
 		} else if (req.body.rating) {
@@ -16,14 +16,14 @@ router.post('/', middleware.isLoggedIn, middleware.checkRatingExists, function(r
 				  rating.author.id = req.user._id;
 				  rating.author.username = req.user.username;
 				  rating.save();
-					campground.ratings.push(rating);
-					campground.save();
+					resultFood.ratings.push(rating);
+					resultFood.save();
 					req.flash("success", "Successfully added rating");
 				});
 		} else {
 				req.flash("error", "Please select a rating");
 		}
-		res.redirect('/foods/' + campground._id);
+		res.redirect('/foods/' + resultFood._id);
 	});
 });
 
