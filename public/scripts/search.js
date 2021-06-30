@@ -1,9 +1,9 @@
-$('#campground-search').on('input', function() {
+$('#food-search').on('input', function() {
   var search = $(this).serialize();
   if(search === "search="){
     search = "all";
   }
-  $.get('/campgrounds?' + search, function(data) {
+  $.get('/foods?' + search, function(data) {
     $('#campground-grid').html('');
     data.forEach(function(campground) {
       $('#campground-grid').append(`
@@ -36,6 +36,6 @@ $('#campground-search').on('input', function() {
   });
 });
 
-$('#campground-search').submit(function(event) {
+$('#food-search').submit(function(event) {
   event.preventDefault();
 });
