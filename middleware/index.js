@@ -1,4 +1,4 @@
-var Campground = require("../models/campground");
+var Food = require("../models/food");
 var Comment = require("../models/comment");
 var passport = require("passport");
 var User = require("../models/user");
@@ -8,13 +8,13 @@ var middlewareObj = {};
 
 middlewareObj.checkCampgroundOwnership = function(req,res,next){
      if(req.isAuthenticated()){
-        Campground.findById(req.params.id,function(err, foundCampground){
+        Food.findById(req.params.id,function(err, resultFood){
             if(err){
                 req.flash("error","Post not found");
                 res.redirect("/campgrounds");
             } else {
                 // does user own the campground?
-                if(req.user.isAdmin === true || foundCampground.author.id.equals(req.user._id)){
+                if(req.user.isAdmin === true || resultFood.author.id.equals(req.user._id)){
                     next();
                 }else{
                     req.flash("error","You do not have permission!");
@@ -30,12 +30,12 @@ middlewareObj.checkCampgroundOwnership = function(req,res,next){
 
 middlewareObj.checkCommentOwnership = function(req,res,next){
     if(req.isAuthenticated()){
-        Comment.findById(req.params.comment_id,function(err, foundComment){
+        Comment.findById(req.params.comment_id,function(err, resultComment){
             if(err){
                 res.redirect("/campgrounds");
             } else {
                 // does user own the comment?
-                if(req.user.isAdmin === true || foundComment.author.id.equals(req.user._id)){
+                if(req.user.isAdmin === true || resultComment.author.id.equals(req.user._id)){
                     next();
                 }else{
                     req.flash("error","You don't have permission!")
@@ -73,14 +73,14 @@ middlewareObj.checkMatchingUser = function(req,res,next){
 }
 
 middlewareObj.checkRatingExists = function(req, res, next){
-  Campground.findById(req.params.id).populate("ratings").exec(function(err, campground){
+  Food.findById(req.params.id).populate("ratings").exec(function(err, resultFood){
     if(err){
       console.log(err);
     }
-    for(var i = 0; i < campground.ratings.length; i++ ) {
-      if(campground.ratings[i].author.id.equals(req.user._id)) {
+    for(var i = 0; i < resultFood.ratings.length; i++ ) {
+      if(resultFood.ratings[i].author.id.equals(req.user._id)) {
         req.flash("success", "You already rated this!");
-        return res.redirect('/campgrounds/' + campground._id);
+        return res.redirect('/foods/' + resultFood._id);
       }
     }
     next();
