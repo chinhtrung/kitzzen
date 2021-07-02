@@ -11,6 +11,9 @@ var Comment = require("../models/comment");
 
 // root route
 router.get("/",function(req,res){
+    if (req.isAuthenticated()) {
+      return res.redirect("/foods");
+    }
     res.render("landing");
 });   
 
