@@ -181,7 +181,7 @@ router.put("/addview/:id",function(req,res){
 //UPDATE FOOD ROUTE
 router.put("/:id", middleware.checkFoodOwnership, function(req,res){
     geocoder.geocode(req.body.location, function(err,data){
-        console.dir(data);
+        // console.dir(data);
         // var lat = data.results[0].geometry.location.lat;
         // var lng = data.results[0].geometry.location.lng;
         // var location = data.results[0].formatted_address;
