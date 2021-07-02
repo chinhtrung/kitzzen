@@ -62,7 +62,10 @@ app.use("/foods/:id/ratings", ratingRoutes);
 app.use("/foods/:id/comments",commentRoutes);
 
 app.get("/*",function(req,res){
-    res.render("landing");
+    if(req.isAuthenticated()) {
+        return res.redirect("/foods");
+    }
+    return res.redirect("/");
 });
     
 app.listen(process.env.PORT, function(){
