@@ -33,10 +33,10 @@
                         <p>
                             <div>
                                 <form style="display: inline-block" action="/foods/addview/<%=each._id%>?_method=PUT" method="POST">
-                                    <% foods.forEach(function(eachin){ %>
-                                    <%   eachin.timestring = moment(eachin.createdAt).fromNow();%>
-                                    <input class="hide" name="datelist" value="<%= eachin.timestring %>">
-                                    <% });%>
+                                    
+                                    <%   each.timestring = moment(each.createdAt).fromNow();%>
+                                    <input class="hide" name="datelist" value="<%= each.timestring %>">
+                                    
                                     <!--<button class="ui primary basic button">View</button>-->
                                     <div class="ui primary labeled button" tabindex="0">
                                       <button class="ui basic primary button">
