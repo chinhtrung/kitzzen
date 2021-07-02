@@ -213,7 +213,6 @@ router.delete("/:id",middleware.checkFoodOwnership,function(req,res){
             req.flash("error",err.message);
             res.redirect("/foods");
         }else{
-            console.log(resultFood);
             req.flash("success", `Your Food Post (${resultFood.name}) deleted!`);
             res.redirect("/foods");
         }
