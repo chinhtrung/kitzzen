@@ -76,20 +76,20 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
             // console.log("geocoder data ", data);
 
             // define variable
-            var lat = data.results[0].geometry.location.lat;
-            var lng = data.results[0].geometry.location.lng;
-            var location = data.results[0].formatted_address;
+            // var lat = data.results[0].geometry.location.lat;
+            // var lng = data.results[0].geometry.location.lng;
+            // var location = data.results[0].formatted_address;
             var newFood = {
                 name: name, 
                 image: image, 
                 description: desc, 
                 price: price, 
                 author: author, 
-                location: location, 
-                lat: lat, 
-                lng: lng
+                // location: location, 
+                // lat: lat, 
+                // lng: lng
             };
-            // create a new campground and save to DB
+            // create a new food post and save to DB
             Food.create(newFood,function(err,newlyCreated){
                 if(err){
                     console.log(err);
@@ -208,12 +208,13 @@ router.put("/:id", middleware.checkFoodOwnership, function(req,res){
 
 // DESTROY FOOD ROUTE
 router.delete("/:id",middleware.checkFoodOwnership,function(req,res){
-    Campground.findByIdAndRemove(req.params.id, function(err){
+    Food.findByIdAndRemove(req.params.id, function(err, resultFood){
         if(err){
             req.flash("error",err.message);
             res.redirect("/foods");
         }else{
-            req.flash("success","Item deleted");
+            console.log(resultFood);
+            req.flash("success", `Your Food Post (${resultFood.name}) deleted!`);
             res.redirect("/foods");
         }
     });
