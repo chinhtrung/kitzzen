@@ -75,7 +75,7 @@
                 <% }%>
                 <% food.comments.forEach(function(comment){%> 
                     <div class="row comment">
-                            <a class="avatar">
+                            <a class="avatar" href="/users/<%=comment.author._id%>">
                                  <img class="header-avatar" src="<%=comment.author.avatar%>">
                             </a>
                             <div class="content">
