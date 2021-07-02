@@ -70,8 +70,11 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
     // var image = req.body.image;
     geocoder.geocode(req.body.location,function(err,data){
         cloudinary.uploader.upload(req.file.path, function(result) {
-            // add cloudinary url for the image to the campground object under image property
+            // add cloudinary url for the image to the food object under image property
             var image = result.secure_url;
+            // console.log("result ", result);
+            // console.log("geocoder data ", data);
+
             // define variable
             var lat = data.results[0].geometry.location.lat;
             var lng = data.results[0].geometry.location.lng;
@@ -111,6 +114,7 @@ router.get("/:id", function(req, res){
     Food.findById(req.params.id).populate("comments").populate("ratings").exec(function(err, resultFood){
         if(err){
             console.log(err);
+            return res.redirect("/");
         } else {
             if(resultFood.ratings.length > 0) {
               var ratings = [];
