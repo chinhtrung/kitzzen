@@ -60,7 +60,9 @@
                 </div>
                 <% if(currentUser){ %>
                 <div>
-                    <img style="float:left;" class="add-reply-avatar" src="<%=currentUser.avatar%>">
+                    <a href="/users/<%=currentUser._id %>">
+                        <img style="float:left;" class="add-reply-avatar" src="<%=currentUser.avatar%>">
+                    </a>
                     <form class="answer-box" action="/foods/<%=food._id %>/comments" method="POST">
                         <textarea required class="add-reply" name="comment[text]" placeholder="Add a public comment..."></textarea>
                         <button style="float:left;margin-left:72.5%;" class="ui mini button hidden-button submit">Add Comment</button>
