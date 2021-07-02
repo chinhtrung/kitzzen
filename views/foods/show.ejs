@@ -5,7 +5,7 @@
         <div class="col-md-3">
             <div class="list-group">
                 <li class="list-group-item active">Food Info</li>
-                <li class="list-group-item"><a href="/users/<%= food.author.id %>">About Chief</a></li>
+                <li class="list-group-item"><a href="/users/<%= food.author.id %>">About Chef</a></li>
             </div>
             <div id="map"></div>
             <div class="ui raised segment">
@@ -46,7 +46,7 @@
                     <p>
                         <em>Submitted By <a href="/users/<%= food.author.id %>"><%=food.author.username %></a>, <%= moment(food.createdAt).fromNow() %></em>
                     </p>
-                    <% if(currentUser && food.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
+                    <% if(currentUser && food.author.id && food.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
                         <a class="btn btn-xs btn-warning" href="/foods/<%= food._id%>/edit">Edit</a>
                         <form class="delete-form" action="/foods/<%= food._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-xs btn-danger">Delete</button>
@@ -85,7 +85,7 @@
                                     <%= comment.text %>
                                 </div>
                                 <div class="actions">
-                                <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
+                                <% if(currentUser && comment.author.id &&comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
                                     <a class="reply" 
                                         href="/foods/<%= food._id %>/comments/<%=comment._id %>/edit">
                                         Edit
