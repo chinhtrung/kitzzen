@@ -180,29 +180,24 @@ router.put("/addview/:id",function(req,res){
 
 //UPDATE FOOD ROUTE
 router.put("/:id", middleware.checkFoodOwnership, function(req,res){
-    geocoder.geocode(req.body.location, function(err,data){
-        // console.dir(data);
-        // var lat = data.results[0].geometry.location.lat;
-        // var lng = data.results[0].geometry.location.lng;
-        // var location = data.results[0].formatted_address;
-        var newData = {
-            name: req.body.name, 
-            image: req.body.image, 
-            description: req.body.description, 
-            price: req.body.price, 
-            // location: location, 
-            // lat: lat, 
-            // lng: lng
-        };
-        Food.findByIdAndUpdate(req.params.id,{$set: newData},function(err,resultFood){
-            if(err){
-                req.flash("error", err.message);
-                res.redirect("back");
-            } else {
-                req.flash("success","Successfully Updated!");
-                res.redirect("/foods/" + resultFood._id);
-            }
-        });
+    let name = req.body.name;
+    let image = req.body.image;
+    let description = req.body.description;
+    let price = req.body.price;
+
+    Food.findByIdAndUpdate(req.params.id,{
+        name : name,
+        image : image,
+        description : description,
+        price : price
+    },function(err,resultFood){
+        if(err){
+            req.flash("error", err.message);
+            res.redirect("back");
+        } else {
+            req.flash("success","Successfully Updated!");
+            res.redirect("/foods/" + resultFood._id);
+        }
     });
 });
 
