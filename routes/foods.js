@@ -140,7 +140,7 @@ router.get("/:id/edit",middleware.checkFoodOwnership,function(req,res){
         if(err){
             res.redirect("/foods");
         } else {
-            res.render("foods/edit",{campground: resultFood});
+            res.render("foods/edit",{food: resultFood});
         }
     });
 });
