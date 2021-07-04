@@ -227,7 +227,7 @@ router.put("/users/:id",function(req,res){
   var email = req.body.email;
   var description = req.body.description;
   var isAdmin = false;
-  if(req.body.isadmin === "secretcodetrung"){
+  if(req.body.isadmin === process.env.ADMIN_CODE){
     var isAdmin = true;
   }
   User.findByIdAndUpdate(req.params.id, {
