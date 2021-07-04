@@ -23,7 +23,8 @@ var userFour = {
 };
 var userFive = {
     username: process.env.USER_FIVE,
-    id: process.env.USER_FIVE_ID
+    id: process.env.USER_FIVE_ID,
+    avatar: process.env.USER_FIVE_AVATAR
 };
     
 var foods = [
