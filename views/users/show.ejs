@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="ui main text col-md-4">
 			<div class="ui massive header" style="margin-top: 20px;">
-				Selling list
+				Author Food Posts
 				<% if(currentUser && currentUser._id.equals(user.id) || currentUser && currentUser.isAdmin === true){ %>
 					<div style="margin-top:3.5%;">
 						<a class="ui primary basic button" href="/foods/new" style="display:inline-block;"><i class="add square icon"></i> Add New</a>
@@ -13,26 +13,28 @@
 				<% }; %>
 			</div>
 			<hr class="style2">
-    			<div class="ui top attached left">
-    			    <div class="ui divided items">
-    			        <% foods.forEach(function(food){ %>
-            			<div class="item">
-                			<div class="ui tiny rounded image">
-            			        <img src=<%= food.image %>>
-        			        </div>
-    			            <div class="content">
-        			            <a class="header" href="/foods/<%= food._id %>"><%= food.name %></a>
-        			            <div class="meta">
-            			            <span><%= moment(food.createdAt).fromNow() %></span>
-            			        </div>
-                    			<div class="description">
-                			        <p><%- food.description.substring(0,100)%>...</p>
-            			        </div>
-            			    </div>
-        			    </div>
-        			    <% }); %>
-   				    </div>
-    			</div>
+			<div class="ui top attached left">
+				<div class="ui divided items">
+					<% foods.forEach(function(food){ %>
+					<div class="item">
+						<div class="ui tiny rounded image">
+							<img src=<%= food.image %>>
+						</div>
+						<div class="content">
+							<a class="header" href="/foods/<%= food._id %>">
+								<%= food.name %> - <i>$<%= food.price %></i>
+							</a>
+							<div class="meta">
+								<span><%= moment(food.createdAt).fromNow() %></span>
+							</div>
+							<div class="description">
+								<p><%- food.description.substring(0,100)%>...</p>
+							</div>
+						</div>
+					</div>
+					<% }); %>
+				</div>
+			</div>
 		</div>
 		<div class="col-md-4">
 			<h1><%= user.firstName + " " + user.lastName %></h1>
