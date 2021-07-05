@@ -21,7 +21,7 @@
     "express": "^4.15.3",
     "express-session": "^1.15.3",
     "fingerprintjs2": "^1.5.1",
-    "geocoder": "^0.2.3",
+    "geocoder": "^0.1.0",
     "locus": "^2.0.1",
     "method-override": "^2.3.9",
     "moment": "^2.18.1",
