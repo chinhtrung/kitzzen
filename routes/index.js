@@ -107,15 +107,17 @@ router.post('/forgot', function(req, res, next) {
       var mailOptions = {
         to: user.email,
         from: process.env.GMAIL,
-        subject: 'Node.js Password Reset',
-        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+        subject: 'Reset kitzzen account password request',
+        text: `Hello, ${user.username}` + '\n\n' +
+          'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
           'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-          'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+          'If you did not request this, please ignore this email and your password will remain unchanged.\n\n\n' +
+          'Regards,\n' + 'kitzzen account manager\n'
       };
       smtpTransport.sendMail(mailOptions, function(err) {
         console.log('mail sent');
-        req.flash('success', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+        req.flash('success', 'An email has been sent to ' + user.email + ' with further instructions.');
         done(err, 'done');
       });
     }
@@ -140,7 +142,7 @@ router.post('/reset/:token', function(req, res) {
     function(done) {
       User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
         if (!user) {
-          req.flash('error', 'Password reset token is invalid or has expired.');
+          req.flash('error', 'Password reset request is invalid or has expired.');
           return res.redirect('back');
         }
         if(req.body.password === req.body.confirm) {
@@ -171,9 +173,10 @@ router.post('/reset/:token', function(req, res) {
       var mailOptions = {
         to: user.email,
         from: process.env.GMAIL,
-        subject: 'Your password has been changed',
-        text: 'Hello,\n\n' +
-          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+        subject: 'Your password for kitzzen account has been changed',
+        text: `Hello, ${user.username}` + '\n\n' +
+          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n\n\n'+
+          'Regards,\n' + 'kitzzen account manager\n'
       };
       smtpTransport.sendMail(mailOptions, function(err) {
         req.flash('success', 'Success! Your password has been changed.');
