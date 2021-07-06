@@ -1,5 +1,9 @@
 /* Sticky footer styles
 -------------------------------------------------- */
+.hidden {
+  display: none;
+}
+
 html {
   position: relative;
   min-height: 100%;
