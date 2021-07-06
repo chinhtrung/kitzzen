@@ -4,26 +4,27 @@ $('#food-search').on('input', function() {
     search = "all";
   }
   $.get('/foods?' + search, function(data) {
-    $('#campground-grid').html('');
-    data.forEach(function(campground) {
-      $('#campground-grid').append(`
+    $('#food-grid').html('');
+    data.forEach(function(food) {
+      $('#food-grid').append(`
         <div class="col-md-3 col-sm-6">
           <div class="thumbnail">
-            <img src="${ campground.image }">
+            <img src="${ food.image }">
             <div class="caption">
-              <h3>${ campground.name }</h3>
-              <h5><strong>$ ${ campground.price }</strong> by <a href="/users/${ campground.author.id }"> ${ campground.author.username }</a>, ${ campground.timestring }</h5>
-              <h5>${ campground.location }</h5>
+              <h3>${ food.name }</h3>
+              <h5>
+                <strong>$ ${ food.price }</strong> by <a href="/users/${ food.author.id }"> ${ food.author.username }</a>
+              </h5>
               <hr class="style13">
-              <p>${ campground.description.slice(0,100) }...</p>
+              <p>${ food.description.slice(0,100) }...</p>
               <p>
                 <div>
                   <div class="ui primary labeled button" tabindex="0">
                     <button class="ui basic primary button">
-                      <a href="/campgrounds/${ campground._id }"><i class="find icon"></i> View</a>
+                      <a href="/foods/${ food._id }"><i class="book icon"></i> View</a>
                     </button>
                     <div class="ui basic blue left pointing label">
-                      ${campground.seen}
+                      ${food.seen}
                     </div>
                   </div>
                 </div>
