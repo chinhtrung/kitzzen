@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="ui main text col-md-4">
 			<div class="ui massive header" style="margin-top: 20px;">
-				Selling list
+				Your Selling list
 				<% if(currentUser && currentUser._id.equals(user.id) || currentUser && currentUser.isAdmin === true){ %>
 					<div style="margin-top:3.5%;">
 						<a class="ui primary basic button" href="/foods/new" style="display:inline-block;"><i class="add square icon"></i> Add New</a>
@@ -22,7 +22,9 @@
             			        <img src=<%= food.image %>>
         			        </div>
     			            <div class="content">
-        			            <a class="header" href="/foods/<%= food._id %>"><%= food.name %></a>
+        			            <a class="header" href="/foods/<%= food._id %>">
+									<%= food.name %> - <i>$<%= food.price %></i>
+								</a>
         			            <div class="meta">
             			            <span><%= moment(food.createdAt).fromNow() %></span>
             			        </div>
