@@ -57,7 +57,7 @@ router.post("/login",passport.authenticate("local",
         successRedirect: "/foods",
         failureRedirect: "/login",
         failureFlash: true,
-        successFlash: 'Welcome to Tizzen!'
+        successFlash: 'Welcome to kitzzen!'
     }),function(req,res){
 });
 
