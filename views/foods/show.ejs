@@ -8,41 +8,57 @@
                 <li class="list-group-item"><a href="/users/<%= food.author.id %>">About Chef</a></li>
             </div>
             <div id="map"></div>
-            <div class="ui raised segment">
-                <form action="/foods/<%= food._id %>/ratings" method="POST">
-                    <div>
-                        <label for="rating">Rate the food!</label>
-                        <fieldset class="starability-basic" id="rating">
-                          <input type="radio" id="first-rate5" name="rating[rating]" value="5" required/>
-                          <label for="first-rate5" title="Amazing">5 stars</label>
-                          <input type="radio" id="first-rate4" name="rating[rating]" value="4" required/>
-                          <label for="first-rate4" title="Very good">4 stars</label>
-                          <input type="radio" id="first-rate3" name="rating[rating]" value="3" required/>
-                          <label for="first-rate3" title="Average">3 stars</label>
-                          <input type="radio" id="first-rate2" name="rating[rating]" value="2" required/>
-                          <label for="first-rate2" title="Not good">2 stars</label>
-                          <input type="radio" id="first-rate1" name="rating[rating]" value="1" required/>
-                          <label for="first-rate1" title="Terrible">1 star</label>
-                        </fieldset>
-                    </div>
-                    <div class="form-group">
-                        <!-- <label for="review">Please have a review to help our chef improve</label> -->
-                        <textarea class="form-control" name="rating[review]"
-                            placeholder='What do you think about the meal?&#10How to make it better?'
-                            cols="5" rows="5" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-sm btn-primary">
-                            Submit rating!
-                        </button>
-                    </div>
-                </form>
-            </div>
+            <% let findRating = currentUser? food.ratings.find(eachRating => eachRating.author.id == currentUser.id) : undefined; %>
+            <% if (currentUser && findRating) {%>
+                <div class="ui raised segment">
+                    <h5>
+                        You (<%= findRating.author.username%>) reviewed this food post <%=findRating.rating%> <div class="ui star rating"><i class="icon active"></i></div>
+                    </h5>
+                    <p>
+                        <i>"<%=findRating.review%>"</i> <span class="date" style="display: inline; font-size: smaller;"> &nbsp - &nbsp <%= moment(findRating.createdAt).fromNow() %> ⏲️</span>
+                    </p>
+                    <form class="delete-form" action="/foods/<%=food._id %>/ratings/<%=findRating._id %>?_method=DELETE" method="POST">
+                        <input type="submit" class="ui mini icon button" value="Delete this review">
+                    </form>
+                </div>
+            <%} else {%>
+                <div class="ui raised segment">
+                    <form action="/foods/<%= food._id %>/ratings" method="POST">
+                        <div>
+                            <label for="rating">Rate the food!</label>
+                            <fieldset class="starability-basic" id="rating">
+                              <input type="radio" id="first-rate5" name="rating[rating]" value="5" required/>
+                              <label for="first-rate5" title="Amazing">5 stars</label>
+                              <input type="radio" id="first-rate4" name="rating[rating]" value="4" required/>
+                              <label for="first-rate4" title="Very good">4 stars</label>
+                              <input type="radio" id="first-rate3" name="rating[rating]" value="3" required/>
+                              <label for="first-rate3" title="Average">3 stars</label>
+                              <input type="radio" id="first-rate2" name="rating[rating]" value="2" required/>
+                              <label for="first-rate2" title="Not good">2 stars</label>
+                              <input type="radio" id="first-rate1" name="rating[rating]" value="1" required/>
+                              <label for="first-rate1" title="Terrible">1 star</label>
+                            </fieldset>
+                        </div>
+                        <div class="form-group">
+                            <!-- <label for="review">Please have a review to help our chef improve</label> -->
+                            <textarea class="form-control" name="rating[review]"
+                                placeholder='What do you think about the meal?&#10How to make it better?'
+                                cols="5" rows="5" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-sm btn-primary">
+                                Submit rating!
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            <%}%>
+            
             <% if (food.ratings.length != 0 ) {%>
                 <div class="ui raised segment">
                     <% let avgRating = food.ratings.reduce((acc, each) => acc + each.rating, 0) / food.ratings.length; %>
                     <div class="form-group">
-                        Current rating: <%= avgRating.toFixed(1) %> (total <%= food.ratings.length %> ratings)
+                        This Food post has <%= avgRating.toFixed(1) %> <div class="ui star rating"><i class="icon active"></i></div> (total <%= food.ratings.length %> ratings)
                     </div>
                 </div>
                 <div class="ui raised segment comments">
@@ -68,7 +84,7 @@
             <%} else {%>
                 <div class="ui raised segment">
                     <div class="form-group">
-                        Be the first to review this!
+                        Be the first to review this food post!
                     </div>
                 </div>
             <%}%>
