@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 var ratingSchema = new mongoose.Schema({
 	rating: Number,
 	review: String,
+	createdAt: {type: Date, default: Date.now},
 	author: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
