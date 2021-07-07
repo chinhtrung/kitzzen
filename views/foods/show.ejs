@@ -11,19 +11,25 @@
             <div class="ui raised segment">
                 <form action="/foods/<%= food._id %>/ratings" method="POST">
                     <div class="form-group">
-                        <label for="rating">Rate this product:</label>
+                        <label for="rating">Rate the food!</label>
                         <fieldset class="starability-basic form-group" id="rating">
-                          <input type="radio" id="first-rate5" name="rating[rating]" value="5" />
+                          <input type="radio" id="first-rate5" name="rating[rating]" value="5" required/>
                           <label for="first-rate5" title="Amazing">5 stars</label>
-                          <input type="radio" id="first-rate4" name="rating[rating]" value="4" />
+                          <input type="radio" id="first-rate4" name="rating[rating]" value="4" required/>
                           <label for="first-rate4" title="Very good">4 stars</label>
-                          <input type="radio" id="first-rate3" name="rating[rating]" value="3" />
+                          <input type="radio" id="first-rate3" name="rating[rating]" value="3" required/>
                           <label for="first-rate3" title="Average">3 stars</label>
-                          <input type="radio" id="first-rate2" name="rating[rating]" value="2" />
+                          <input type="radio" id="first-rate2" name="rating[rating]" value="2" required/>
                           <label for="first-rate2" title="Not good">2 stars</label>
-                          <input type="radio" id="first-rate1" name="rating[rating]" value="1" />
+                          <input type="radio" id="first-rate1" name="rating[rating]" value="1" required/>
                           <label for="first-rate1" title="Terrible">1 star</label>
                         </fieldset>
+                    </div>
+                    <div class="form-group">
+                        <!-- <label for="review">Please have a review to help our chef improve</label> -->
+                        <textarea class="form-control" name="review" 
+                            placeholder='What do you think about the meal?&#10How to make it better?'
+                            cols="5" rows="5" required></textarea>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-sm btn-primary">
@@ -31,9 +37,9 @@
                         </button>
                     </div>
                 </form>
-                <div>
+                <!-- <div>
                     Current Rating: <%= food.rating.toFixed(2) %>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="col-md-9">
