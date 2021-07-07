@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="list-group">
                 <li class="list-group-item active">Food Info</li>
                 <li class="list-group-item"><a href="/users/<%= food.author.id %>">About Chef</a></li>
@@ -10,9 +10,9 @@
             <div id="map"></div>
             <div class="ui raised segment">
                 <form action="/foods/<%= food._id %>/ratings" method="POST">
-                    <div class="form-group">
+                    <div>
                         <label for="rating">Rate the food!</label>
-                        <fieldset class="starability-basic form-group" id="rating">
+                        <fieldset class="starability-basic" id="rating">
                           <input type="radio" id="first-rate5" name="rating[rating]" value="5" required/>
                           <label for="first-rate5" title="Amazing">5 stars</label>
                           <input type="radio" id="first-rate4" name="rating[rating]" value="4" required/>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group">
                         <!-- <label for="review">Please have a review to help our chef improve</label> -->
-                        <textarea class="form-control" name="review" 
+                        <textarea class="form-control" name="rating[review]"
                             placeholder='What do you think about the meal?&#10How to make it better?'
                             cols="5" rows="5" required></textarea>
                     </div>
@@ -37,12 +37,43 @@
                         </button>
                     </div>
                 </form>
-                <!-- <div>
-                    Current Rating: <%= food.rating.toFixed(2) %>
-                </div> -->
             </div>
+            <% if (food.ratings.length != 0 ) {%>
+                <div class="ui raised segment">
+                    <% let avgRating = food.ratings.reduce((acc, each) => acc + each.rating, 0) / food.ratings.length; %>
+                    <div class="form-group">
+                        Current rating: <%= avgRating.toFixed(1) %> (total <%= food.ratings.length %> ratings)
+                    </div>
+                </div>
+                <div class="ui raised segment comments">
+                    <%food.ratings.forEach((each) => {%>
+                    <div class="ui comment">
+                        <a class="avatar" href="/users/<%=each.author.id%>">
+                            <img class="header-avatar" src="<%=each.author.avatar%>">
+                        </a>
+                        <div class="content">
+                            <a class="author" href="/users/<%=each.author.id%>"><strong><%= each.author.username %></strong>
+                            </a> gives <%=each.rating%> <div class="ui star rating"><i class="icon active"></i></div>
+                            <div class="metadata">
+                                <span class="date"><%= moment(each.createdAt).fromNow() %></span>
+                            </div>
+                            <div class="text">
+                                <%= each.review %>
+                            </div>
+                        </div>
+                    </div>
+                    <%})%>
+                </div>
+                
+            <%} else {%>
+                <div class="ui raised segment">
+                    <div class="form-group">
+                        Be the first to review this!
+                    </div>
+                </div>
+            <%}%>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-8">
             <div class="thumbnail">
                 <img class="img-responsive" src=<%= food.image %>>
                 <div class="caption-full">
@@ -50,7 +81,7 @@
                     <h2><a><%= food.name%></a></h2>
                     <h4><%= food.description %></h4>
                     <p>
-                        <em>Submitted By <a href="/users/<%= food.author.id %>"><%=food.author.username %></a>, <%= moment(food.createdAt).fromNow() %></em>
+                        <em>Posted by <a href="/users/<%= food.author.id %>"><%=food.author.username %></a>, <%= moment(food.createdAt).fromNow() %></em>
                     </p>
                     <% if(currentUser && food.author.id && food.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
                         <a class="btn btn-xs btn-warning" href="/foods/<%= food._id%>/edit">Edit</a>
@@ -80,31 +111,31 @@
                 <a style="padding-top:5px; padding-bottom:10px;" class="btn btn-success" href="/foods/<%= food._id %>/comments/new">Add New Comment</a>
                 <% }%>
                 <% food.comments.forEach(function(comment){%> 
-                    <div class="row comment">
-                            <a class="avatar" href="/users/<%=comment.author.id%>">
-                                 <img class="header-avatar" src="<%=comment.author.avatar%>">
+                <div class="ui comment">
+                    <a class="avatar" href="/users/<%=comment.author.id%>">
+                        <img class="header-avatar" src="<%=comment.author.avatar%>">
+                    </a>
+                    <div class="content">
+                        <a class="author" href="/users/<%=comment.author.id%>"><strong><%= comment.author.username %></strong></a>
+                        <div class="metadata">
+                            <span class="date"><%= moment(comment.createdAt).fromNow() %></span>
+                        </div>
+                        <div class="text">
+                            <%= comment.text %>
+                        </div>
+                        <div class="actions">
+                            <% if(currentUser && comment.author.id &&comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
+                            <a class="reply" 
+                                href="/foods/<%= food._id %>/comments/<%=comment._id %>/edit">
+                                Edit
                             </a>
-                            <div class="content">
-                                <a class="author" href="/users/<%=comment.author.id%>"><strong><%= comment.author.username %></strong></a>
-                                <div class="metadata">
-                                    <span class="date"><%= moment(comment.createdAt).fromNow() %></span>
-                                </div>
-                                <div class="text">
-                                    <%= comment.text %>
-                                </div>
-                                <div class="actions">
-                                <% if(currentUser && comment.author.id &&comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
-                                    <a class="reply" 
-                                        href="/foods/<%= food._id %>/comments/<%=comment._id %>/edit">
-                                        Edit
-                                    </a>
-                                    <form class="delete-form" action="/foods/<%=food._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
-                                        <input type="submit" class="ui mini icon button" value="Delete">
-                                    </form>
-                                <% } %>
-                            </div>
+                            <form class="delete-form" action="/foods/<%=food._id %>/comments/<%=comment._id %>?_method=DELETE" method="POST">
+                                <input type="submit" class="ui mini icon button" value="Delete">
+                            </form>
+                            <% } %>
                         </div>
                     </div>
+                </div>
                 <% }); %>
                 <hr class="style1">
             </div>
