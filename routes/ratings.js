@@ -10,12 +10,13 @@ router.post('/', middleware.isLoggedIn, middleware.checkRatingExists, function(r
 			console.log(err);
 		} else if (req.body.rating) {
 				Rating.create(req.body.rating,function(err, rating) {
-				  if(err) {
-				    console.log(err);
-				  }
-				  rating.author.id = req.user._id;
-				  rating.author.username = req.user.username;
-				  rating.save();
+					if(err) {
+						console.log(err);
+					}
+					rating.review = req.body.review;
+					rating.author.id = req.user._id;
+					rating.author.username = req.user.username;
+					rating.save();
 					resultFood.ratings.push(rating);
 					resultFood.save();
 					req.flash("success", "Successfully added rating");
@@ -23,7 +24,7 @@ router.post('/', middleware.isLoggedIn, middleware.checkRatingExists, function(r
 		} else {
 				req.flash("error", "Please select a rating");
 		}
-		res.redirect('/foods/' + resultFood._id);
+		res.redirect('/foods/' + resultFood._id + '#rating');
 	});
 });
 
