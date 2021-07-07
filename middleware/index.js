@@ -77,7 +77,7 @@ middlewareObj.checkRatingExists = function(req, res, next){
     if(err){
       console.log(err);
     }
-    for(var i = 0; i < resultFood.ratings.length; i++ ) {
+    for(let i = 0; i < resultFood.ratings.length; i++ ) {
       if(resultFood.ratings[i].author.id.equals(req.user._id)) {
         req.flash("success", "You already rated this!");
         return res.redirect('/foods/' + resultFood._id);
