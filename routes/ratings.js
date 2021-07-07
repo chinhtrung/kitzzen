@@ -9,13 +9,13 @@ router.post('/', middleware.isLoggedIn, middleware.checkRatingExists, function(r
 		if(err) {
 			console.log(err);
 		} else if (req.body.rating) {
-				Rating.create(req.body.rating,function(err, rating) {
+				Rating.create(req.body.rating, function(err, rating) {
 					if(err) {
 						console.log(err);
 					}
-					rating.review = req.body.review;
 					rating.author.id = req.user._id;
 					rating.author.username = req.user.username;
+					rating.author.avatar = req.user.avatar;
 					rating.save();
 					resultFood.ratings.push(rating);
 					resultFood.save();
