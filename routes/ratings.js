@@ -24,7 +24,7 @@ router.post('/', middleware.isLoggedIn, middleware.checkRatingExists, function(r
 		} else {
 				req.flash("error", "Please select a rating");
 		}
-		res.redirect('/foods/' + resultFood._id + '#rating');
+		res.redirect('/foods/' + req.params.id + '#rating');
 	});
 });
 
