@@ -3,9 +3,10 @@ var router  = express.Router();
 var Food = require("../models/food");
 var Comment = require("../models/comment");
 var middleware = require("../middleware");
-var geocoder = require("geocoder");
 var User = require("../models/user");
-
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({accessToken: mapBoxToken});
 
 // CLOUDINARY SETUP
 var multer = require('multer');
@@ -68,36 +69,24 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
         username: req.user.username
     };
     // var image = req.body.image;
-    geocoder.geocode(req.body.location,function(err,data){
-        cloudinary.uploader.upload(req.file.path, function(result) {
-            // add cloudinary url for the image to the food object under image property
-            var image = result.secure_url;
-            // console.log("result ", result);
-            // console.log("geocoder data ", data);
-
-            // define variable
-            // var lat = data.results[0].geometry.location.lat;
-            // var lng = data.results[0].geometry.location.lng;
-            // var location = data.results[0].formatted_address;
-            var newFood = {
-                name: name, 
-                image: image, 
-                description: desc, 
-                price: price, 
-                author: author, 
-                // location: location, 
-                // lat: lat, 
-                // lng: lng
-            };
-            // create a new food post and save to DB
-            Food.create(newFood,function(err,newlyCreated){
-                if(err){
-                    console.log(err);
-                }else{
-                    //redirect back to foods page
-                    res.redirect("/foods");
-                }
-            });
+    cloudinary.uploader.upload(req.file.path, function(result) {
+        // add cloudinary url for the image to the food object under image property
+        var image = result.secure_url;
+        var newFood = {
+            name: name, 
+            image: image, 
+            description: desc, 
+            price: price, 
+            author: author,
+        };
+        // create a new food post and save to DB
+        Food.create(newFood,function(err,newlyCreated){
+            if(err){
+                console.log(err);
+            }else{
+                //redirect back to foods page
+                res.redirect("/foods");
+            }
         });
     });
 });
