@@ -15,7 +15,7 @@
                         You (<%= findRating.author.username%>) reviewed this food post <%=findRating.rating%> <div class="ui star rating"><i class="icon active"></i></div>
                     </h5>
                     <p>
-                        <i>"<%=findRating.review%>"</i> <span class="date" style="display: inline; font-size: smaller;"> &nbsp - &nbsp <%= moment(findRating.createdAt).fromNow() %> ⏲️</span>
+                        "<%=findRating.review%>" <span class="date" style="display: inline; font-size: smaller;"> &nbsp - &nbsp <%= moment(findRating.createdAt).fromNow() %> ⏲️</span>
                     </p>
                     <form class="delete-form" action="/foods/<%=food._id %>/ratings/<%=findRating._id %>?_method=DELETE" method="POST">
                         <input type="submit" class="ui mini icon button" value="Delete this review">
@@ -39,11 +39,15 @@
                               <label for="first-rate1" title="Terrible">1 star</label>
                             </fieldset>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="position: relative;">
                             <!-- <label for="review">Please have a review to help our chef improve</label> -->
                             <textarea class="form-control" name="rating[review]"
                                 placeholder='What do you think about the meal?&#10How to make it better?'
-                                cols="5" rows="5" required></textarea>
+                                cols="5" rows="5" id="textarea-rating" required></textarea>
+                            <span id="trigger-emoji-picker-rating" style="opacity: 0.6;">😄</span>
+                        </div>
+                        <div class="form-group hidden" id="emoji-picker-rating">
+                            <emoji-picker class="light"></emoji-picker>
                         </div>
                         <div class="form-group">
                             <button class="btn btn-sm btn-primary">
@@ -90,7 +94,7 @@
             <%}%>
         </div>
         <div class="col-md-8">
-            <div class="thumbnail">
+            <div class="thumbnail popup-thumbnail">
                 <img class="img-responsive" src=<%= food.image %>>
                 <div class="caption-full">
                     <h2 class="pull-right"><strong>$<%= food.price %></strong></h2>
@@ -117,10 +121,10 @@
                         <img style="float:left;" class="add-reply-avatar" src="<%=currentUser.avatar%>">
                     </a>
                     <form class="answer-box" action="/foods/<%=food._id %>/comments" method="POST">
-                        <textarea required class="add-reply" name="comment[text]" placeholder="Add a public comment..."></textarea>
+                        <textarea required class="add-reply" name="comment[text]" placeholder="Add your comment here..."></textarea>
                         <button style="float:left;margin-left:72.5%;" class="ui mini button hidden-button submit">Add Comment</button>
                     </form>
-                        <button class="ui mini button hidden-button cancel-button">Cancel</button>
+                    <button class="ui mini button hidden-button cancel-button">Cancel</button>
                 </div>
                 <hr class="style1">
                 <% } else { %>
@@ -159,7 +163,7 @@
     </div>
 </div>
 
-<script>
+<!-- <script>
   function initMap() {
     var lat = <%= food.lat %>;
     var lng = <%= food.lng %>;
@@ -186,7 +190,7 @@
     });
   }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwEU_CO0VYBQNtOxdlRoMIjAkoKIATabg&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwEU_CO0VYBQNtOxdlRoMIjAkoKIATabg&callback=initMap"></script> -->
 
 
 <% include ../partials/footer %>
