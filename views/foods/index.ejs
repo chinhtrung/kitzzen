@@ -19,7 +19,7 @@
         </div>
     </header>
     <div class="row " style="display: flex; flex-wrap: wrap; margin-top: 25px;" id="food-grid">
-        <% foods.forEach(function(each){ %>
+        <% for(let i = foods.length - 1; i >= 0; i--) {let each = foods[i];%>
             <div class="food-post col-md-3 col-sm-6" id="food-id-<%=each.id%>">
                 <div class="thumbnail">
                     <% each.timestring = moment(each.createdAt).fromNow()%>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-        <% }); %>
+        <% } %>
     </div>
 </div>
 
