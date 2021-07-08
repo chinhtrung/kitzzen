@@ -1,5 +1,12 @@
 /* Sticky footer styles
 -------------------------------------------------- */
+#trigger-emoji-picker-rating {
+  position: absolute;
+  left: 0.5em;
+  bottom: 0.3em;
+  cursor: pointer;
+}
+
 .hidden {
   display: none;
 }
