@@ -19,7 +19,6 @@ function runEmojiPicker() {
 
     let epRating = document.querySelector('#emoji-picker-rating emoji-picker');
     let textRating = document.querySelector('#textarea-rating');
-    console.dir(epr);
     epRating.addEventListener('emoji-click', event => {
         let emo = event.detail.unicode;
         textRating.value += emo;
