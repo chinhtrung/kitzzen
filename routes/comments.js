@@ -38,8 +38,8 @@ router.post("/",middleware.isLoggedIn,function(req,res){
                     comment.save();
                     food.comments.push(comment);
                     food.save();
-                    req.flash("success","Successfully added comment");
-                    res.redirect("/foods/" + food._id);
+                    req.flash("success","You added a comment");
+                    res.redirect("/foods/" + food._id + "#comment-total");
                 }
             });
         }
