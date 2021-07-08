@@ -1,5 +1,6 @@
 var mongoose    = require("mongoose"),
     Food        = require("./models/food.js"),
+    Rating      = require("./models/rating.js"),
     Comment     = require("./models/comment.js");
 
 // configure dotenv
@@ -156,6 +157,13 @@ function seedDB(){
             console.log(err);
         }
         console.log("removed comments!");
+    });
+    // remove all ratings
+    Rating.remove({},function(err){
+        if(err){
+            console.log(err);
+        }
+        console.log("removed ratings!");
     });
 
     // add seeds

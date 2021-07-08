@@ -3,8 +3,8 @@
 <div class="container">
     <header class="jumbotron">
         <div class="container">
-            <h1><i class="utensils icon"></i>Welcome to Tizzen!</h1>
-            <p>The business at your kitchen</p>
+            <h1><i class="utensils icon"></i>Welcome to Kitzzen!</h1>
+            <p>Choose your favor from our latest Food post and come pick it up</p>
             <p>
                 <a class="btn btn-primary btn-lg" href="/foods/new">Add new Food post</a>
             </p>
@@ -18,9 +18,9 @@
             </p>
         </div>
     </header>
-    <div class="row " style="display: flex; flex-wrap: wrap; margin-top: 25px;" id="campground-grid">
+    <div class="row " style="display: flex; flex-wrap: wrap; margin-top: 25px;" id="food-grid">
         <% foods.forEach(function(each){ %>
-            <div class="col-md-3 col-sm-6">
+            <div class="food-post col-md-3 col-sm-6" id="food-id-<%=each.id%>">
                 <div class="thumbnail">
                     <% each.timestring = moment(each.createdAt).fromNow()%>
                     <img src=<%= each.image %>>
@@ -33,7 +33,6 @@
                         <p>
                             <div>
                                 <form style="display: inline-block" action="/foods/addview/<%=each._id%>?_method=PUT" method="POST">
-                                    
                                     <%   each.timestring = moment(each.createdAt).fromNow();%>
                                     <input class="hide" name="datelist" value="<%= each.timestring %>">
                                     

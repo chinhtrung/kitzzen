@@ -29,6 +29,12 @@ mongoose.connect(process.env.DATABASEURL, {
     useFindAndModify: false
 });
 
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error"));
+db.once("open", ()=>{
+    console.log("Database connected");
+});
+
 app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));

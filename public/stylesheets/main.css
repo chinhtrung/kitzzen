@@ -1,5 +1,9 @@
 /* Sticky footer styles
 -------------------------------------------------- */
+.hidden {
+  display: none;
+}
+
 html {
   position: relative;
   min-height: 100%;
@@ -40,7 +44,7 @@ body {
 	width: 100%;
 }
 
-/* Campground show page delete button */
+/* Food show page delete button */
 .delete-form {
 	display: inline-block;
 }
