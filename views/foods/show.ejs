@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="ui raised segment comments">
-                    <%food.ratings.forEach((each) => {%>
+                    <% for (let i = food.ratings.length - 1; i >= 0; i--) { let each = food.ratings[i];%>
                     <div class="ui comment">
                         <a class="avatar" href="/users/<%=each.author.id%>">
                             <img class="header-avatar" src="<%=each.author.avatar%>">
@@ -78,7 +78,7 @@
                             </div>
                         </div>
                     </div>
-                    <%})%>
+                    <%}%>
                 </div>
                 
             <%} else {%>
