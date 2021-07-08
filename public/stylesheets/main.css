@@ -4,6 +4,14 @@
   display: none;
 }
 
+.popup-thumbnail {
+  transition: box-shadow 0.1s;
+}
+
+.popup-thumbnail:hover {
+  box-shadow: 0 0 11px rgba(33,33,33,.2);
+}
+
 html {
   position: relative;
   min-height: 100%;
