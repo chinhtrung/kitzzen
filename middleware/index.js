@@ -2,6 +2,7 @@ var Food = require("../models/food");
 var Comment = require("../models/comment");
 var passport = require("passport");
 var User = require("../models/user");
+var Rating = require("../models/rating");
 
 // all the middleware goes here
 var middlewareObj = {};
@@ -73,18 +74,39 @@ middlewareObj.checkMatchingUser = function(req,res,next){
 }
 
 middlewareObj.checkRatingExists = function(req, res, next){
-  Food.findById(req.params.id).populate("ratings").exec(function(err, resultFood){
-    if(err){
-      console.log(err);
+    Food.findById(req.params.id).populate("ratings").exec(function(err, resultFood){
+        if(err){
+            console.log(err);
+        }
+        for(let i = 0; i < resultFood.ratings.length; i++ ) {
+            if(resultFood.ratings[i].author.id.equals(req.user._id)) {
+                req.flash("success", "You already rated this!");
+                return res.redirect('/foods/' + resultFood._id);
+            }
+        }
+        next();
+    })
+}
+
+middlewareObj.checkRatingOwnership = function (req, res, next){
+    if(req.isAuthenticated()){
+        Rating.findById(req.params.rating_id,function(err, resultRating){
+            if(err){
+                res.redirect("/foods");
+            } else {
+                // does user own the rating?
+                if(req.user.isAdmin === true || resultRating.author.id.equals(req.user._id)){
+                    next();
+                }else{
+                    req.flash("error","You don't have permission!")
+                    res.redirect("back");
+                }
+            }
+        });
+    } else {
+        req.flash("You need to be logged in!");
+        res.redirect("back");
     }
-    for(let i = 0; i < resultFood.ratings.length; i++ ) {
-      if(resultFood.ratings[i].author.id.equals(req.user._id)) {
-        req.flash("success", "You already rated this!");
-        return res.redirect('/foods/' + resultFood._id);
-      }
-    }
-    next();
-  })
 }
 
 module.exports = middlewareObj;
