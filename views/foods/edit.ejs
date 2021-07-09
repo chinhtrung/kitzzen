@@ -11,7 +11,7 @@
                 </div>
                 <div class="form-group">
                     <label for="price">Price</label>
-                    <input class="form-control" type="number" name="price" id="price" value="<%= food.price %>" min="0.01" step="0.01">
+                    <input class="form-control" type="number" name="price" id="price" value="<%= food.price %>" min="1" step="0.1">
                 </div>
                 <div class="form-group">
                     <label for="image">Image</label>
@@ -22,8 +22,12 @@
                     <input class="form-control" type="text" name="location" id="location" value="<%= food.location %>">
                 </div>
                 <div class="form-group">
-                    <label for="description">Description</label>
-                    <input class="form-control" type="text" name="description" id="description" value="<%= food.description%>">
+                    <label for="textarea-description">Description</label>
+                    <textarea class="form-control" type="text" name="description" id="textarea-description" rows="7" cols="12"><%= food.description%></textarea>
+                    <span id="trigger-emoji-picker-description" style="opacity: 0.6; cursor: pointer;">😄</span>
+                    <div class="form-group hidden" id="emoji-picker-description">
+                        <emoji-picker class="light"></emoji-picker>
+                    </div>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-lg btn-primary btn-block">Submit!</button>
