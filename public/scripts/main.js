@@ -12,11 +12,11 @@ $(document).ready(function(){
     });
 });
 
-function runEmojiPicker(selector) {
-    let toggleButton = document.querySelector(`#trigger-emoji-picker-${selector}`);
-    let pickerContainer = document.querySelector(`#emoji-picker-${selector}`);
-    let selectedPicker = document.querySelector(`#emoji-picker-${selector} emoji-picker`);
-    let textRating = document.querySelector(`#textarea-${selector}`);
+function runEmojiPickerID(selectedField) {
+    let toggleButton = document.querySelector(`#trigger-emoji-picker-${selectedField}`);
+    let pickerContainer = document.querySelector(`#emoji-picker-${selectedField}`);
+    let selectedPicker = document.querySelector(`#emoji-picker-${selectedField} emoji-picker`);
+    let textRating = document.querySelector(`#textarea-${selectedField}`);
 
     if (toggleButton && pickerContainer && selectedPicker && textRating) {
         toggleButton.addEventListener("click", ()=>{pickerContainer.classList.toggle("hidden")});
@@ -35,6 +35,6 @@ function runEmojiPicker(selector) {
 }
 
 window.onload = function () {
-    let addEmoPicker = ["rating", "comment"];
-    addEmoPicker.forEach(each => {runEmojiPicker(each)});
+    let addEmoPicker = ["rating", "comment","description"];
+    addEmoPicker.forEach(each => {runEmojiPickerID(each)});
 }
