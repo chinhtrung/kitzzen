@@ -135,6 +135,11 @@
                 <% } else { %>
                 <a style="padding-top:5px; padding-bottom:10px;" class="btn btn-success" href="/foods/<%= food._id %>/comments/new">Add New Comment</a>
                 <% }%>
+
+                <% if (food.comments.length == 0) {%>
+                    <p>Be the first to comment on this food post!</p>
+                <%}%>
+
                 <% for(let i = 0; i < food.comments.length; i++) {let comment = food.comments[i];%>
                 <div class="ui comment">
                     <a class="avatar" href="/users/<%=comment.author.id%>">
