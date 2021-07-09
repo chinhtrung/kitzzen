@@ -12,26 +12,27 @@ $(document).ready(function(){
     });
 });
 
-function runEmojiPicker() {
-    let tepr = document.querySelector("#trigger-emoji-picker-rating");
-    let epr = document.querySelector("#emoji-picker-rating");
-    tepr.addEventListener("click", ()=>{epr.classList.toggle("hidden")});
+function runEmojiPicker(selector) {
+    let toggleButton = document.querySelector(`#trigger-emoji-picker-${selector}`);
+    let pickerContainer = document.querySelector(`#emoji-picker-${selector}`);
+    toggleButton.addEventListener("click", ()=>{pickerContainer.classList.toggle("hidden")});
 
-    let epRating = document.querySelector('#emoji-picker-rating emoji-picker');
-    let textRating = document.querySelector('#textarea-rating');
-    epRating.addEventListener('emoji-click', event => {
+    let selectedPicker = document.querySelector(`#emoji-picker-${selector} emoji-picker`);
+    let textRating = document.querySelector(`#textarea-${selector}`);
+    selectedPicker.addEventListener('emoji-click', event => {
         let emo = event.detail.unicode;
         textRating.value += emo;
     });
 
     document.addEventListener('click', function(event) {
-        let isClickInsideElement = tepr.contains(event.target) || epr.contains(event.target);
+        let isClickInsideElement = toggleButton.contains(event.target) || pickerContainer.contains(event.target);
         if (!isClickInsideElement) {
-            epr.classList.add("hidden");
+            pickerContainer.classList.add("hidden");
         }
     });
 }
 
 window.onload = function () {
-    runEmojiPicker();
+    runEmojiPicker("rating");
+    runEmojiPicker("comment");
 }

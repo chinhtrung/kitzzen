@@ -7,6 +7,13 @@
   cursor: pointer;
 }
 
+#trigger-emoji-picker-comment {
+  position: absolute;
+  left: 6.1em;
+  bottom: 1em;
+  cursor: pointer;
+}
+
 .hidden {
   display: none;
 }

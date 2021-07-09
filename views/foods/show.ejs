@@ -120,11 +120,16 @@
                     <a href="/users/<%=currentUser._id %>">
                         <img style="float:left;" class="add-reply-avatar" src="<%=currentUser.avatar%>">
                     </a>
-                    <form class="answer-box" action="/foods/<%=food._id %>/comments" method="POST">
-                        <textarea required class="add-reply" name="comment[text]" placeholder="Add your comment here..."></textarea>
-                        <button style="float:left;margin-left:72.5%;" class="ui mini button hidden-button submit">Add Comment</button>
+                    <form class="answer-box" action="/foods/<%=food._id %>/comments" method="POST" style="position: relative;">
+                        <textarea required class="add-reply" name="comment[text]" 
+                        placeholder="Add your comment here..." id="textarea-comment"></textarea>
+                        <span id="trigger-emoji-picker-comment" style="opacity: 0.6;">😄</span>
+                        <button style="float:left;margin-left:72.5%;" class="ui mini button hidden-button submit">Comment</button>
                     </form>
                     <button class="ui mini button hidden-button cancel-button">Cancel</button>
+                    <div class="form-group hidden" id="emoji-picker-comment">
+                        <emoji-picker class="light"></emoji-picker>
+                    </div>
                 </div>
                 <hr class="style1">
                 <% } else { %>
