@@ -2,29 +2,29 @@ const Food = require("../models/food");
 const Comment = require("../models/comment");
 
 // Comments New
-const newComment = (req,res) => {
+const newComment = (req, res) => {
     // find food by Id
     Food.findById(req.params.id).populate("comments").exec((err, food) => {
-        if(err){
+        if (err) {
             console.log(err);
-        }else{
-            res.render("./comments/new",{food: food});
+        } else {
+            res.render("./comments/new", { food: food });
         }
     });
 }
 
 // Comments Create
-const createComment = (req,res) => {
+const createComment = (req, res) => {
     //lookup food using Id
-    Food.findById(req.params.id, (err,food) => {
-        if(err){
-            req.flash("error","Something went wrong");
+    Food.findById(req.params.id, (err, food) => {
+        if (err) {
+            req.flash("error", "Something went wrong");
             console.log(err);
-        }else{
-            Comment.create(req.body.comment, async (err,comment) => {
-                if(err){
+        } else {
+            Comment.create(req.body.comment, async (err, comment) => {
+                if (err) {
                     console.log(err);
-                }else{
+                } else {
                     //add username and id to comment
                     comment.author.id = req.user._id;
                     comment.author.username = req.user.username;
@@ -33,7 +33,7 @@ const createComment = (req,res) => {
                     await comment.save();
                     food.comments.push(comment);
                     await food.save();
-                    req.flash("success","You added a comment");
+                    req.flash("success", "You added a comment");
                     res.redirect("/foods/" + food._id + "#comment-total");
                 }
             });
@@ -42,20 +42,20 @@ const createComment = (req,res) => {
 }
 
 // COMMENT EDIT
-const editComment = (req,res) => {
-    Comment.findById(req.params.comment_id, (err,foundComment) => {
-        if(err){
+const editComment = (req, res) => {
+    Comment.findById(req.params.comment_id, (err, foundComment) => {
+        if (err) {
             res.redirect("back");
         } else {
-            res.render("comments/edit",{food_id: req.params.id, comment: foundComment});
+            res.render("comments/edit", { food_id: req.params.id, comment: foundComment });
         }
     });
 }
 
 // COMMENT UPDATE
-const updateComment = (req,res) => {
-    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err,updatedComment) => {
-        if(err){
+const updateComment = (req, res) => {
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, updatedComment) => {
+        if (err) {
             res.redirect("back");
         } else {
             res.redirect("/foods/" + req.params.id);
@@ -64,14 +64,14 @@ const updateComment = (req,res) => {
 }
 
 //COMMENT DESTROY ROUTE
-const deleteComment = (req,res) => {
+const deleteComment = (req, res) => {
     //findByIdAndRemove
     Comment.findByIdAndRemove(req.params.comment_id, (err) => {
-        if(err){
-            req.flash("error",err.message);
+        if (err) {
+            req.flash("error", err.message);
             res.redirect("back");
         } else {
-            req.flash("success","Comment deleted");
+            req.flash("success", "Comment deleted");
             res.redirect("/foods/" + req.params.id);
         }
     });
