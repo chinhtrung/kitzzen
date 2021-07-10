@@ -1,35 +1,13 @@
-var express = require("express");
-var router  = express.Router();
-var Food = require("../models/food");
-var Comment = require("../models/comment");
-var middleware = require("../middleware");
-var User = require("../models/user");
+const express = require("express");
+const router  = express.Router();
+const Food = require("../models/food");
+const Comment = require("../models/comment");
+const middleware = require("../middleware");
+const User = require("../models/user");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({accessToken: mapBoxToken});
-
-// CLOUDINARY SETUP
-var multer = require('multer');
-var storage = multer.diskStorage({
-  filename: function(req, file, callback) {
-    callback(null, Date.now() + file.originalname);
-  }
-});
-var imageFilter = function (req, file, cb) {
-    // accept image files only
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
-        return cb(new Error('Only image files are allowed!'), false);
-    }
-    cb(null, true);
-};
-var upload = multer({ storage: storage, fileFilter: imageFilter})
-
-var cloudinary = require('cloudinary');
-cloudinary.config({ 
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY, 
-  api_secret: process.env.CLOUDINARY_API_SECRET
-});
+const {cloudinary, upload} = require("../cloudinary");
 
 // INDEX - show app food
 router.get("/", function(req, res){
@@ -61,18 +39,18 @@ router.get("/", function(req, res){
 
 // CREATE - add new food to DB
 router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, res) {
-    var name = req.body.name;
-    var price = req.body.price;
-    var desc = req.body.description;
-    var author = {
+    const name = req.body.name;
+    const price = req.body.price;
+    const desc = req.body.description;
+    const author = {
         id: req.user._id,
         username: req.user.username
     };
-    // var image = req.body.image;
+    // const image = req.body.image;
     cloudinary.uploader.upload(req.file.path, function(result) {
         // add cloudinary url for the image to the food object under image property
-        var image = result.secure_url;
-        var newFood = {
+        const image = result.secure_url;
+        const newFood = {
             name: name, 
             image: image, 
             description: desc, 
@@ -106,12 +84,12 @@ router.get("/:id", function(req, res){
             return res.redirect("/");
         } else {
             if(resultFood.ratings.length > 0) {
-              var ratings = [];
-              var length = resultFood.ratings.length;
+              const ratings = [];
+              const length = resultFood.ratings.length;
               resultFood.ratings.forEach(function(rating) { 
                 ratings.push(rating.rating) 
               });
-              var rating = ratings.reduce(function(total, element) {
+              const rating = ratings.reduce(function(total, element) {
                 return total + element;
               });
               resultFood.rating = rating / length;
@@ -139,9 +117,9 @@ router.get("/:id/edit",middleware.checkFoodOwnership,function(req,res){
 router.put("/addview/:id",function(req,res){
     // console.log(req.body.datelist);
     Food.find({},function(err,resultFood){
-        var numindex = 0;
+        let numindex = 0;
         resultFood.forEach(function(eachin){
-            var timestring = req.body.datelist[numindex];
+            const timestring = req.body.datelist[numindex];
             numindex = numindex + 1;
             Food.findByIdAndUpdate(eachin._id,{timestring: timestring},function(err){
                 if(err){
@@ -155,7 +133,7 @@ router.put("/addview/:id",function(req,res){
             console.log(err.message);
         } else {
             //should be an if statement for the fair of view count, might use fingerprintjs2
-            var seen = resultFood.seen + 1;
+            const seen = resultFood.seen + 1;
             Food.findByIdAndUpdate(req.params.id,{seen: seen},function(err){
                 if(err){
                     console.log(err.message);
@@ -169,10 +147,10 @@ router.put("/addview/:id",function(req,res){
 
 //UPDATE FOOD ROUTE
 router.put("/:id", middleware.checkFoodOwnership, function(req,res){
-    let name = req.body.name;
-    let image = req.body.image;
-    let description = req.body.description;
-    let price = req.body.price;
+    const name = req.body.name;
+    const image = req.body.image;
+    const description = req.body.description;
+    const price = req.body.price;
 
     Food.findByIdAndUpdate(req.params.id,{
         name : name,
