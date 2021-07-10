@@ -1,11 +1,10 @@
-var express = require("express");
-var router  = express.Router({mergeParams: true});
-var Food = require("../models/food");
-var Comment = require("../models/comment");
-var middleware = require("../middleware");
+const express = require("express");
+const router  = express.Router({mergeParams: true});
+const Food = require("../models/food");
+const Comment = require("../models/comment");
+const middleware = require("../middleware");
 
 // Comments New
-
 router.get("/new",middleware.isLoggedIn,function(req,res){
     // find food by Id
     Food.findById(req.params.id).populate("comments").exec(function(err, food){
@@ -18,8 +17,7 @@ router.get("/new",middleware.isLoggedIn,function(req,res){
 });
 
 // Comments Create
-
-router.post("/",middleware.isLoggedIn,function(req,res){
+router.post("/", middleware.isLoggedIn, function(req,res){
     //lookup food using Id
     Food.findById(req.params.id,function(err,food){
         if(err){
