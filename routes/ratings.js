@@ -1,8 +1,8 @@
-var express = require("express");
-var router  = express.Router({mergeParams: true});
-var Food = require("../models/food");
-var Rating = require("../models/rating");
-var middleware = require("../middleware");
+const express = require("express");
+const router  = express.Router({mergeParams: true});
+const Food = require("../models/food");
+const Rating = require("../models/rating");
+const middleware = require("../middleware");
 
 router.post('/', middleware.isLoggedIn, middleware.checkRatingExists, function(req, res) {
 	Food.findById(req.params.id, function(err, resultFood) {
