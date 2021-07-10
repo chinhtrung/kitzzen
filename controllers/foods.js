@@ -51,7 +51,7 @@ const postCreateFood = (req, res) => {
         // add cloudinary url for the image to the food object under image property
         const image = result.secure_url;
         const newFood = {
-            name: name, 
+            name: name,
             image: image, 
             description: desc, 
             price: price, 
