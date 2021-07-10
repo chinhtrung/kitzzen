@@ -1,13 +1,13 @@
-var express = require("express");
-var router  = express.Router();
-var passport = require("passport");
-var User = require("../models/user");
-var Food = require("../models/food");
-var async = require("async");
-var nodemailer = require("nodemailer");
-var crypto = require("crypto");
-var middleware = require("../middleware");
-var Comment = require("../models/comment");
+const express = require("express");
+const router  = express.Router();
+const passport = require("passport");
+const User = require("../models/user");
+const Food = require("../models/food");
+const async = require("async");
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
+const middleware = require("../middleware");
+const Comment = require("../models/comment");
 
 // root route
 router.get("/",function(req,res){
@@ -24,7 +24,7 @@ router.get("/register",function(req,res){
 
 // handle signup
 router.post("/register",function(req,res){
-    var newUser = new User({
+    const newUser = new User({
         username: req.body.username,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -163,14 +163,14 @@ router.post('/reset/:token', function(req, res) {
       });
     },
     function(user, done) {
-      var smtpTransport = nodemailer.createTransport({
+      const smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
         auth: {
           user: process.env.GMAIL,
           pass: process.env.GMAILPW
         }
       });
-      var mailOptions = {
+      const mailOptions = {
         to: user.email,
         from: process.env.GMAIL,
         subject: 'Your password for kitzzen account has been changed',
@@ -224,14 +224,14 @@ router.get("/users/:id/edit", middleware.isLoggedIn, middleware.checkMatchingUse
 
 // UPDATE USER PROFILE
 router.put("/users/:id",function(req,res){
-  var lastname = req.body.lastname;
-  var firstname = req.body.firstname;
-  var avatar = req.body.avatar;
-  var email = req.body.email;
-  var description = req.body.description;
-  var isAdmin = false;
+  const lastname = req.body.lastname;
+  const firstname = req.body.firstname;
+  const avatar = req.body.avatar;
+  const email = req.body.email;
+  const description = req.body.description;
+  let isAdmin = false;
   if(req.body.isadmin === process.env.ADMIN_CODE){
-    var isAdmin = true;
+    isAdmin = true;
   }
   User.findByIdAndUpdate(req.params.id, {
     lastName: lastname, 
@@ -244,7 +244,7 @@ router.put("/users/:id",function(req,res){
     if(err){
       req.flash("error", err.message);
     } else {
-      req.flash("success", "Successfully update user profile");
+      req.flash("success", "Successfully update your user profile");
       res.redirect("/users/" + req.params.id);
     }
   });
