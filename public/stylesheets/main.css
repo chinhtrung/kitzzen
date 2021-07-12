@@ -60,9 +60,9 @@ body {
     padding: 9px;
 }
 
-/* Google Map styles */
+/* Mapbox styles */
 #map {
-	height: 400px;
+	height: 500px;
 	width: 100%;
 }
 
