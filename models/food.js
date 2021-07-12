@@ -5,6 +5,7 @@ var foodSchema = new mongoose.Schema({
     name: String,
     price: String,
     image: String,
+    cloudinaryID: String,
     description: String,
     location: String,
     createdAt: { type: Date, default: Date.now },
