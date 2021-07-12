@@ -65,7 +65,7 @@ const postCreateFood = async (req, res) => {
             geometry: geoData.body.features[0].geometry // take the first result on map of features
         };
         // create a new food post and save to DB
-        Food.create(newFood, (err, newlyCreated) => {
+        Food.create(newFood, (err) => {
             if (err) {
                 console.log(err);
             } else {
