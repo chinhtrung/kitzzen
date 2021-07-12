@@ -98,7 +98,9 @@ const showFood = (req, res) => {
                     return total + element;
                 });
                 resultFood.rating = rating / length;
-                await resultFood.save();
+                try { await resultFood.save(); } catch (err) {
+                    console.log(err);
+                }
             }
             //render show template with that food
             res.render("foods/show", { food: resultFood });
