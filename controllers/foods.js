@@ -57,6 +57,7 @@ const postCreateFood = async (req, res) => {
         const newFood = {
             name: name,
             image: image,
+            cloudinaryID: result.public_id,
             description: desc,
             price: price,
             location: location,
@@ -175,11 +176,15 @@ const updateFood = (req, res) => {
 
 // DESTROY FOOD ROUTE
 const deleteFood = (req, res) => {
-    Food.findByIdAndRemove(req.params.id, (err, resultFood) => {
+    Food.findByIdAndRemove(req.params.id, async (err, resultFood) => {
         if (err) {
             req.flash("error", err.message);
             res.redirect("/foods");
         } else {
+            // Delete image from cloudinary
+            try {
+                await cloudinary.uploader.destroy(resultFood.cloudinaryID);
+            } catch (err) { console.log(err)}
             req.flash("success", `Your Food Post (${resultFood.name}) deleted!`);
             res.redirect("/foods");
         }
