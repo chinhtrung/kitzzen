@@ -8,12 +8,13 @@ const map = new mapboxgl.Map({
 });
 
 // Create a default Marker and add it to the map.
-const marker = new mapboxgl.Marker({color: "red"})
+const marker = new mapboxgl.Marker({ color: "red" })
     .setLngLat(coordinates)
     .setPopup(
-        new mapboxgl.Popup({offset: 25})
-            .setHTML (
-                `<h4>${thisFood.name}</h4><p>${thisFood.location}</p>`
+        new mapboxgl.Popup({ offset: 25 })
+            .setHTML(
+                `<h4>${thisFood.name}</h4>
+                <p>${"point anywhere near here and your location for the estimated direction"}</p>`
             )
     )
     .addTo(map);
@@ -33,3 +34,10 @@ map.addControl(
 
 // Add zoom and rotation controls to the map.
 map.addControl(new mapboxgl.NavigationControl());
+
+map.addControl(
+    new MapboxDirections({
+        accessToken: mapboxgl.accessToken
+    }),
+    'top-left'
+);
