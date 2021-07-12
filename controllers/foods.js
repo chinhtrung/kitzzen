@@ -152,17 +152,39 @@ const addView = (req, res) => {
 }
 
 //UPDATE FOOD ROUTE
-const updateFood = (req, res) => {
+const updateFood = async (req, res) => {
     const name = req.body.name;
-    const image = req.body.image;
     const description = req.body.description;
     const price = req.body.price;
+    const location = req.body.location;
+    const geoData = await geocoder.forwardGeocode({
+        query: location,
+        limit: 1
+    }).send();
+    const geometry = geoData.body.features[0].geometry; // take the first result on map of features
+    let image = req.body.prevImage;
+    let cloudinaryID = req.body.cloudinaryID;
+
+    if (req.file) {
+        // Delete image from cloudinary
+        try {
+            await cloudinary.uploader.destroy(cloudinaryID);
+        } catch (err) { console.log(err) }
+        // Upload image to cloudinary
+        await cloudinary.uploader.upload(req.file.path, (result) => {
+            image = result.secure_url;
+            cloudinaryID = result.public_id;
+        });
+    }
 
     Food.findByIdAndUpdate(req.params.id, {
         name: name,
-        image: image,
         description: description,
-        price: price
+        image: image,
+        price: price,
+        location: location,
+        geometry: geometry,
+        cloudinaryID: cloudinaryID
     }, (err, resultFood) => {
         if (err) {
             req.flash("error", err.message);
@@ -184,7 +206,7 @@ const deleteFood = (req, res) => {
             // Delete image from cloudinary
             try {
                 await cloudinary.uploader.destroy(resultFood.cloudinaryID);
-            } catch (err) { console.log(err)}
+            } catch (err) { console.log(err) }
             req.flash("success", `Your Food Post (${resultFood.name}) deleted!`);
             res.redirect("/foods");
         }
