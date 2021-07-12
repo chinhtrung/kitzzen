@@ -7,11 +7,20 @@ var foodSchema = new mongoose.Schema({
     image: String,
     description: String,
     location: String,
-    lat: Number,
-    lng: Number,
-    createdAt: {type: Date, default: Date.now },
+    createdAt: { type: Date, default: Date.now },
+    geometry: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
     timestring: String,
-    seen: {type: Number, default: 0},
+    seen: { type: Number, default: 0 },
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
@@ -26,11 +35,11 @@ var foodSchema = new mongoose.Schema({
         }
     ],
     ratings: [
-      {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: "Rating"
-      }
-   ],
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Rating"
+        }
+    ],
     rating: { type: Number, default: 0 }
 });
 
