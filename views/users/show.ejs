@@ -40,7 +40,12 @@
 			<h1><%= user.firstName + " " + user.lastName %></h1>
 			<div class="thumbnail">
 				<img class="img-thumbnail" src="<%= user.avatar %>" alt="user profile image">
-				<div class="caption"><a href="mailto:<%= user.email %>"><i class="mail icon teal"></i><%= user.email %></a></div>
+				<!-- <div class="caption">
+					<a href="mailto:<%= //user.email %>"><i class="mail icon teal"></i><%= //user.email %></a>
+				</div> -->
+				<div class="caption">
+					<%=user.username%>
+				</div>
 			</div>
 			<%= user.description %>
 		</div>
