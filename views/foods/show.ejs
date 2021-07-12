@@ -10,84 +10,93 @@
             <div id="map" class="popup-thumbnail"></div>
             <% let findRating = currentUser? food.ratings.find(eachRating => eachRating.author.id == currentUser.id) : undefined; %>
             <% if (currentUser && findRating) {%>
-                <div class="ui raised segment">
-                    <h5>
-                        You (<%= findRating.author.username%>) reviewed this food post <%=findRating.rating%> <div class="ui star rating"><i class="icon active"></i></div>
-                    </h5>
-                    <p>
-                        "<%=findRating.review%>" <span class="date" style="display: inline; font-size: smaller;"> &nbsp - &nbsp <%= moment(findRating.createdAt).fromNow() %> ⏲️</span>
-                    </p>
-                    <form class="delete-form" action="/foods/<%=food._id %>/ratings/<%=findRating._id %>?_method=DELETE" method="POST">
-                        <input type="submit" class="ui mini icon button" value="Delete this review">
-                    </form>
+                <div class="popup-thumbnail" style="margin-top: 5%;">
+                    <div class="ui segment">
+                        <h5>
+                            You (<%= findRating.author.username%>) reviewed this food post <%=findRating.rating%> <div class="ui star rating"><i class="icon active"></i></div>
+                        </h5>
+                        <p>
+                            "<%=findRating.review%>" <span class="date" style="display: inline; font-size: smaller;"> &nbsp - &nbsp <%= moment(findRating.createdAt).fromNow() %> ⏲️</span>
+                        </p>
+                        <form class="delete-form" action="/foods/<%=food._id %>/ratings/<%=findRating._id %>?_method=DELETE" method="POST">
+                            <input type="submit" class="ui mini icon button" value="Delete this review">
+                        </form>
+                    </div>
                 </div>
             <%} else {%>
-                <div class="ui raised segment">
-                    <form action="/foods/<%= food._id %>/ratings" method="POST">
-                        <div>
-                            <label for="rating">Rate the food!</label>
-                            <fieldset class="starability-basic" id="rating">
-                              <input type="radio" id="first-rate5" name="rating[rating]" value="5" required/>
-                              <label for="first-rate5" title="Amazing">5 stars</label>
-                              <input type="radio" id="first-rate4" name="rating[rating]" value="4" required/>
-                              <label for="first-rate4" title="Very good">4 stars</label>
-                              <input type="radio" id="first-rate3" name="rating[rating]" value="3" required/>
-                              <label for="first-rate3" title="Average">3 stars</label>
-                              <input type="radio" id="first-rate2" name="rating[rating]" value="2" required/>
-                              <label for="first-rate2" title="Not good">2 stars</label>
-                              <input type="radio" id="first-rate1" name="rating[rating]" value="1" required/>
-                              <label for="first-rate1" title="Terrible">1 star</label>
-                            </fieldset>
-                        </div>
-                        <div class="form-group" style="position: relative;">
-                            <textarea class="form-control" name="rating[review]"
-                                placeholder='What do you think about the meal?&#10How to make it better?'
-                                cols="5" rows="5" id="textarea-rating" required></textarea>
-                            <span id="trigger-emoji-picker-rating" style="opacity: 0.6;">😄</span>
-                        </div>
-                        <div class="form-group hidden" id="emoji-picker-rating">
-                            <emoji-picker class="light"></emoji-picker>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-sm btn-primary">
-                                Submit rating!
-                            </button>
-                        </div>
-                    </form>
+                <div class="popup-thumbnail" style="margin-top: 5%;">
+                    <div class="ui segment">
+                        <form action="/foods/<%= food._id %>/ratings" method="POST">
+                            <div>
+                                <label for="rating">Rate the food!</label>
+                                <fieldset class="starability-basic" id="rating">
+                                  <input type="radio" id="first-rate5" name="rating[rating]" value="5" required/>
+                                  <label for="first-rate5" title="Amazing">5 stars</label>
+                                  <input type="radio" id="first-rate4" name="rating[rating]" value="4" required/>
+                                  <label for="first-rate4" title="Very good">4 stars</label>
+                                  <input type="radio" id="first-rate3" name="rating[rating]" value="3" required/>
+                                  <label for="first-rate3" title="Average">3 stars</label>
+                                  <input type="radio" id="first-rate2" name="rating[rating]" value="2" required/>
+                                  <label for="first-rate2" title="Not good">2 stars</label>
+                                  <input type="radio" id="first-rate1" name="rating[rating]" value="1" required/>
+                                  <label for="first-rate1" title="Terrible">1 star</label>
+                                </fieldset>
+                            </div>
+                            <div class="form-group" style="position: relative;">
+                                <textarea class="form-control" name="rating[review]"
+                                    placeholder='What do you think about the meal?&#10How to make it better?'
+                                    cols="5" rows="5" id="textarea-rating" required></textarea>
+                                <span id="trigger-emoji-picker-rating" style="opacity: 0.6;">😄</span>
+                            </div>
+                            <div class="form-group hidden" id="emoji-picker-rating">
+                                <emoji-picker class="light"></emoji-picker>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-primary">
+                                    Submit rating!
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             <%}%>
             
             <% if (food.ratings.length != 0 ) {%>
-                <div class="ui raised segment">
-                    <% let avgRating = food.ratings.reduce((acc, each) => acc + each.rating, 0) / food.ratings.length; %>
-                    <div class="form-group">
-                        This Food post has <%= avgRating.toFixed(1) %> <div class="ui star rating"><i class="icon active"></i></div> (total <%= food.ratings.length %> ratings)
-                    </div>
-                </div>
-                <div class="ui raised segment comments">
-                    <% for (let i = food.ratings.length - 1; i >= 0; i--) { let each = food.ratings[i];%>
-                    <div class="ui comment">
-                        <a class="avatar" href="/users/<%=each.author.id%>">
-                            <img class="header-avatar" src="<%=each.author.avatar%>">
-                        </a>
-                        <div class="content">
-                            <a class="author" href="/users/<%=each.author.id%>"><strong><%= each.author.username %></strong>
-                            </a> gives <%=each.rating%> <div class="ui star rating"><i class="icon active"></i></div>
-                            <div class="metadata">
-                                <span class="date"><%= moment(each.createdAt).fromNow() %></span>
-                            </div>
-                            <div class="text">
-                                <%= each.review %>
-                            </div>
+                <div class="popup-thumbnail" style="margin-top: 5%;">
+                    <div class="ui segment">
+                        <% let avgRating = food.ratings.reduce((acc, each) => acc + each.rating, 0) / food.ratings.length; %>
+                        <div class="form-group">
+                            This Food post has <%= avgRating.toFixed(1) %> <div class="ui star rating"><i class="icon active"></i></div> (total <%= food.ratings.length %> ratings)
                         </div>
                     </div>
-                    <%}%>
                 </div>
-                
+                <div class="popup-thumbnail" style="margin-top: 5%;">
+                    <div class="ui segment comments">
+                        <% for (let i = food.ratings.length - 1; i >= 0; i--) { let each = food.ratings[i];%>
+                        <div class="ui comment">
+                            <a class="avatar" href="/users/<%=each.author.id%>">
+                                <img class="header-avatar" src="<%=each.author.avatar%>">
+                            </a>
+                            <div class="content">
+                                <a class="author" href="/users/<%=each.author.id%>"><strong><%= each.author.username %></strong>
+                                </a> gives <%=each.rating%> <div class="ui star rating"><i class="icon active"></i></div>
+                                <div class="metadata">
+                                    <span class="date"><%= moment(each.createdAt).fromNow() %></span>
+                                </div>
+                                <div class="text">
+                                    <%= each.review %>
+                                </div>
+                            </div>
+                        </div>
+                        <%}%>
+                    </div>
+                </div>
             <%} else {%>
-                <div class="ui raised segment">
-                    <div class="form-group">
-                        Be the first to review this food post!
+                <div class="popup-thumbnail">
+                    <div class="ui segment">
+                        <div class="form-group">
+                            Be the first to review this food post!
+                        </div>
                     </div>
                 </div>
             <%}%>
@@ -110,7 +119,8 @@
                     <% }%>
                 </div>
             </div>
-            <div style="margin-top:10%" class="ui threaded comments">
+
+            <div class="ui threaded comments">
                 <div class="ui dividing header" id="comment-total">
                     <h5>COMMENTS ﹣ <%= food.comments.length%></h5>
                 </div>
