@@ -39,17 +39,18 @@ const showAll = (req, res) => {
 
 // CREATE - add new food to DB
 const postCreateFood = async (req, res) => {
-    const geoData = await geocoder.forwardGeocode({
-        query: req.body.location,
-        limit: 1
-    }).send();
     const name = req.body.name;
     const price = req.body.price;
     const desc = req.body.description;
+    const location = req.body.location;
     const author = {
         id: req.user._id,
         username: req.user.username
     };
+    const geoData = await geocoder.forwardGeocode({
+        query: location,
+        limit: 1
+    }).send();
     cloudinary.uploader.upload(req.file.path, (result) => {
         // add cloudinary url for the image to the food object under image property
         const image = result.secure_url;
@@ -58,6 +59,7 @@ const postCreateFood = async (req, res) => {
             image: image,
             description: desc,
             price: price,
+            location: location,
             author: author,
             geometry: geoData.body.features[0].geometry // take the first result on map of features
         };
