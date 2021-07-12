@@ -3,11 +3,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            <div class="list-group">
+            <div class="list-group popup-thumbnail">
                 <li class="list-group-item active">Food Info</li>
                 <li class="list-group-item"><a href="/users/<%= food.author.id %>">About Chef</a></li>
             </div>
-            <div id="map"></div>
+            <div id="map" class="popup-thumbnail"></div>
             <% let findRating = currentUser? food.ratings.find(eachRating => eachRating.author.id == currentUser.id) : undefined; %>
             <% if (currentUser && findRating) {%>
                 <div class="ui raised segment">
@@ -40,7 +40,6 @@
                             </fieldset>
                         </div>
                         <div class="form-group" style="position: relative;">
-                            <!-- <label for="review">Please have a review to help our chef improve</label> -->
                             <textarea class="form-control" name="rating[review]"
                                 placeholder='What do you think about the meal?&#10How to make it better?'
                                 cols="5" rows="5" id="textarea-rating" required></textarea>
@@ -173,34 +172,10 @@
     </div>
 </div>
 
-<!-- <script>
-  function initMap() {
-    var lat = <%= food.lat %>;
-    var lng = <%= food.lng %>;
-    var center = {lat: lat, lng: lng };
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 8,
-        center: center,
-        scrollwheel: false
-    });
-    var contentString = `
-      <strong><%= food.name %><br />
-      <%= food.location %></strong>
-      <p><%= food.description %></p>
-    `
-    var infowindow = new google.maps.InfoWindow({
-      content: contentString
-    });
-    var marker = new google.maps.Marker({
-        position: center,
-        map: map
-    });
-    marker.addListener('click', function() {
-      infowindow.open(map, marker);
-    });
-  }
+<!-- custom script to pass variable from ejs to client side js -->
+<script>
+    const mapToken = "<%-process.env.MAPBOX_TOKEN%>";
+    const thisFood = <%- JSON.stringify(food) %>;
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwEU_CO0VYBQNtOxdlRoMIjAkoKIATabg&callback=initMap"></script> -->
-
 
 <% include ../partials/footer %>
