@@ -164,7 +164,7 @@ const foods = [
 const addOnFoods = () => {
     foods.forEach((each) => {
         each["location"] = "this location";
-        each["geometry"] = Math.round(Math.random() * (dummyLocationGeo.length - 1));
+        each["geometry"] = dummyLocationGeo[Math.round(Math.random() * (dummyLocationGeo.length - 1))];
     })
 }
 
@@ -191,7 +191,7 @@ const seedDB = async () => {
         console.log("removed ratings!");
     });
 
-    await addOnFoods();
+    addOnFoods();
 
     // add seeds
     foods.forEach((seed) => {
