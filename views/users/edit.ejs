@@ -61,9 +61,14 @@
        	        <input class="form-control" type="password" name="isadmin" id="isadmin">
             </div>
             <div class="form-group">
-                <label for="description">Description</label>
-                <textarea name="description" id="description"><%= user.description%></textarea>
-   	        </div>
+				<label for="textarea-description">Description</label>
+				<textarea class="form-control" type="text" name="description" id="textarea-description" rows="7"
+					cols="12"><%= user.description%></textarea>
+				<span id="trigger-emoji-picker-description" style="opacity: 0.6; cursor: pointer;">😄</span>
+				<div class="form-group hidden" id="emoji-picker-description">
+					<emoji-picker class="light"></emoji-picker>
+				</div>
+			</div>
 </form>
    	        <div>
    	        	<a class="ui button" href="/forgot"><i class="undo icon"></i> Change Password</a>
