@@ -8,7 +8,7 @@ var UserSchema = mongoose.Schema({
     cloudinaryID: String,
     firstName: String,
     lastName: String,
-    description: { type: String, default: "Hi, I have a dream to let everyone get to know my foods and enjoy them. Here I find the easiest way to do it. I don't need to open my own restaurant or skipping my current job. Thanks kitzzen!!!" },
+    description: { type: String, default: "Hi, I have a dream to let everyone get to know my foods and enjoy them. Here I find the easiest way to do it. I don't need to open my own restaurant or skipping my current job. Thanks kitzzen!!! 😄👏👏" },
     email: { type: String, unique: true, required: true },
     resetPasswordToken: String,
     resetPasswordExpires: Date,
