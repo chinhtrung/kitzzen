@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const Food = require("../models/food");
 const async = require("async");
+const passport = require("passport");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const { cloudinary } = require("../cloudinary");
@@ -27,9 +28,6 @@ const postRegister = (req, res) => {
         email: req.body.email,
         avatar: req.body.avatar
     });
-    if (req.body.adminCode === process.env.ADMIN_CODE) {
-        newUser.isAdmin = true;
-    }
     User.register(newUser, req.body.password, (err, user) => {
         if (err) {
             req.flash("error", err.message + " or the email address may have been used by a different user");
@@ -244,7 +242,9 @@ const updateUserProfile = async (req, res) => {
         cloudinaryID: cloudinaryID
     }, (err) => {
         if (err) {
-            req.flash("error", err.message);
+            console.log(err.message);
+            req.flash("error", `Can not change email to ${email} since it has been registered by a different user`);
+            res.redirect("/users/" + req.params.id + "/edit");
         } else {
             req.flash("success", "Successfully update your user profile");
             res.redirect("/users/" + req.params.id);
