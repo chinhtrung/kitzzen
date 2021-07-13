@@ -27,7 +27,6 @@
                     <div class="caption">
                         <h3><%= each.name %></h3>
                         <h5><strong>$ <%= each.price %></strong> by <a href="/users/<%= each.author.id %>"> <%= each.author.username %></a>, <%= each.timestring %></h5>
-                        <h5><%= each.location %></h5>
                         <hr class="style13">
                         <p><%= each.description.slice(0,100) %>...</p>
                         <p>
@@ -35,8 +34,6 @@
                                 <form style="display: inline-block" action="/foods/addview/<%=each._id%>?_method=PUT" method="POST">
                                     <%   each.timestring = moment(each.createdAt).fromNow();%>
                                     <input class="hide" name="datelist" value="<%= each.timestring %>">
-                                    
-                                    <!--<button class="ui primary basic button">View</button>-->
                                     <div class="ui primary labeled button" tabindex="0">
                                       <button class="ui basic primary button">
                                         <i class="book icon"></i> View
