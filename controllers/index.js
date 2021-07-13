@@ -3,6 +3,7 @@ const Food = require("../models/food");
 const async = require("async");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const { cloudinary } = require("../cloudinary");
 
 // root route
 const rootRoute = (req, res) => {
@@ -208,24 +209,40 @@ const editUserProfile = (req, res) => {
 }
 
 // UPDATE USER PROFILE
-const updateUserProfile = (req, res) => {
+const updateUserProfile = async (req, res) => {
     const lastname = req.body.lastname;
     const firstname = req.body.firstname;
-    const avatar = req.body.avatar;
     const email = req.body.email;
     const description = req.body.description;
+
     let isAdmin = false;
     if (req.body.isadmin === process.env.ADMIN_CODE) {
         isAdmin = true;
     }
+    let avatar = req.body.prevAvatar;
+    let cloudinaryID = req.body.cloudinaryID;
+
+    if (req.file) {
+        // Delete avatar from cloudinary
+        try {
+            await cloudinary.uploader.destroy(cloudinaryID);
+        } catch (err) { console.log(err) }
+        // Upload avatar to cloudinary
+        await cloudinary.uploader.upload(req.file.path, (result) => {
+            avatar = result.secure_url;
+            cloudinaryID = result.public_id;
+        });
+    }
+
     User.findByIdAndUpdate(req.params.id, {
         lastName: lastname,
         firstName: firstname,
         avatar: avatar,
         email: email,
         description: description,
-        isAdmin: isAdmin
-    }, (err, thisUser) => {
+        isAdmin: isAdmin,
+        cloudinaryID: cloudinaryID
+    }, (err) => {
         if (err) {
             req.flash("error", err.message);
         } else {
@@ -250,14 +267,18 @@ const deleteUserAccount = (req, res) => {
                         }
                     });
                 });
-                Food.find({}, (err, allCamp) => {
+                Food.find({}, (err, allFood) => {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log(allCamp);
+                        console.log(allFood);
                     }
                 });
-                User.findByIdAndRemove(req.params.id, (err) => {
+                User.findByIdAndRemove(req.params.id, async (err, resultUser) => {
+                    // Delete image from cloudinary
+                    try {
+                        await cloudinary.uploader.destroy(resultUser.cloudinaryID);
+                    } catch (err) { console.log(err) }
                     if (err) {
                         req.flash("error", err.message);
                         res.redirect("back");
