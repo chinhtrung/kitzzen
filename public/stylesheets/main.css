@@ -1,5 +1,9 @@
 /* Sticky footer styles
 -------------------------------------------------- */
+.container {
+  width: 75%;
+}
+
 #trigger-emoji-picker-rating {
   position: absolute;
   left: 0.5em;
