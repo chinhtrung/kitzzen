@@ -41,6 +41,12 @@ var foodSchema = new mongoose.Schema({
             ref: "Rating"
         }
     ],
+    yums : [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
     rating: { type: Number, default: 0 }
 });
 
