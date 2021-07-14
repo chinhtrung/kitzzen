@@ -1,5 +1,7 @@
 const User = require("../models/user");
 const Food = require("../models/food");
+const Comment = require("../models/comment");
+const Rating = require("../models/rating");
 const async = require("async");
 const passport = require("passport");
 const nodemailer = require("nodemailer");
@@ -253,44 +255,62 @@ const updateUserProfile = async (req, res) => {
 }
 
 // DESTROY USER ACCOUNT
-const deleteUserAccount = (req, res) => {
+const deleteUserAccount = async (req, res) => {
     if (req.params.id === req.body.deleteId) {
         Food.find().where('author.id').equals(req.params.id).exec((err, resultFoods) => {
-            if (err) {
-                req.flash("error", err.message);
-                res.redirect("/foods");
-            } else {
-                resultFoods.forEach((food) => {
-                    Food.findByIdAndRemove(food._id, (err) => {
-                        if (err) {
-                            req.flash("error", err.message);
-                        }
-                    });
-                });
-                Food.find({}, (err, allFood) => {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log(allFood);
-                    }
-                });
-                User.findByIdAndRemove(req.params.id, async (err, resultUser) => {
-                    // Delete image from cloudinary
-                    try {
-                        await cloudinary.uploader.destroy(resultUser.cloudinaryID);
-                    } catch (err) { console.log(err) }
+            resultFoods.forEach(async (food) => {
+                // Delete image from cloudinary
+                try {
+                    await cloudinary.uploader.destroy(food.cloudinaryID);
+                } catch (err) { console.log(err) }
+
+                await Food.findByIdAndRemove(food._id, (err) => {
                     if (err) {
                         req.flash("error", err.message);
-                        res.redirect("back");
-                    } else {
-                        req.flash("Success", "successfully remove account");
                         res.redirect("/foods");
                     }
                 });
+            });
+        });
+
+        Comment.find().where('author.id').equals(req.params.id).exec((err, resultComments) => {
+            resultComments.forEach(async (comment) => {
+                await Comment.findByIdAndRemove(comment._id, (err) => {
+                    if (err) {
+                        req.flash("error", err.message);
+                        res.redirect("/foods");
+                    }
+                });
+            });
+        });
+
+        Rating.find().where('author.id').equals(req.params.id).exec((err, resultRatings) => {
+            resultRatings.forEach(async (rating) => {
+                await Rating.findByIdAndRemove(rating._id, (err) => {
+                    if (err) {
+                        req.flash("error", err.message);
+                        res.redirect("/foods");
+                    }
+                });
+            });
+        });
+
+        User.findByIdAndRemove(req.params.id, async (err, resultUser) => {
+            // Delete image from cloudinary
+            try {
+                await cloudinary.uploader.destroy(resultUser.cloudinaryID);
+            } catch (err) { console.log(err) }
+
+            if (err) {
+                req.flash("error", err.message);
+                res.redirect("back");
+            } else {
+                req.flash("Success", "successfully remove account");
+                res.redirect("/foods");
             }
         });
     } else {
-        req.flash("success", "Please type in the right id to perform deleting action");
+        req.flash("error", "Please type in the right id to perform deleting action");
         res.redirect("back");
     }
 }
