@@ -2,7 +2,7 @@
 
 <div class="container">
     <header class="jumbotron">
-        <div class="container">
+        <div class="container" style="width: inherit;">
             <h1><i class="utensils icon"></i>Welcome to Kitzzen!</h1>
             <p>Choose your favor from our latest Food post and come pick it up</p>
             <p>
@@ -27,21 +27,42 @@
                     <div class="caption">
                         <h3><%= each.name %></h3>
                         <h5><strong>$ <%= each.price %></strong> by <a href="/users/<%= each.author.id %>"> <%= each.author.username %></a>, <%= each.timestring %></h5>
+                        <div class="content">
+                          <span style="float: right;">
+                            <% if (each.rating.toFixed(1) == 0) {%>
+                              <%= each.rating.toFixed(1) %> <i class="star outline icon"></i>
+                            <% } else {%>
+                              <%= each.rating.toFixed(1) %> <div class="ui star rating"><i class="icon active"></i></div>
+                            <% } %>
+                            (<%= each.ratings.length %> <i class="user outline icon"></i>)
+                          </span>
+                          <i class="fas fa-comment-alt"></i> </i> &nbsp; <%= each.comments.length %>
+                        </div>
                         <hr class="style13">
-                        <p><%= each.description.slice(0,100) %>...</p>
+                        <p><%= each.description.slice(0,120) %>...</p>
                         <p>
                             <div>
-                                <form style="display: inline-block" action="/foods/addview/<%=each._id%>?_method=PUT" method="POST">
+                                <form style="display: inline" action="/foods/addview/<%=each._id%>?_method=PUT" method="POST">
                                     <%   each.timestring = moment(each.createdAt).fromNow();%>
-                                    <input class="hide" name="datelist" value="<%= each.timestring %>">
-                                    <div class="ui primary labeled button" tabindex="0">
-                                      <button class="ui basic primary button">
-                                        <i class="book icon"></i> View
+                                    <input class="hidden" name="datelist" value="<%= each.timestring %>">
+                                    <div class="ui mini primary labeled button" tabindex="0">
+                                      <button class="ui mini basic primary button">
+                                        <i class="fas fa-eye"></i> &nbsp; View
                                       </button>
                                       <div class="ui basic blue left pointing label">
                                         <%= each.seen %>
                                       </div>
                                     </div>
+                                </form>
+                                <form style="display: inline" action="/foods/addyum/<%=each._id%>" method="POST">
+                                  <div class="ui mini green labeled button" tabindex="0">
+                                    <button class="ui mini basic green button">
+                                      <i class="utensils icon"></i> Yum
+                                    </button>
+                                    <div class="ui basic green left pointing label">
+                                      <%= each.yums.length%>
+                                    </div>
+                                  </div>
                                 </form>
                             </div>
                         </p>
