@@ -6,17 +6,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>kitzzen: Bring your cook skills everywhere</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/projectstore/image/upload/v1626381143/logo/cook_logo_square_1.png">
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.js"></script>
   <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
   <!-- mapbox direction setup -->
-  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
-  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css">
+  <script
+    src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+  <link rel="stylesheet"
+    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css"
+    type="text/css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="/stylesheets/main.css">
   <link rel="stylesheet" href="/stylesheets/starability-basic.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+    integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
 </head>
@@ -33,27 +38,45 @@
           <span class="icon-bar"></span>
         </button>
 
-        <a class="navbar-brand" href="/">Kitzzen</a>
+
+        <a class="navbar-brand navbar-logo" href="/">
+          <!-- Kitzzen -->
+          <div>
+            <img style="max-width: 100px; margin-top: -1%;"
+              src="https://res.cloudinary.com/projectstore/image/upload/v1626381144/logo/logo_full_1.png">
+          </div>
+        </a>
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li class="<%= typeof page !== 'undefined' && page === 'foods' ? 'active' : '' %>"><a href="/foods">Home</a>
+          <li class="<%= typeof page !== 'undefined' && page === 'foods' ? 'active' : '' %>"><a href="/foods"><i
+                class="fas fa-home fa-2x"></i></a>
           </li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right" style="font-size:15px;">
           <% if(!currentUser){ %>
-            <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>"><a
-                href="/login">Login</a></li>
-            <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>"><a
-                href="/register">Sign Up</a></li>
+            <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>">
+              <a href="/login" style="padding-right: 0;">
+                <button class="ui blue basic button">Sign In</button>
+              </a>
+            </li>
+            <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>">
+              <a href="/register" style="padding-left: 0;">
+                <button class="ui green basic button">Register an account!</button>
+              </a>
+            </li>
             <% } else { %>
               <li>
-                <a style="font-size:15px;padding-top:10.1px;" class="navbar-brand" href="/users/<%=currentUser._id %>">
+                <a class="navbar-brand" style="padding-right: 0;" href="/users/<%=currentUser._id %>">
                   <img style="display:inline-block;" class="header-avatar" src="<%= currentUser.avatar%>">
                   <%= currentUser.username %>
                 </a>
               </li>
-              <li><a class="nav navbar-nav" href="/logout">Logout</a></li>
+              <li>
+                <a class="nav navbar-nav" href="/logout">
+                  <button class="ui red basic button">Sign out</button>
+                </a>
+              </li>
               <% } %>
         </ul>
       </div>
