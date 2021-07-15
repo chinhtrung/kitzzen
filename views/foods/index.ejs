@@ -20,7 +20,7 @@
     </header>
     <div class="row " style="display: flex; flex-wrap: wrap; margin-top: 25px;" id="food-grid">
         <% for(let i = foods.length - 1; i >= 0; i--) {let each = foods[i];%>
-            <div class="food-post col-lg-3 col-md-4 col-sm-6" id="food-id-<%=each.id%>">
+            <div class="food-post col-md-4 col-sm-6" id="food-id-<%=each.id%>">
                 <div class="thumbnail popup-thumbnail">
                     <% each.timestring = moment(each.createdAt).fromNow()%>
                     <img src=<%= each.image %>>
@@ -45,8 +45,8 @@
                                 <form style="display: inline" action="/foods/addview/<%=each._id%>?_method=PUT" method="POST">
                                     <%   each.timestring = moment(each.createdAt).fromNow();%>
                                     <input class="hidden" name="datelist" value="<%= each.timestring %>">
-                                    <div class="ui mini primary labeled button" tabindex="0">
-                                      <button class="ui mini basic primary button">
+                                    <div class="ui small primary labeled button" tabindex="0">
+                                      <button class="ui small basic primary button">
                                         <i class="fas fa-eye"></i> &nbsp; View
                                       </button>
                                       <div class="ui basic blue left pointing label">
@@ -61,13 +61,13 @@
                                       isCurrUserYum = true;
                                     }
                                   })%>
-                                  <div class="ui mini red labeled button" tabindex="0">
+                                  <div class="ui small red labeled button" tabindex="0">
                                     <%if (isCurrUserYum) {%>
-                                      <button class="ui mini red button">
+                                      <button class="ui small red button">
                                         <i class="utensils icon"></i> Yum
                                       </button>
                                     <%} else {%>
-                                      <button class="ui mini basic red button">
+                                      <button class="ui small basic red button">
                                         <i class="utensils icon"></i> Yum
                                       </button>
                                     <%}%>
