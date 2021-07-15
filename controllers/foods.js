@@ -213,6 +213,39 @@ const deleteFood = (req, res) => {
     });
 }
 
+// UPDATE YUM STATUS
+const addYum = (req, res) => {
+    Food.findById(req.params.id, async (err, resultFood) => {
+        const updateFoodDb = (newYumArr) => {
+            Food.findByIdAndUpdate(
+                req.params.id, 
+                { yums: newYumArr },
+                err => {
+                    if (err) {
+                        console.log(err.message);
+                    } else {
+                        res.redirect("/foods" + `#food-id-${req.params.id}`);
+                    }
+                }
+            );
+        }
+
+        let foodYums = resultFood.yums;
+        let isSpliced = false;
+
+        for (let i = 0; i < foodYums.length; i++) {
+            if (foodYums[i].equals(req.user._id)) {
+                await foodYums.splice(i, 1);
+                isSpliced = true;
+            }
+        }
+        if (!isSpliced) {
+            await foodYums.push(req.user);
+        }
+        updateFoodDb(foodYums);
+    });
+}
+
 module.exports = {
     showAll,
     postCreateFood,
@@ -221,5 +254,6 @@ module.exports = {
     editFood,
     addView,
     updateFood,
-    deleteFood
+    deleteFood,
+    addYum
 }
