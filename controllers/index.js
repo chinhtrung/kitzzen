@@ -50,7 +50,7 @@ const getLogin = (req, res) => {
 // logout route
 const logout = (req, res) => {
     req.logout();
-    req.flash("success", "Success, you are logged out!");
+    req.flash("success", "Success, you are signed out!");
     res.redirect("/foods");
 }
 
