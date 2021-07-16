@@ -21,6 +21,7 @@ const showAll = (req, res) => {
                 res.status(200).json(resultFood);
             }
         });
+        console.log("Do you ever get call 😢");
     } else {
         // Get all foods from DB
         Food.find({}, (err, resultFood) => {
@@ -62,7 +63,8 @@ const postCreateFood = async (req, res) => {
             price: price,
             location: location,
             author: author,
-            geometry: geoData.body.features[0].geometry // take the first result on map of features
+            geometry: geoData.body.features[0].geometry, // take the first result on map of features
+            matchingPlaceName: geoData.body.features[0].matching_place_name
         };
         // create a new food post and save to DB
         Food.create(newFood, (err) => {
@@ -162,6 +164,7 @@ const updateFood = async (req, res) => {
         limit: 1
     }).send();
     const geometry = geoData.body.features[0].geometry; // take the first result on map of features
+    const matchingPlaceName = geoData.body.features[0].matching_place_name;
     let image = req.body.prevImage;
     let cloudinaryID = req.body.cloudinaryID;
 
@@ -184,6 +187,7 @@ const updateFood = async (req, res) => {
         price: price,
         location: location,
         geometry: geometry,
+        matchingPlaceName: matchingPlaceName,
         cloudinaryID: cloudinaryID
     }, (err, resultFood) => {
         if (err) {
@@ -218,7 +222,7 @@ const addYum = (req, res) => {
     Food.findById(req.params.id, async (err, resultFood) => {
         const updateFoodDb = (newYumArr) => {
             Food.findByIdAndUpdate(
-                req.params.id, 
+                req.params.id,
                 { yums: newYumArr },
                 err => {
                     if (err) {
