@@ -20,7 +20,7 @@ var foodSchema = new mongoose.Schema({
             required: true
         }
     },
-    matching_place_name: String,
+    matchingPlaceName: String,
     timestring: String,
     seen: { type: Number, default: 0 },
     author: {
