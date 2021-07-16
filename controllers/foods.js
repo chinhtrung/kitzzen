@@ -21,7 +21,6 @@ const showAll = (req, res) => {
                 res.status(200).json(resultFood);
             }
         });
-        console.log("Do you ever get call 😢");
     } else {
         // Get all foods from DB
         Food.find({}, (err, resultFood) => {
