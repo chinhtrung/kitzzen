@@ -3,10 +3,12 @@
 <div class="container">
     <header class="jumbotron">
         <div class="container" style="width: inherit;">
-            <h1><i class="utensils icon"></i>Welcome to Kitzzen!</h1>
+            <h1>
+              <i class="utensils icon"></i>Welcome to Kitzzen!
+            </h1>
             <p>Choose your favor from our latest Food post and come pick it up</p>
             <p>
-                <a class="btn btn-primary btn-lg" href="/foods/new">Add new Food post</a>
+                <a class="huge ui primary button" href="/foods/new"> <i class="plus icon"></i> Add new Food post</a>
             </p>
             <p>
               <form action="/foods" method="GET" class="form-inline" id="food-search">
@@ -64,11 +66,11 @@
                                   <div class="ui small red labeled button" tabindex="0">
                                     <%if (isCurrUserYum) {%>
                                       <button class="ui small red button">
-                                        <i class="utensils icon"></i> Yum
+                                        <i class="heart icon"></i> Yum
                                       </button>
                                     <%} else {%>
                                       <button class="ui small basic red button">
-                                        <i class="utensils icon"></i> Yum
+                                        <i class="heart icon"></i> Yum
                                       </button>
                                     <%}%>
                                     <div class="ui basic red left pointing label">
