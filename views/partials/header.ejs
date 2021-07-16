@@ -24,11 +24,16 @@
     integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css"
     href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+
+  <!-- inject env var to js -->
+  <script>
+    const mapToken = "<%-process.env.MAPBOX_TOKEN%>";
+  </script>
 </head>
 
 <body>
   <nav class="navbar navbar-default">
-    <div class="container">
+    <div>
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
           aria-expanded="false" aria-controls="navbar">
@@ -37,7 +42,6 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-
 
         <a class="navbar-brand navbar-logo" href="/">
           <!-- Kitzzen -->
@@ -62,7 +66,7 @@
             </li>
             <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>">
               <a href="/register" style="padding-left: 0;">
-                <button class="ui green basic button">Register an account!</button>
+                <button class="ui green basic button">Create an account!</button>
               </a>
             </li>
             <% } else { %>
