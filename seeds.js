@@ -7,19 +7,23 @@ require('dotenv').load();
 
 const userOne = {
     username: process.env.USER_ONE,
-    id: process.env.USER_ONE_ID
+    id: process.env.USER_ONE_ID,
+    avatar: process.env.USER_ONE_AVATAR
 };
 const userTwo = {
     username: process.env.USER_TWO,
-    id: process.env.USER_TWO_ID
+    id: process.env.USER_TWO_ID,
+    avatar: process.env.USER_TWO_AVATAR
 };
 const userThree = {
     username: process.env.USER_THREE,
-    id: process.env.USER_THREE_ID
+    id: process.env.USER_THREE_ID,
+    avatar: process.env.USER_THREE_AVATAR
 };
 const userFour = {
     username: process.env.USER_FOUR,
-    id: process.env.USER_FOUR_ID
+    id: process.env.USER_FOUR_ID,
+    avatar: process.env.USER_FOUR_AVATAR
 };
 const userFive = {
     username: process.env.USER_FIVE,
@@ -165,6 +169,7 @@ const addOnFoods = () => {
     foods.forEach((each) => {
         each["location"] = "this location";
         each["geometry"] = dummyLocationGeo[Math.round(Math.random() * (dummyLocationGeo.length - 1))];
+        each["matchingPlaceName"] = "your location will be here";
     })
 }
 
