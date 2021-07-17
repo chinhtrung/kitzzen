@@ -25,17 +25,13 @@
             <div class="food-post col-md-4 col-sm-6" id="food-id-<%=each.id%>">
                 <div class="thumbnail popup-thumbnail">
                     <% each.timestring = moment(each.createdAt).fromNow()%>
+                    <div class="caption">
+                      <div style="float: right;"><%= each.timestring %></div>
+                      <img class="ui avatar image" src="<%=each.author.avatar%>"> <a href="/users/<%= each.author.id %>"> <%= each.author.username %></a>
+                    </div>
                     <img src=<%= each.image %>>
                     <div class="caption">
-                        <h2>
-                          <%= each.name %>
-                        </h2>
-                        <img class="ui avatar image" src="<%=each.author.avatar%>"> <%= each.author.username %>
-                        <h4>
-                          <strong>$ <%= each.price %></strong> by <a href="/users/<%= each.author.id %>"> <%= each.author.username %></a>, 
-                          <%= each.timestring %>
-                        </h4>
-                        
+                        <h4><i class="fas fa-map-marker-alt"></i> <%= each.matchingPlaceName%></h4>
                         <div class="content">
                           <span style="float: right;">
                             <% if (each.rating.toFixed(1) == 0) {%>
@@ -45,15 +41,16 @@
                             <% } %>
                             (<%= each.ratings.length %> <i class="user outline icon"></i>)
                           </span>
-                          <i class="fas fa-comment-alt"></i> </i> &nbsp; <%= each.comments.length %>, &nbsp;
-                          <% if(each.matchingPlaceName) { %>
-                            <h6 style="display: inline;">
-                              <i class="fas fa-map-marker-alt"></i> <%= each.matchingPlaceName%>
-                            </h6>
-                          <% } %>
+                          <i class="fas fa-comment-alt"></i> </i> &nbsp; <%= each.comments.length %>
                         </div>
-                        <hr class="style13">
+
+                        <hr class="style1">
+                        <span style="float: right;">
+                          <i class="fas fa-dollar-sign"></i> <strong><%= each.price %></strong>
+                        </span>
+                        <h2><%= each.name %></h2>
                         <p><%= each.description.slice(0,120) %>...</p>
+
                         <p>
                             <div>
                                 <form style="display: inline" action="/foods/addview/<%=each._id%>?_method=PUT" method="POST">
