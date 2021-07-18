@@ -109,8 +109,33 @@
                     <h2><a><%= food.name%></a></h2>
                     <h4><%= food.description %></h4>
                     <p>
+                        <em><i class="fas fa-map-marker-alt"></i> <%= food.matchingPlaceName%></em>
+                    </p>
+                    <p>
                         <em>Posted by <a href="/users/<%= food.author.id %>"><%=food.author.username %></a>, <%= moment(food.createdAt).fromNow() %></em>
                     </p>
+                    <form style="display: inline" action="/foods/addyum/<%=food._id%>" method="POST">
+                        <% let isCurrUserYum = false; 
+                          food.yums.forEach(yumAuthor => {
+                          if (currentUser && yumAuthor.equals(currentUser._id)) {
+                            isCurrUserYum = true;
+                          }
+                        })%>
+                        <div class="ui small red labeled button" tabindex="0">
+                          <%if (isCurrUserYum) {%>
+                            <button class="ui small red button">
+                              <i class="heart icon"></i> Yum
+                            </button>
+                          <%} else {%>
+                            <button class="ui small basic red button">
+                              <i class="heart icon"></i> Yum
+                            </button>
+                          <%}%>
+                          <div class="ui basic red left pointing label">
+                            <%= food.yums.length%>
+                          </div>
+                        </div>
+                    </form>
                     <% if(currentUser && food.author.id && food.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin === true){ %>
                         <a class="btn btn-xs btn-warning" href="/foods/<%= food._id%>/edit">Edit</a>
                         <form class="delete-form" action="/foods/<%= food._id %>?_method=DELETE" method="POST">
