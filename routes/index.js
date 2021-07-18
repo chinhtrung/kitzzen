@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const middleware = require("../middleware");
-const {upload} = require("../cloudinary");
+const { upload } = require("../cloudinary");
 const index = require("../controllers/index");
 
 router.get("/", index.rootRoute);
