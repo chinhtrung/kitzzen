@@ -162,8 +162,9 @@ const updateFood = async (req, res) => {
         query: location,
         limit: 1
     }).send();
-    const geometry = geoData.body.features[0].geometry; // take the first result on map of features
-    const matchingPlaceName = geoData.body.features[0].matching_place_name;
+    const firstMapSearch = geoData.body.features[0]; // take the first result on map of features
+    const geometry = firstMapSearch.geometry;
+    const matchingPlaceName = firstMapSearch.matching_place_name || firstMapSearch.place_name;
     let image = req.body.prevImage;
     let cloudinaryID = req.body.cloudinaryID;
 
