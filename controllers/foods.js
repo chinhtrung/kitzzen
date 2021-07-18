@@ -51,6 +51,10 @@ const postCreateFood = async (req, res) => {
         query: location,
         limit: 1
     }).send();
+    const firstMapSearch = geoData.body.features[0]; // take the first result on map of features
+    const geometry = firstMapSearch.geometry;
+    const matchingPlaceName = firstMapSearch.matching_place_name || firstMapSearch.place_name;
+
     cloudinary.uploader.upload(req.file.path, (result) => {
         // add cloudinary url for the image to the food object under image property
         const image = result.secure_url;
@@ -62,8 +66,8 @@ const postCreateFood = async (req, res) => {
             price: price,
             location: location,
             author: author,
-            geometry: geoData.body.features[0].geometry, // take the first result on map of features
-            matchingPlaceName: geoData.body.features[0].matching_place_name
+            geometry: geometry,
+            matchingPlaceName: matchingPlaceName
         };
         // create a new food post and save to DB
         Food.create(newFood, (err) => {
@@ -228,7 +232,8 @@ const addYum = (req, res) => {
                     if (err) {
                         console.log(err.message);
                     } else {
-                        res.redirect("/foods" + `#food-id-${req.params.id}`);
+                        let backURL = req.header('Referer') || '/';
+                        res.redirect(backURL + `#food-id-${req.params.id}`);
                     }
                 }
             );
