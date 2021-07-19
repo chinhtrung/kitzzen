@@ -1,0 +1,272 @@
+@keyframes circle-move {
+    0% {
+        offset-distance: 0%;
+        visibility:hidden;
+    }
+    15% {
+        offset-distance: 0%;
+        visibility:hidden;
+    }
+    55% {
+        offset-distance: 0%;
+        visibility:hidden;
+    }
+    100% {
+        offset-distance: 100%;
+    }
+}
+
+@keyframes triangle-pan-move {
+    0% {
+        offset-distance: 0%;
+    }
+    50% {
+        offset-distance: 100%;
+        visibility:hidden;
+    }
+    100% {
+        offset-distance: 100%;
+        visibility:hidden;
+    }
+}
+
+@keyframes triangle-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes triangle-move {
+    0% {
+        offset-distance: 0%;
+        visibility:hidden;
+    }
+    15% {
+        offset-distance: 0%;
+        visibility:hidden;
+    }
+    53% {
+        offset-distance: 2%;
+        visibility:hidden;
+    }
+    100% {
+        offset-distance: 100%;
+    }
+}
+
+@keyframes square-pan-move {
+    0% {
+        offset-distance: 0%;
+    }
+    50% {
+        offset-distance: 100%;
+        visibility:hidden;
+    }
+    100% {
+        offset-distance: 100%;
+        visibility:hidden;
+    }
+}
+
+@keyframes square-pan-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-180deg);
+    }
+}
+
+@keyframes square-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes square-move {
+    0% {
+        offset-distance: 0%;
+        visibility:hidden;
+    }
+    15% {
+        offset-distance: 0%;
+        visibility:hidden;
+    }
+    55% {
+        offset-distance: 4%;
+        visibility:hidden;
+    }
+    100% {
+        offset-distance: 100%;
+    }
+}
+
+@keyframes saucepan-rotate {
+    0% {
+        transform: rotate(-5deg);
+        transform-origin: top right;
+    }
+    50% {
+        transform: rotate(-20deg);
+        transform-origin: top right;
+    }
+    60% {
+        transform: rotate(20deg);
+        transform-origin: top right;
+    }
+    100% {
+        transform: rotate(-5deg);
+        transform-origin: top right;
+    }
+}
+
+@keyframes saucepan-move {
+    0% {
+        transform: translate(30px, 100px);
+    }
+    25% {
+        transform: translate(40px, 100px);
+    }
+    50% {
+        transform: translate(20px, 103px);
+    }
+    55% {
+        transform: translate(25px, 80px);
+    }
+    100% {
+        transform: translate(30px, 100px);
+    }
+}
+
+
+/* Circle */
+
+.circle-anim {
+    position:absolute;
+    width:20px;
+    height:17px;
+    motion-path: path('M43,89.0577331 C60.5,-36.833101 70,85.7717468 70,106');
+    offset-path: path('M43,89.0577331 C60.5,-36.833101 70,85.7717468 70,106');
+    offset-rotate:0deg;
+    animation: circle-move 1500ms ease infinite;
+    animation-timing-function: cubic-bezier(0.3, 0.8, 0.7, 0.1);
+}
+
+/* Square */
+.square {
+    animation: square-rotate 1000ms 0s linear infinite;
+}
+.square-pan {
+    animation: square-pan-rotate 1500ms 0s ease-out infinite;
+}
+.square-pan-anim {
+    position:absolute;
+    width:20px;
+    height:17px;
+    motion-path: path('M70,113 C68.9784946,125.952381 62.6451613,133.952381 51,137');
+    offset-path: path('M70,113 C68.9784946,125.952381 62.6451613,133.952381 51,137');
+    offset-rotate:-20deg;
+    animation: square-pan-move 1500ms ease-in infinite;
+}
+
+.square-anim {
+    position:absolute;
+    width:20px;
+    height:17px;
+    motion-path: path('M43,88.4704287 C60,-1.84206626 70,89.0177603 70,104');
+    offset-path: path('M43,88.4704287 C60,-1.84206626 70,89.0177603 70,104');
+    offset-rotate:0deg;
+    animation: square-move 1500ms ease infinite;
+    animation-timing-function: cubic-bezier(0.3, 0.8, 0.7, 0.1);
+}
+
+/* Triangle */
+.triangle {
+    animation: triangle-rotate 750ms 0s linear infinite;
+}
+.triangle-pan-anim {
+    position:absolute;
+    width:20px;
+    height:17px;
+    motion-path: path('M74,109 C72.3333333,120.333333 62,127.333333 43,130');
+    offset-path: path('M74,109 C72.3333333,120.333333 62,127.333333 43,130');
+    offset-rotate:-10deg;
+    animation: triangle-pan-move 1500ms ease-in infinite;
+}
+
+.triangle-anim {
+    position:absolute;
+    width:20px;
+    height:17px;
+    motion-path: path('M40,97.618111 C63.5,-91 79.5454545,86.3940081 80,111');
+    offset-path: path('M40,97.618111 C63.5,-91 79.5454545,86.3940081 80,111');
+    offset-rotate:0deg;
+    animation: triangle-move 1500ms ease infinite;
+    animation-timing-function: cubic-bezier(0.3, 0.8, 0.7, 0.1);
+}
+
+/* Saucepan */
+.saucepan {
+    animation: saucepan-rotate 1500ms 0s ease-out infinite;
+}
+
+.saucepan-anim {
+    position:absolute;
+    animation: saucepan-move 1500ms infinite normal ease-in-out;
+}
+
+.pan-box {
+    height:160px; 
+    width: 160px;;
+    margin: auto;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Poiret+One);
+/********************  Loading Page ************************/
+.loadFont {
+    font-family: 'Poiret One', cursive;
+}
+
+
+/* Progress Bar Placement & Styling */
+#progressive {
+    position: absolute;
+    width: 300px;
+    height: 100px;
+    z-index: 15;
+    top: 50%;
+    left: 50%;
+    margin: -55px 0 0 -150px;
+}
+.progress {
+    position: relative;
+    height: 10px;
+    display: block;
+    width: 100%;
+    background-color: #f5f5f5;
+    border-radius: 20px;
+    margin: 0.5rem 0 1rem 0;
+    overflow: hidden;
+}
+
+
+.progress-bar {
+    float: left;
+    height: 100%;
+    background-color: #b71c1c;
+    -webkit-transition: width 5s ease;
+    -o-transition: width 5s ease;
+    transition: width 5s ease;
+}
+
+#side1 { animation-delay:0.2s; -moz-animation-delay:0.2s; -webkit-animation-delay:0.2s; }
+#side2 { animation-delay:0.3s; -moz-animation-delay:0.3s; -webkit-animation-delay:0.3s; }
+#side3 { animation-delay:0.4s; -moz-animation-delay:0.4s; -webkit-animation-delay:0.4s; }
