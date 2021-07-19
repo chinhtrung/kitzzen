@@ -1,47 +1,48 @@
 <% include ../partials/header %>
+<% include ../partials/navbarComponent %>
+<% include ../partials/flashMessageComponent %>
 
-    <div class="container">
-        <div class="row">
-            <h1 style="text-align: center">Edit <%= food.name %>
-            </h1>
-            <div style="width: 30%; margin: 50px auto">
-                <form action="/foods/<%= food._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="name">Title</label>
-                        <input class="form-control" type="text" name="name" id="name" value="<%= food.name %>">
+<div class="container">
+    <div class="row">
+        <h1 style="text-align: center">Edit <%= food.name %></h1>
+        <div style="width: 30%; margin: 50px auto">
+            <form action="/foods/<%= food._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="name">Title</label>
+                    <input class="form-control" type="text" name="name" id="name" value="<%= food.name %>">
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input class="form-control" type="number" name="price" id="price" value="<%= food.price %>"
+                        min="1" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label for="image">Image</label>
+                    <input class="form-control" type="text" name="prevImage" value="<%= food.image%>" readonly="readonly">
+                    <input class="hidden" type="text" name="cloudinaryID" value="<%= food.cloudinaryID%>" readonly="readonly">
+                    <input type="file" id="image" name="image" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input class="form-control" type="text" name="location" id="location"
+                        value="<%= food.location %>">
+                </div>
+                <div class="form-group">
+                    <label for="textarea-description">Description</label>
+                    <textarea class="form-control" type="text" name="description" id="textarea-description" rows="7"
+                        cols="12"><%= food.description%></textarea>
+                    <span id="trigger-emoji-picker-description" style="opacity: 0.6; cursor: pointer;">😄</span>
+                    <div class="form-group hidden" id="emoji-picker-description">
+                        <emoji-picker class="light"></emoji-picker>
                     </div>
-                    <div class="form-group">
-                        <label for="price">Price</label>
-                        <input class="form-control" type="number" name="price" id="price" value="<%= food.price %>"
-                            min="1" step="0.1">
-                    </div>
-                    <div class="form-group">
-                        <label for="image">Image</label>
-                        <input class="form-control" type="text" name="prevImage" value="<%= food.image%>" readonly="readonly">
-                        <input class="hidden" type="text" name="cloudinaryID" value="<%= food.cloudinaryID%>" readonly="readonly">
-                        <input type="file" id="image" name="image" accept="image/*">
-                    </div>
-                    <div class="form-group">
-                        <label for="location">Location</label>
-                        <input class="form-control" type="text" name="location" id="location"
-                            value="<%= food.location %>">
-                    </div>
-                    <div class="form-group">
-                        <label for="textarea-description">Description</label>
-                        <textarea class="form-control" type="text" name="description" id="textarea-description" rows="7"
-                            cols="12"><%= food.description%></textarea>
-                        <span id="trigger-emoji-picker-description" style="opacity: 0.6; cursor: pointer;">😄</span>
-                        <div class="form-group hidden" id="emoji-picker-description">
-                            <emoji-picker class="light"></emoji-picker>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-lg btn-primary btn-block">Submit!</button>
-                    </div>
-                </form>
-                <a href="/foods">Go back</a>
-            </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+                </div>
+            </form>
+            <a href="/foods">Go back</a>
         </div>
     </div>
+</div>
 
 <% include ../partials/footer %>
