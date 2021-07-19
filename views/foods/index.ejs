@@ -1,128 +1,131 @@
 <% include ../partials/header %>
 
-  <div id="main-component" class="hidden">
-    <% include ../partials/navbarComponent %>
-    <% include ../partials/flashMessageComponent %>
-      <div class="container">
-        <header class="jumbotron">
-          <div class="container" style="width: inherit;">
-            <h1>
-              <i class="utensils icon"></i>Welcome to Kitzzen!
-            </h1>
-            <p>Choose your favor from our latest Food post and come pick it up</p>
-            <p>
-              <a class="huge ui primary button" href="/foods/new"> <i class="plus icon"></i> Add new Food post</a>
-            </p>
-            <p>
-            <form action="/foods" method="GET" class="form-inline" id="food-search">
-              <div class="form-group ui search icon input">
-                <input type="text" name="search" placeholder="Anything you like ..." class="prompt">
-                <i class="search icon"></i>
-              </div>
-            </form>
-            </p>
-          </div>
-        </header>
-        <div class="row " style="display: flex; flex-wrap: wrap; margin-top: 25px;" id="food-grid">
-          <% for(let i=foods.length - 1; i>= 0; i--) {let each = foods[i];%>
-            <div class="food-post col-md-4 col-sm-6" id="food-id-<%=each.id%>">
-              <div class="thumbnail popup-thumbnail">
-                <% each.timestring=moment(each.createdAt).fromNow()%>
-                  <div class="caption">
-                    <div style="float: right;">
-                      <%= each.timestring %>
-                    </div>
-                    <img class="ui avatar image" src="<%=each.author.avatar%>"> <a
-                      href="/users/<%= each.author.id %>">
-                      <%= each.author.username %>
-                    </a>
+<div id="main-component" class="hidden">
+  <% include ../partials/navbarComponent %>
+  <% include ../partials/flashMessageComponent %>
+    <div class="container">
+      <header class="jumbotron">
+        <div class="container" style="width: inherit;">
+          <h1>
+            <i class="utensils icon"></i>Welcome to Kitzzen!
+          </h1>
+          <p>Choose your favor from our latest Food post and come pick it up</p>
+          <p>
+            <a class="huge ui primary button" href="/foods/new"> <i class="plus icon"></i> Add new Food post</a>
+          </p>
+          <p>
+          <form action="/foods" method="GET" class="form-inline" id="food-search">
+            <div class="form-group ui search icon input">
+              <input type="text" name="search" placeholder="Anything you like ..." class="prompt">
+              <i class="search icon"></i>
+            </div>
+          </form>
+          </p>
+        </div>
+      </header>
+      <div class="row " style="display: flex; flex-wrap: wrap; margin-top: 25px;" id="food-grid">
+        <% for(let i=foods.length - 1; i>= 0; i--) {let each = foods[i];%>
+          <div class="food-post col-md-4 col-sm-6" id="food-id-<%=each.id%>">
+            <div class="thumbnail popup-thumbnail">
+              <% each.timestring=moment(each.createdAt).fromNow()%>
+                <div class="caption">
+                  <div style="float: right;">
+                    <%= each.timestring %>
                   </div>
-                  <img src=<%=each.image %>>
-                  <div class="caption">
-                    <h4><i class="fas fa-map-marker-alt"></i>
-                      <%= each.matchingPlaceName%>
-                    </h4>
-                    <div class="content">
-                      <span style="float: right;">
-                        <% if (each.rating.toFixed(1)==0) {%>
-                          <%= each.rating.toFixed(1) %> <i class="star outline icon"></i>
-                            <% } else {%>
-                              <%= each.rating.toFixed(1) %>
-                                <div class="ui star rating"><i class="icon active"></i></div>
-                                <% } %>
-                                  (<%= each.ratings.length %> <i class="user outline icon"></i>)
-                      </span>
-                      <i class="fas fa-comment-alt"></i> </i> &nbsp; <%= each.comments.length %>
-                    </div>
-
-                    <hr class="style1">
+                  <img class="ui avatar image" src="<%=each.author.avatar%>"> <a
+                    href="/users/<%= each.author.id %>">
+                    <%= each.author.username %>
+                  </a>
+                </div>
+                <img src=<%=each.image %>>
+                <div class="caption">
+                  <h4><i class="fas fa-map-marker-alt"></i>
+                    <%= each.matchingPlaceName%>
+                  </h4>
+                  <div class="content">
                     <span style="float: right;">
-                      <i class="fas fa-dollar-sign"></i> <strong>
-                        <%= each.price %>
-                      </strong>
+                      <% if (each.rating.toFixed(1)==0) {%>
+                        <%= each.rating.toFixed(1) %> <i class="star outline icon"></i>
+                          <% } else {%>
+                            <%= each.rating.toFixed(1) %>
+                              <div class="ui star rating"><i class="icon active"></i></div>
+                              <% } %>
+                                (<%= each.ratings.length %> <i class="user outline icon"></i>)
                     </span>
-                    <h2>
-                      <%= each.name %>
-                    </h2>
-                    <p>
-                      <%= each.description.slice(0,120) %>...
-                    </p>
+                    <i class="fas fa-comment-alt"></i> </i> &nbsp; <%= each.comments.length %>
+                  </div>
 
-                    <p>
-                    <div>
-                      <form style="display: inline" action="/foods/addview/<%=each._id%>?_method=PUT" method="POST">
-                        <% each.timestring=moment(each.createdAt).fromNow();%>
-                          <input class="hidden" name="datelist" value="<%= each.timestring %>">
-                          <div class="ui small primary labeled button" tabindex="0">
-                            <button class="ui small basic primary button">
-                              <i class="fas fa-eye"></i> &nbsp; View
-                            </button>
-                            <div class="ui basic blue left pointing label">
-                              <%= each.seen %>
-                            </div>
+                  <hr class="style1">
+                  <span style="float: right;">
+                    <i class="fas fa-dollar-sign"></i> <strong>
+                      <%= each.price %>
+                    </strong>
+                  </span>
+                  <h2>
+                    <%= each.name %>
+                  </h2>
+                  <p>
+                    <%= each.description.slice(0,120) %>...
+                  </p>
+
+                  <p>
+                  <div>
+                    <form style="display: inline" action="/foods/addview/<%=each._id%>?_method=PUT" method="POST">
+                      <% each.timestring=moment(each.createdAt).fromNow();%>
+                        <input class="hidden" name="datelist" value="<%= each.timestring %>">
+                        <div class="ui small primary labeled button" tabindex="0">
+                          <button class="ui small basic primary button">
+                            <i class="fas fa-eye"></i> &nbsp; View
+                          </button>
+                          <div class="ui basic blue left pointing label">
+                            <%= each.seen %>
                           </div>
-                      </form>
-                      <form style="display: inline" action="/foods/addyum/<%=each._id%>" method="POST">
-                        <% let isCurrUserYum=false; each.yums.forEach(yumAuthor=> {
-                          if (currentUser && yumAuthor.equals(currentUser._id)) {
-                          isCurrUserYum = true;
-                          }
-                          })%>
-                          <div class="ui small red labeled button" tabindex="0">
-                            <%if (isCurrUserYum) {%>
-                              <button class="ui small red button">
+                        </div>
+                    </form>
+                    <form style="display: inline" action="/foods/addyum/<%=each._id%>" method="POST">
+                      <% let isCurrUserYum=false; each.yums.forEach(yumAuthor=> {
+                        if (currentUser && yumAuthor.equals(currentUser._id)) {
+                        isCurrUserYum = true;
+                        }
+                        })%>
+                        <div class="ui small red labeled button" tabindex="0">
+                          <%if (isCurrUserYum) {%>
+                            <button class="ui small red button">
+                              <i class="heart icon"></i> Yum
+                            </button>
+                            <%} else {%>
+                              <button class="ui small basic red button">
                                 <i class="heart icon"></i> Yum
                               </button>
-                              <%} else {%>
-                                <button class="ui small basic red button">
-                                  <i class="heart icon"></i> Yum
-                                </button>
-                                <%}%>
-                                  <div class="ui basic red left pointing label">
-                                    <%= each.yums.length%>
-                                  </div>
-                          </div>
-                      </form>
-                    </div>
-                    </p>
+                              <%}%>
+                                <div class="ui basic red left pointing label">
+                                  <%= each.yums.length%>
+                                </div>
+                        </div>
+                    </form>
                   </div>
-              </div>
+                  </p>
+                </div>
             </div>
-            <% } %>
-        </div>
+          </div>
+          <% } %>
       </div>
-  </div>
+    </div>
+</div>
 
-  <% include ../loading %>
+<% include ../loading %>
   
-  <script>
-    let stateCheck = setInterval(() => {
-      if (document.readyState === 'complete') {
-        clearInterval(stateCheck);
-        document.querySelector("#main-component").classList.remove("hidden");
-        document.querySelector("#loading-component").classList.add("hidden");
-      }
-    }, 2000);
-  </script>
+<script>
+  let stateCheck = setInterval(() => {
+    if (document.readyState === 'complete') {
+      clearInterval(stateCheck);
+      document.querySelector("#main-component").classList.remove("hidden");
+      document.querySelector("#loading-component").classList.add("hidden");
+    }
+  }, 2000);
+</script>
+
+<!-- Custom JS for loading animation page -->
+<script src="/scripts/loading.js"></script>
 
 <% include ../partials/footer %>
