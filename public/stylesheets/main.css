@@ -130,3 +130,16 @@ hr.style1{
   height:65px;
   width:87%;
 }
+
+.jumbotron {
+  background-image: url("https://res.cloudinary.com/projectstore/image/upload/v1626809989/cover%20photo/kitzzen_cover_2.png");
+  background-size: cover;
+  margin-top: 8%;
+  padding-top: 7%;
+  padding-bottom: 7%;
+}
+
+.navbar {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08)
+}
