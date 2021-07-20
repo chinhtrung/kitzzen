@@ -114,16 +114,6 @@
 </div>
 
 <% include ../loading %>
-  
-<script>
-  let stateCheck = setInterval(() => {
-    if (document.readyState === 'complete') {
-      clearInterval(stateCheck);
-      document.querySelector("#main-component").classList.remove("hidden");
-      document.querySelector("#loading-component").classList.add("hidden");
-    }
-  }, 1000);
-</script>
 
 <!-- Custom JS for loading animation page -->
 <script src="/scripts/loading.js"></script>
