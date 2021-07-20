@@ -2,108 +2,109 @@
 <% include ../partials/navbarComponent %>
 <% include ../partials/flashMessageComponent %>
 
-<form class="ui form" action="/users/<%= user._id %>?_method=PUT" method="POST"
-	enctype="multipart/form-data">
-	<div class="container">
-		<div class="row">
-			<div class="ui main text col-md-4">
-				<div class="ui massive header" style="margin-top: 20px;">
-					Your Selling list
-					<% if(currentUser && currentUser._id.equals(user.id) || currentUser &&
-						currentUser.isAdmin===true){ %>
-						<div style="margin-top:3.5%;">
-							<a class="ui primary basic button" href="/foods/new"
-								style="display:inline-block;"><i class="add square icon"></i> Add New</a>
-							<button class="ui brown basic button delete-form"><i
-									class="check square icon"></i> Update profile</button>
-						</div>
-						<% }; %>
-				</div>
-				<hr class="style2">
-				<div class="ui top attached left">
-					<div class="ui divided items">
-						<% foods.forEach(function(food){ %>
-							<div class="item">
-								<div class="ui tiny rounded image">
-									<img src=<%=food.image %>>
+<div class="container">
+	<div class="row">
+		<div class="ui main text col-md-4">
+			<div class="ui massive header" style="margin-top: 20px;">
+				Your Selling list
+				<% if(currentUser && currentUser._id.equals(user.id) || currentUser &&
+					currentUser.isAdmin===true){ %>
+					<div style="margin-top:3.5%;">
+						<a class="ui primary basic button" href="/foods/new"
+							style="display:inline-block;"><i class="add square icon"></i> Add New</a>
+						
+					</div>
+					<% }; %>
+			</div>
+			<hr class="style2">
+			<div class="ui top attached left">
+				<div class="ui divided items">
+					<% foods.forEach(function(food){ %>
+						<div class="item">
+							<div class="ui tiny rounded image">
+								<img src="<%=food.image %>">
+							</div>
+							<div class="content">
+								<a class="header" href="/foods/<%= food._id %>">
+									<%= food.name %> - <i>$<%= food.price %></i>
+								</a>
+								<div class="meta">
+									<span>
+										<%= moment(food.createdAt).fromNow() %>
+									</span>
 								</div>
-								<div class="content">
-									<a class="header" href="/foods/<%= food._id %>">
-										<%= food.name %> - <i>$<%= food.price %></i>
-									</a>
-									<div class="meta">
-										<span>
-											<%= moment(food.createdAt).fromNow() %>
-										</span>
-									</div>
-									<div class="description">
-										<p>
-											<%- food.description.substring(0,100)%>...
-										</p>
-									</div>
+								<div class="description">
+									<p>
+										<%- food.description.substring(0,100)%>...
+									</p>
 								</div>
 							</div>
-							<% }); %>
-					</div>
+						</div>
+						<% }); %>
 				</div>
 			</div>
-			<div class="col-md-4">
-				<div class="form-group">
-					<label for="firstname">First Name</label>
-					<input class="form-control" type="text" name="firstname" id="firstname"
-						value="<%= user.firstName %>" readonly="readonly">
+		</div>
+		
+		<div class="col-md-4">
+			<form class="ui form" action="/users/<%= user._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+			<div class="form-group">
+				<label for="firstname">First Name</label>
+				<input class="form-control" type="text" name="firstname" id="firstname"
+					value="<%= user.firstName %>" readonly="readonly">
+			</div>
+			<div class="form-group">
+				<label for="lastname">Last Name</label>
+				<input class="form-control" type="text" name="lastname" id="lastname"
+					value="<%= user.lastName %>" readonly="readonly">
+			</div>
+			<div class="form-group">
+				<label for="image">Avatar</label>
+				<input class="form-control" type="text" name="prevAvatar" value="<%= user.avatar%>"
+					readonly="readonly">
+				<input class="hidden" type="text" name="cloudinaryID" value="<%= user.cloudinaryID%>"
+					readonly="readonly">
+				<input type="file" id="image" name="image" accept="image/*">
+			</div>
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input class="form-control" type="email" name="email" id="email"
+					value="<%= user.email %>">
+			</div>
+			<div class="form-group">
+				<label for="isadmin">Admin code</label>
+				<input class="form-control" type="password" name="isadmin" id="isadmin">
+			</div>
+			<div class="form-group">
+				<label for="textarea-description">Description</label>
+				<textarea class="form-control" type="text" name="description" id="textarea-description"
+					rows="7" cols="12"><%= user.description%></textarea>
+				<span id="trigger-emoji-picker-description"
+					style="opacity: 0.6; cursor: pointer;">😄</span>
+				<div class="form-group hidden" id="emoji-picker-description">
+					<emoji-picker class="light"></emoji-picker>
 				</div>
-				<div class="form-group">
-					<label for="lastname">Last Name</label>
-					<input class="form-control" type="text" name="lastname" id="lastname"
-						value="<%= user.lastName %>" readonly="readonly">
-				</div>
-				<div class="form-group">
-					<label for="image">Avatar</label>
-					<input class="form-control" type="text" name="prevAvatar" value="<%= user.avatar%>"
-						readonly="readonly">
-					<input class="hidden" type="text" name="cloudinaryID" value="<%= user.cloudinaryID%>"
-						readonly="readonly">
-					<input type="file" id="image" name="image" accept="image/*">
-				</div>
-				<div class="form-group">
-					<label for="email">Email</label>
-					<input class="form-control" type="email" name="email" id="email"
-						value="<%= user.email %>">
-				</div>
-				<div class="form-group">
-					<label for="isadmin">Admin code</label>
-					<input class="form-control" type="password" name="isadmin" id="isadmin">
-				</div>
-				<div class="form-group">
-					<label for="textarea-description">Description</label>
-					<textarea class="form-control" type="text" name="description" id="textarea-description"
-						rows="7" cols="12"><%= user.description%></textarea>
-					<span id="trigger-emoji-picker-description"
-						style="opacity: 0.6; cursor: pointer;">😄</span>
-					<div class="form-group hidden" id="emoji-picker-description">
-						<emoji-picker class="light"></emoji-picker>
+			</div>
+			<button class="ui brown basic button delete-form"><i
+							class="check square icon"></i> Update profile</button>
+			</form>
+			<div style="margin-top: 10px;">
+				<a class="ui button" href="/forgot"><i class="undo icon"></i> Change Password</a>
+				<span id="delete-request" class="ui button">Delete account</span>
+				<form id="delete-confirmation" class="delete-form" action="/users/<%= user._id %>?_method=DELETE"
+					method="POST">
+					<div style="margin-top: 10%" class="form-group">
+						<p>Your account and all of your posts will be deleted!</p>
+						<label for="deleteId">Please type in <strong>
+								<%= user._id%>
+							</strong> to confirm</label>
+						<input class="form-control" type="text" name="deleteId" id="deleteId"
+							placeholder="This action will delete your account permanently">
 					</div>
-				</div>
+					<button class="btn btn-xs btn-danger"><i class="trash icon"></i> Delete account</button>
+				</form>
 			</div>
 		</div>
 	</div>
-</form>
-<div>
-	<a class="ui button" href="/forgot"><i class="undo icon"></i> Change Password</a>
-	<span id="delete-request" class="ui button">Delete account</span>
-	<form id="delete-confirmation" class="delete-form" action="/users/<%= user._id %>?_method=DELETE"
-		method="POST">
-		<div style="margin-top: 10%" class="form-group">
-			<p>Your account and all of your posts will be deleted!</p>
-			<label for="deleteId">Please type in <strong>
-					<%= user._id%>
-				</strong> to confirm</label>
-			<input class="form-control" type="text" name="deleteId" id="deleteId"
-				placeholder="This action will delete your account permanently">
-		</div>
-		<button class="btn btn-xs btn-danger"><i class="trash icon"></i> Delete account</button>
-	</form>
 </div>
-			
+
 <% include ../partials/footer %>
