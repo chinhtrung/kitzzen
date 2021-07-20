@@ -1,6 +1,5 @@
 .loading-container {
-    width: 250px;
-    background-size: cover;
+    width: 270px;
     vertical-align: middle;
     text-align: center;
     margin: auto;
@@ -16,17 +15,18 @@
 
 .loading-line {
     height: 4px;
-    width: 120%;
+    width: 100%;
     background: #e8e8e8;
-    margin: auto;
-    margin-top: 35px;
+    margin-top: 20%;
 }
+
 .loading-line .loading-inner {
     width: 100%;
     height: inherit;
     background: #033f8d;
     animation: slide 2s ease-in-out infinite;
 }
+
 @keyframes slide {
     0% {
         transform-origin: left;
