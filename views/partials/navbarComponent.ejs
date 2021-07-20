@@ -1,0 +1,54 @@
+<nav class="navbar navbar-default">
+    <div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand navbar-logo" href="/">
+                <!-- Kitzzen -->
+                <div>
+                    <img style="max-width: 100px; margin-top: -1%;"
+                        src="https://res.cloudinary.com/projectstore/image/upload/v1626381144/logo/logo_full_1.png">
+                </div>
+            </a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="<%= typeof page !== 'undefined' && page === 'foods' ? 'active' : '' %>"><a href="/foods"><i
+                            class="fas fa-home fa-2x"></i></a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" style="font-size:15px;">
+                <% if(!currentUser){ %>
+                    <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>">
+                        <a href="/login" style="padding-right: 0;">
+                            <button class="ui blue basic button">Sign In</button>
+                        </a>
+                    </li>
+                    <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>">
+                        <a href="/register" style="padding-left: 0;">
+                            <button class="ui green basic button">Create an account!</button>
+                        </a>
+                    </li>
+                    <% } else { %>
+                        <li>
+                            <a class="navbar-brand" style="padding-right: 0;" href="/users/<%=currentUser._id %>">
+                                <img style="display:inline-block;" class="header-avatar" src="<%= currentUser.avatar%>">
+                                <%= currentUser.username %>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav navbar-nav" href="/logout">
+                                <button class="ui red basic button">Sign out</button>
+                            </a>
+                        </li>
+                        <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>

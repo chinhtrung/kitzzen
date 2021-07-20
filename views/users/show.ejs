@@ -1,4 +1,6 @@
 <% include ../partials/header %>
+<% include ../partials/navbarComponent %>
+<% include ../partials/flashMessageComponent %>
 
 <div class="container">
 	<div class="row">
@@ -7,7 +9,7 @@
 				Author Food Posts
 				<% if(currentUser && currentUser._id.equals(user.id) || currentUser && currentUser.isAdmin === true){ %>
 					<div style="margin-top:3.5%;">
-						<a class="ui primary basic button" href="/foods/new" style="display:inline-block;"><i class="add square icon"></i> Add New</a>
+						<a class="ui primary basic button" href="/foods/new" style="display:inline-block;"><i class="fas fa-plus-square"></i> &nbsp; Add New</a>
 						<a class="ui brown basic button delete-form" href="/users/<%= user._id%>/edit"><i class="write icon"></i> Edit My Profile</a>
 					</div>
 				<% }; %>
