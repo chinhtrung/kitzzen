@@ -8,7 +8,7 @@ const newComment = (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            res.render("./comments/new", { food: food });
+            res.redirect("/foods/" + food._id);
         }
     });
 }
