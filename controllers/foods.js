@@ -1,4 +1,6 @@
 const Food = require("../models/food");
+const Comment = require("../models/comment");
+const Rating = require("../models/rating");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
@@ -216,6 +218,15 @@ const deleteFood = (req, res) => {
             try {
                 await cloudinary.uploader.destroy(resultFood.cloudinaryID);
             } catch (err) { console.log(err) }
+            // Delete related comments from database
+            resultFood.comments.forEach(async comment => {
+                await Comment.findByIdAndRemove(comment._id);
+            });
+            // Delete related ratings from database
+            resultFood.ratings.forEach(async rating => {
+                await Rating.findByIdAndRemove(rating._id);
+            });
+
             req.flash("success", `Your Food Post (${resultFood.name}) deleted!`);
             res.redirect("/foods");
         }
