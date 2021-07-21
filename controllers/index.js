@@ -257,6 +257,7 @@ const updateUserProfile = async (req, res) => {
 // DESTROY USER ACCOUNT
 const deleteUserAccount = async (req, res) => {
     if (req.params.id === req.body.deleteId) {
+        // Delete food associated with this user
         Food.find().where('author.id').equals(req.params.id).exec((err, resultFoods) => {
             resultFoods.forEach(async (food) => {
                 // Delete image from cloudinary
@@ -273,6 +274,8 @@ const deleteUserAccount = async (req, res) => {
             });
         });
 
+        /*
+        // Delete comment associated with this user
         Comment.find().where('author.id').equals(req.params.id).exec((err, resultComments) => {
             resultComments.forEach(async (comment) => {
                 await Comment.findByIdAndRemove(comment._id, (err) => {
@@ -284,6 +287,7 @@ const deleteUserAccount = async (req, res) => {
             });
         });
 
+        // Delete rating associated with this user
         Rating.find().where('author.id').equals(req.params.id).exec((err, resultRatings) => {
             resultRatings.forEach(async (rating) => {
                 await Rating.findByIdAndRemove(rating._id, (err) => {
@@ -294,6 +298,7 @@ const deleteUserAccount = async (req, res) => {
                 });
             });
         });
+        */
 
         User.findByIdAndRemove(req.params.id, async (err, resultUser) => {
             // Delete image from cloudinary
