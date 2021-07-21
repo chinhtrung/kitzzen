@@ -66,13 +66,26 @@ const updateComment = (req, res) => {
 //COMMENT DESTROY ROUTE
 const deleteComment = (req, res) => {
     //findByIdAndRemove
-    Comment.findByIdAndRemove(req.params.comment_id, (err) => {
+    Food.findById(req.params.id, (err, resultFood) => {
         if (err) {
-            req.flash("error", err.message);
-            res.redirect("back");
+            console.log(err);
         } else {
-            req.flash("success", "Comment deleted");
-            res.redirect("/foods/" + req.params.id);
+            Comment.findByIdAndRemove(req.params.comment_id, (err) => {
+                if (err) {
+                    req.flash("error", err.message);
+                    res.redirect("back");
+                } else {
+                    for (let i = 0; i < resultFood.comments.length; i++) {
+                        if (resultFood.comments[i] == req.params.comment_id) {
+                            resultFood.comments.splice(i, 1);
+                            resultFood.save();
+                            break;
+                        }
+                    }
+                    req.flash("success", "Your comment deleted");
+                }
+                res.redirect("/foods/" + req.params.id);
+            });
         }
     });
 }
