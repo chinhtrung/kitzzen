@@ -50,7 +50,7 @@ const deleteRating = (req, res) => {
                 res.redirect("/foods/" + req.params.id + "#rating");
             });
         }
-    })
+    });
 }
 
 module.exports = {
