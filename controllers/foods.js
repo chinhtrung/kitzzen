@@ -45,7 +45,8 @@ const postCreateFood = async (req, res) => {
     const location = req.body.location;
     const author = {
         id: req.user._id,
-        username: req.user.username
+        username: req.user.username,
+        avatar: req.user.avatar
     };
     const geoData = await geocoder.forwardGeocode({
         query: location,
