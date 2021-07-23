@@ -93,12 +93,13 @@
 				<form id="delete-confirmation" class="delete-form" action="/users/<%= user._id %>?_method=DELETE"
 					method="POST">
 					<div style="margin-top: 10%" class="form-group">
-						<p>This is an irreversible process, please read this carefully:</p>
-						<p>
-							Your account and all of your posts will be deleted.
-							However, your ratings and comments on other posts are still be contained and visible (You cannot delete your comments and ratings later)
-						</p>
-						<label for="deleteId">Please type in <strong>
+						<h4>This is an irreversible and costly process, and cannot be undone. The followings will be permanently deleted:</h4>
+						<ul>
+							<li>Your account and all of your posts</li>
+							<li>Your comments, ratings and yums on other posts</li>	
+						</ul>
+						<h4>please consider carefully</h4>
+						<label for="deleteId">Please type in your user id: <strong>
 								<%= user._id%>
 							</strong> to confirm</label>
 						<input class="form-control" type="text" name="deleteId" id="deleteId"
