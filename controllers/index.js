@@ -286,22 +286,65 @@ const deleteUserAccount = async (req, res) => {
 
         // Check all food post to delete user comments, ratings and yums from this user
         Food.find().exec((err, allFood) => {
-            allFood.forEach(food => {
+            allFood.forEach(async food => {
                 // check ratings
-                food.ratings.forEach(rating => {
-                    Rating.find().where('_id').equals(rating).exec((err, resultRating) => {
-                        console.log("!!!!!resultRating", resultRating);
-                        resultRating.forEach(each => {
-                            if (each.author.id == req.params.id) {
-                                console.log("!!!!!catch the user here", each.author.username);
-                            }
-                        });
+                for (let i = 0; i < food.ratings.length; i++) {
+                    let rating = food.ratings[i];
+                    let authorId = undefined;
+                    await Rating.findById(rating, "author.id").exec().then(value => {
+                        authorId = value? value.author.id : undefined;
                     });
-                });
+
+                    if (authorId && authorId.equals(req.params.id)) {
+                        food.ratings.splice(i, 1);
+                        await food.save();
+                    }
+
+                    // clean up undefined element in food.ratings array if there is any
+                    if (!authorId) {
+                        food.ratings.splice(i, 1);
+                        await food.save();
+                        i--; // to iteratively delete all matching element in array
+                    }
+                }
+                
+                // check comments
+                for (let i = 0; i < food.comments.length; i++) {
+                    let comment = food.comments[i];
+                    let authorId = undefined;
+                    await Comment.findById(comment, "author.id").exec().then(value => {
+                        authorId = value? value.author.id : undefined;
+                    });
+
+                    if (authorId && authorId.equals(req.params.id)) {
+                        food.comments.splice(i, 1);
+                        await food.save();
+                        i--; // to iteratively delete all matching element in array
+                    }
+
+                    // clean up undefined element in food.comments array if there is any
+                    if (!authorId) {
+                        food.comments.splice(i, 1);
+                        await food.save();
+                        i--; // to iteratively delete all matching element in array
+                    }
+                }
+
+                // check yums
+                for (let i = 0; i < food.yums.length; i++) {
+                    let yum = food.yums[i];
+                    let authorId = undefined;
+                    await User.findById(req.params.id).exec().then(value => {
+                        authorId = value;
+                    });
+                    if (authorId) {
+                        food.yums.splice(i, 1);
+                        await food.save();
+                    }
+                }
             })
         });
 
-        /*
         // Delete comment associated with this user
         Comment.find().where('author.id').equals(req.params.id).exec((err, resultComments) => {
             resultComments.forEach(async (comment) => {
@@ -326,7 +369,7 @@ const deleteUserAccount = async (req, res) => {
             });
         });
         
-
+        // Delete this user
         User.findByIdAndRemove(req.params.id, async (err, resultUser) => {
             // Delete image from cloudinary
             try {
@@ -341,7 +384,6 @@ const deleteUserAccount = async (req, res) => {
                 res.redirect("/foods");
             }
         });
-        */
     } else {
         req.flash("error", "Please type in the right id to perform deleting action");
         res.redirect("back");
