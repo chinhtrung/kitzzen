@@ -265,6 +265,16 @@ const deleteUserAccount = async (req, res) => {
                     await cloudinary.uploader.destroy(food.cloudinaryID);
                 } catch (err) { console.log(err) }
 
+                // Delete ratings of this food in database
+                food.ratings.forEach(async rating => {
+                    await Rating.findByIdAndRemove(rating._id);
+                });
+
+                // Delete comments of this food in database
+                food.comments.forEach(async comment => {
+                    await Comment.findByIdAndRemove(comment._id);
+                });
+                
                 await Food.findByIdAndRemove(food._id, (err) => {
                     if (err) {
                         req.flash("error", err.message);
@@ -272,6 +282,23 @@ const deleteUserAccount = async (req, res) => {
                     }
                 });
             });
+        });
+
+        // Check all food post to delete user comments, ratings and yums from this user
+        Food.find().exec((err, allFood) => {
+            allFood.forEach(food => {
+                // check ratings
+                food.ratings.forEach(rating => {
+                    Rating.find().where('_id').equals(rating).exec((err, resultRating) => {
+                        console.log("!!!!!resultRating", resultRating);
+                        resultRating.forEach(each => {
+                            if (each.author.id == req.params.id) {
+                                console.log("!!!!!catch the user here", each.author.username);
+                            }
+                        });
+                    });
+                });
+            })
         });
 
         /*
@@ -298,7 +325,7 @@ const deleteUserAccount = async (req, res) => {
                 });
             });
         });
-        */
+        
 
         User.findByIdAndRemove(req.params.id, async (err, resultUser) => {
             // Delete image from cloudinary
@@ -314,6 +341,7 @@ const deleteUserAccount = async (req, res) => {
                 res.redirect("/foods");
             }
         });
+        */
     } else {
         req.flash("error", "Please type in the right id to perform deleting action");
         res.redirect("back");
