@@ -306,6 +306,10 @@ const deleteUserAccount = async (req, res) => {
                         await food.save();
                         i--; // to iteratively delete all matching element in array
                     }
+
+                    // recaculate rating
+                    let avgRating = food.ratings.length == 0? 0: food.ratings.reduce((acc, each) => acc + each.rating, 0) / food.ratings.length;
+                    await Food.findByIdAndUpdate(food._id, {rating: avgRating});
                 }
                 
                 // check comments
