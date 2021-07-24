@@ -309,7 +309,7 @@ const deleteUserAccount = async (req, res) => {
 
                     // recaculate rating
                     let avgRating = food.ratings.length == 0? 0: food.ratings.reduce((acc, each) => acc + each.rating, 0) / food.ratings.length;
-                    await Food.findByIdAndUpdate(food._id, {rating: avgRating});
+                    await Food.findByIdAndUpdate(food._id, {rating: avgRating? avgRating : 0});
                 }
                 
                 // check comments
@@ -337,13 +337,9 @@ const deleteUserAccount = async (req, res) => {
                 // check yums
                 for (let i = 0; i < food.yums.length; i++) {
                     let yum = food.yums[i];
-                    let authorId = undefined;
-                    await User.findById(req.params.id).exec().then(value => {
-                        authorId = value;
-                    });
-                    if (authorId) {
+                    if (yum.equals(req.params.id)) {
                         food.yums.splice(i, 1);
-                        await food.save();
+                        await food.save()
                     }
                 }
             })
