@@ -29,11 +29,11 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/chinhtrung/kitzzen">
+    <img src="https://res.cloudinary.com/projectstore/image/upload/v1626381144/logo/logo_full_1.png" alt="Logo" width="180">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">kitzzen: start your business at your kitchen</h3>
 
   <p align="center">
     An awesome README template to jumpstart your projects!
