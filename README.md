@@ -30,7 +30,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/chinhtrung/kitzzen">
-    <img src="https://res.cloudinary.com/projectstore/image/upload/v1626381144/logo/logo_full_1.png" alt="Logo" width="180">
+    <img src="https://res.cloudinary.com/projectstore/image/upload/v1627239637/logo/Color_logo_with_background.png" alt="Logo" width="200">
   </a>
 
   <h3 align="center">kitzzen: start your business at your kitchen</h3>
