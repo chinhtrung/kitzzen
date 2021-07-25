@@ -1,22 +1,22 @@
-const express           = require("express"),
-    app                 = express(),
-    bodyParser          = require("body-parser"),
-    mongoose            = require("mongoose"),
-    flash               = require("connect-flash"),
-    passport            = require("passport"),
-    LocalStrategy       = require("passport-local"),
-    methodOverride      = require("method-override"),
-    User                = require("./models/user"),
-    seedDB              = require("./seeds.js");
+const express = require("express"),
+    app = express(),
+    bodyParser = require("body-parser"),
+    mongoose = require("mongoose"),
+    flash = require("connect-flash"),
+    passport = require("passport"),
+    LocalStrategy = require("passport-local"),
+    methodOverride = require("method-override"),
+    User = require("./models/user"),
+    seedDB = require("./seeds.js");
 
 // configure dotenv
 require('dotenv').load();
 
 // requiring routes    
-const commentRoutes     = require("./routes/comments"),
-    foodRoutes          = require("./routes/foods"),
-    ratingRoutes        = require("./routes/ratings"),
-    indexRoutes         = require("./routes/index");
+const commentRoutes = require("./routes/comments"),
+    foodRoutes = require("./routes/foods"),
+    ratingRoutes = require("./routes/ratings"),
+    indexRoutes = require("./routes/index");
 
 mongoose.connect(process.env.DATABASEURL, {
     useUnifiedTopology: true,
@@ -68,6 +68,14 @@ app.get("/*", (req, res) => {
         return res.redirect("/foods");
     }
     return res.redirect("/");
+});
+
+app.use((req, res, next) => {
+    res.status(404).send("Sorry can't find that!");
+});
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
 });
 
 app.listen(process.env.PORT, () => {
