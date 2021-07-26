@@ -21,7 +21,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/chinhtrung/kitzzen">
+  <a href="https://kitzzen.herokuapp.com/">
     <img src="https://res.cloudinary.com/projectstore/image/upload/v1627239637/logo/Color_logo_with_background.png" alt="Logo" width="200">
   </a>
 
@@ -78,7 +78,7 @@
 [![kitzzen product page screenshot][product-food-screenshot]][product-food-screenshot]
 [![kitzzen user page screenshot][product-user-screenshot]][product-user-screenshot]
 
-This side project is motivated by the idea of building a platform for users to buy food from local kitchen and also a place local kitchens display their food to sale. Many people have very high cooking skill and [kitzzen][product-home] provides a market place where they can sell their food without open a restaurant. 
+This side project is motivated by the idea of building a platform for users to buy food from local kitchen and also a place local kitchens display their food to sale. Many people have very high cooking skill and [kitzzen][product-home] provides a market place where they can sell their food without opening a restaurant. 
 
 ### Built With
 Backend
@@ -103,7 +103,6 @@ Frontend
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
@@ -154,11 +153,9 @@ Install npm to your local machine
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
+* Post your food online with location and time available for others to see and book
+* Look for foods to eat from local kitchens
+* Discuss with your customer about shipping method (either pickup or deliver)
 
 
 <!-- ROADMAP -->
@@ -184,34 +181,24 @@ Contributions are what make the open source community such an amazing place to b
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
-
-
+Distributed under the MIT License.
 
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Trung Nguyen - chinhtrung596@gmail.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/chinhtrung/kitzzen](https://github.com/chinhtrung/kitzzen)
 
 
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Img Shields](https://shields.io)
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Pages](https://pages.github.com)
-* [Animate.css](https://daneden.github.io/animate.css)
-* [Loaders.css](https://connoratherton.com/loaders)
-* [Slick Carousel](https://kenwheeler.github.io/slick)
-* [Smooth Scroll](https://github.com/cferdinandi/smooth-scroll)
-* [Sticky Kit](http://leafo.net/sticky-kit)
-* [JVectorMap](http://jvectormap.com)
-* [Font Awesome](https://fontawesome.com)
+* [codepen: loading animation sample design (by Tanmay Naik)](https://codepen.io/Blazephoenix_/pen/xJmmXE)
+* [unsplash: free open source image](https://unsplash.com/)
+* [heroku: deploy server](https://www.heroku.com/)
 
-
+## Have fun :smile:
 
 
 
