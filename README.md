@@ -17,14 +17,6 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
-
 
 <!-- PROJECT LOGO -->
 <br />
@@ -33,19 +25,19 @@
     <img src="https://res.cloudinary.com/projectstore/image/upload/v1627239637/logo/Color_logo_with_background.png" alt="Logo" width="200">
   </a>
 
-  <h3 align="center">kitzzen: start your business at your kitchen</h3>
+  <h3 align="center">kitzzen: start a business at your kitchen</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    <!-- An awesome README template to jumpstart your projects!
     <br />
     <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
+    <br /> -->
+    <a href="https://kitzzen.herokuapp.com/">View Demo</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
+    <a href="https://github.com/chinhtrung/kitzzen/issues">Report Bug</a>
     ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/chinhtrung/kitzzen/issues">Request Feature</a>
   </p>
 </p>
 
@@ -82,26 +74,30 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![kitzzen home page screenshot][product-screenshot]][product-screenshot]
+[![kitzzen product page screenshot][product-food-screenshot]][product-food-screenshot]
+[![kitzzen user page screenshot][product-user-screenshot]][product-user-screenshot]
 
-There are many great README templates available on GitHub, however, I didn't find one that really suit my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
-
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should element DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have have contributed to expanding this template!
-
-A list of commonly used resources that I find helpful are listed in the acknowledgements.
+This side project is motivated by the idea of building a platform for users to buy food from local kitchen and also a place local kitchens display their food to sale. Many people have very high cooking skill and [kitzzen][product-home] provides a market place where they can sell their food without open a restaurant. 
 
 ### Built With
+Backend
+* [node.js](https://nodejs.org/en/)
+* [express.js](https://expressjs.com/)
+* [mapbox](https://www.mapbox.com/)
+* [cloudinary](https://cloudinary.com/)
+* [mongodb cloud](https://www.mongodb.com/cloud)
+* [passport js](http://www.passportjs.org/)
+* [nodemailer](https://nodemailer.com/about/)
+* [nodemon npm package](https://www.npmjs.com/package/nodemon)
+* [And many more which are shown in package.json](https://github.com/chinhtrung/kitzzen/blob/main/package.json)
 
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+Frontend
 * [Bootstrap](https://getbootstrap.com)
 * [JQuery](https://jquery.com)
-* [Laravel](https://laravel.com)
-
+* [EJS](https://ejs.co/)
+* [Fontawesome](https://fontawesome.com/)
+* [Semantic-ui](https://semantic-ui.com/)
 
 
 <!-- GETTING STARTED -->
@@ -111,8 +107,7 @@ This is an example of how you may give instructions on setting up your project l
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
+Install npm to your local machine
 * npm
   ```sh
   npm install npm@latest -g
@@ -120,19 +115,40 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the current repo
+    ```sh
+    git clone https://github.com/chinhtrung/kitzzen.git
+    ```
+2. Install NPM packages
+    ```sh
+    npm install
+    ```
+3. Install nodemon globally
+    ```sh
+    npm install nodemon
+    ```
+4. Setup your enviroment variables/secrets and save it inside .env file
+    ```sh
+    cat > .env
+    PORT=8080
+    IP=<your_ip_address>
+    DATABASEURL=<your_databaseurl>
+
+    CLOUD_NAME=<your_cloud_name>
+    CLOUDINARY_API_KEY=<your_cloudinary_api_key>
+    CLOUDINARY_API_SECRET=<your_cloundinary_api_key>
+
+    GMAIL=<your_email>
+    GMAILPW=<your_email_password>
+    ADMIN_CODE=<your_admin_code>
+
+    MAPBOX_TOKEN=<your_mapbox_token>
+    ```
+4. Start the server
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   nodemon app.js
    ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```JS
-   const API_KEY = 'ENTER YOUR API';
-   ```
+5. Open your localhost at port 8080 on your web browser [localhost:8080](http://localhost:8080/)
 
 
 
@@ -201,16 +217,7 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
+[product-home]: https://kitzzen.herokuapp.com/
+[product-screenshot]: https://res.cloudinary.com/projectstore/image/upload/v1627317138/utils/screenshot_page.png
+[product-food-screenshot]: https://res.cloudinary.com/projectstore/image/upload/v1627317516/utils/screenshot_food_page.png
+[product-user-screenshot]: https://res.cloudinary.com/projectstore/image/upload/v1627317766/utils/screenshot_user_page.png
