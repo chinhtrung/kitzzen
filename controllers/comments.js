@@ -1,5 +1,12 @@
 const Food = require("../models/food");
 const Comment = require("../models/comment");
+const errorHandler = require("../utils/errorHandler");
+const path = require('path');
+const scriptName = path.dirname(__filename) + "/" + path.basename(__filename);
+
+const errorMessageTryCatch = (err) => {
+    console.log(errorHandler.errorMessage(err, scriptName));
+}
 
 // Comments New
 const newComment = (req, res) => {
@@ -18,7 +25,7 @@ const createComment = (req, res) => {
     //lookup food using Id
     Food.findById(req.params.id, (err, food) => {
         if (err) {
-            req.flash("error", "Something went wrong");
+            req.flash("error", "Cannot find!");
             console.log(err);
         } else {
             Comment.create(req.body.comment, async (err, comment) => {
@@ -30,9 +37,16 @@ const createComment = (req, res) => {
                     comment.author.username = req.user.username;
                     comment.author.avatar = req.user.avatar;
                     // save comment
-                    await comment.save();
+                    try {
+                        await comment.save();
+                    } catch (err) {errorMessageTryCatch(err);}
+
                     food.comments.push(comment);
-                    await food.save();
+                    
+                    try {
+                        await food.save();
+                    } catch (err) {errorMessageTryCatch(err);}
+                    
                     req.flash("success", "You added a comment");
                     res.redirect("/foods/" + food._id + "#comment-total");
                 }
