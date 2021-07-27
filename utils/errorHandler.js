@@ -1,5 +1,5 @@
 const errorMessage = (err, path) => {
-    console.log(`!!!!!!!!!! ERROR: ${err} OCCURS FROM EXECUTING ${path}`);
+    console.log(`!!!!!!!!!! ERROR: ${err} OCCURED AT ${path}`);
 }
 
 module.exports = {
