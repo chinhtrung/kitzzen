@@ -5,6 +5,12 @@ const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const { cloudinary } = require("../cloudinary");
+const path = require('path');
+const scriptName = path.dirname(__filename) + "/" + path.basename(__filename);
+
+const errorMessageTryCatch = (err) => {
+    console.log(errorHandler.errorMessage(err, scriptName));
+}
 
 // INDEX - show app food
 // Define escapeRegex function for search feature
@@ -50,10 +56,14 @@ const postCreateFood = async (req, res) => {
         username: req.user.username,
         avatar: req.user.avatar
     };
-    const geoData = await geocoder.forwardGeocode({
-        query: location,
-        limit: 1
-    }).send();
+    let geoData = undefined;
+    try {
+        geoData = await geocoder.forwardGeocode({
+            query: location,
+            limit: 1
+        }).send();
+    } catch (err) { errorMessageTryCatch(err); }
+
     const firstMapSearch = geoData.body.features[0]; // take the first result on map of features
     const geometry = firstMapSearch.geometry;
     const matchingPlaceName = firstMapSearch.matching_place_name || firstMapSearch.place_name;
@@ -107,8 +117,11 @@ const showFood = (req, res) => {
                     return total + element;
                 });
                 resultFood.rating = rating / length;
-                try { await resultFood.save(); } catch (err) {
-                    console.log(err);
+
+                try {
+                    await resultFood.save();
+                } catch (err) {
+                    errorMessageTryCatch(err);
                 }
             }
             //render show template with that food
@@ -179,12 +192,15 @@ const updateFood = async (req, res) => {
         // Delete image from cloudinary
         try {
             await cloudinary.uploader.destroy(cloudinaryID);
-        } catch (err) { console.log(err) }
+        } catch (err) { errorMessageTryCatch(err); }
+
         // Upload image to cloudinary
-        await cloudinary.uploader.upload(req.file.path, (result) => {
-            image = result.secure_url;
-            cloudinaryID = result.public_id;
-        });
+        try {
+            await cloudinary.uploader.upload(req.file.path, (result) => {
+                image = result.secure_url;
+                cloudinaryID = result.public_id;
+            });
+        } catch (err) { errorMessageTryCatch(err); }
     }
 
     Food.findByIdAndUpdate(req.params.id, {
@@ -217,14 +233,20 @@ const deleteFood = (req, res) => {
             // Delete image from cloudinary
             try {
                 await cloudinary.uploader.destroy(resultFood.cloudinaryID);
-            } catch (err) { console.log(err) }
+            } catch (err) { errorMessageTryCatch(err); }
+
             // Delete related comments from database
             resultFood.comments.forEach(async comment => {
-                await Comment.findByIdAndRemove(comment._id);
+                try {
+                    await Comment.findByIdAndRemove(comment._id);
+                } catch (err) { errorMessageTryCatch(err); }
             });
+
             // Delete related ratings from database
             resultFood.ratings.forEach(async rating => {
-                await Rating.findByIdAndRemove(rating._id);
+                try {
+                    await Rating.findByIdAndRemove(rating._id);
+                } catch (err) { errorMessageTryCatch(err); }
             });
 
             req.flash("success", `Your Food Post (${resultFood.name}) deleted!`);
