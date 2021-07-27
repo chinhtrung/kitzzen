@@ -210,17 +210,23 @@ const editUserProfile = (req, res) => {
 
 // UPDATE USER PROFILE
 const updateUserProfile = async (req, res) => {
-    const lastname = req.body.lastname;
-    const firstname = req.body.firstname;
-    const email = req.body.email;
+    // const lastname = req.body.lastname;
+    // const firstname = req.body.firstname;
+    const email = req.body.email.toLowerCase();
     const description = req.body.description;
 
     let isAdmin = false;
     if (req.body.isadmin === process.env.ADMIN_CODE) {
         isAdmin = true;
     }
+    
     let avatar = req.body.prevAvatar;
     let cloudinaryID = req.body.cloudinaryID;
+
+    await User.findById(req.params.id, (err, user) => {
+        // prevent user change avatar without adding new picture
+        avatar = user.avatar;
+    });
 
     if (req.file) {
         // Delete avatar from cloudinary
@@ -235,8 +241,8 @@ const updateUserProfile = async (req, res) => {
     }
 
     User.findByIdAndUpdate(req.params.id, {
-        lastName: lastname,
-        firstName: firstname,
+        // lastName: lastname,
+        // firstName: firstname,
         avatar: avatar,
         email: email,
         description: description,
@@ -251,6 +257,13 @@ const updateUserProfile = async (req, res) => {
             req.flash("success", "Successfully update your user profile");
             res.redirect("/users/" + req.params.id);
         }
+    });
+
+    // Update author avatar of food
+    Food.find().where('author.id').equals(req.params.id).exec((err, resultFoods) => {
+        resultFoods.forEach(async (food) => {
+            await Food.findByIdAndUpdate(food._id, {'author.avatar' : avatar});
+        });
     });
 }
 
