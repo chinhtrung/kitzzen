@@ -60,9 +60,9 @@
 			<div class="form-group">
 				<label for="image">Avatar</label>
 				<input class="form-control" type="text" name="prevAvatar" value="<%= user.avatar%>"
-					readonly="readonly">
+					readonly="readonly" required>
 				<input class="hidden" type="text" name="cloudinaryID" value="<%= user.cloudinaryID%>"
-					readonly="readonly">
+					readonly="readonly" required>
 				<input type="file" id="image" name="image" accept="image/*">
 			</div>
 			<div class="form-group">
