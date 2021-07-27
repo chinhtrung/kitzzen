@@ -265,6 +265,20 @@ const updateUserProfile = async (req, res) => {
             await Food.findByIdAndUpdate(food._id, {'author.avatar' : avatar});
         });
     });
+
+    // Update comment avatar of food
+    Comment.find().where('author.id').equals(req.params.id).exec((err, resultComments) => {
+        resultComments.forEach(async (comment) => {
+            await Comment.findByIdAndUpdate(comment._id, {'author.avatar' : avatar});
+        });
+    });
+
+    // Update rating avatar of food
+    Rating.find().where('author.id').equals(req.params.id).exec((err, resultRatings) => {
+        resultRatings.forEach(async (rating) => {
+            await Rating.findByIdAndUpdate(rating._id, {'author.avatar' : avatar});
+        });
+    });
 }
 
 // DESTROY USER ACCOUNT
