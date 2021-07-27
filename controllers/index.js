@@ -27,7 +27,7 @@ const postRegister = (req, res) => {
         username: req.body.username,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        email: req.body.email,
+        email: req.body.email.toLowerCase(),
         avatar: req.body.avatar
     });
     User.register(newUser, req.body.password, (err, user) => {
@@ -68,14 +68,14 @@ const postForgot = (req, res, next) => {
             });
         },
         (token, done) => {
-            User.findOne({ email: req.body.email }, (err, user) => {
+            User.findOne({ email: req.body.email.toLowerCase() }, (err, user) => {
                 if (!user) {
                     req.flash('error', 'No account with that email address exists.');
                     return res.redirect('/forgot');
                 }
 
                 user.resetPasswordToken = token;
-                user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+                user.resetPasswordExpires = Date.now() + 600000; // 10 minutes
 
                 user.save((err) => {
                     done(err, token, user);
