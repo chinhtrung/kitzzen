@@ -17,9 +17,10 @@ const errorMessageTryCatch = (err) => {
 // root route
 const rootRoute = (req, res) => {
     if (req.isAuthenticated()) {
-        return res.redirect("/foods");
+        res.redirect("/foods");
+    } else {
+        res.render("landing");
     }
-    res.render("landing");
 }
 
 // Show register form
@@ -39,12 +40,13 @@ const postRegister = (req, res) => {
     User.register(newUser, req.body.password, (err, user) => {
         if (err) {
             req.flash("error", err.message + " or the email address may have been used by a different user");
-            return res.redirect("register");
+            res.redirect("register");
+        } else {
+            passport.authenticate("local")(req, res, () => {
+                req.flash("success", "Successfully Signed Up! Nice to meet you " + user.username);
+                res.redirect("/foods");
+            });
         }
-        passport.authenticate("local")(req, res, () => {
-            req.flash("success", "Successfully Signed Up! Nice to meet you " + user.username);
-            res.redirect("/foods");
-        });
     });
 }
 
@@ -186,14 +188,15 @@ const getUserProfile = (req, res) => {
         if (err) {
             req.flash("error", "Something went wrong.");
             res.redirect("/");
+        } else {
+            Food.find().where('author.id').equals(resultUser._id).exec((err, resultFoods) => {
+                if (err) {
+                    req.flash("error", "Something went wrong.");
+                    res.redirect("/");
+                }
+                res.render("users/show", { user: resultUser, foods: resultFoods });
+            });
         }
-        Food.find().where('author.id').equals(resultUser._id).exec((err, resultFoods) => {
-            if (err) {
-                req.flash("error", "Something went wrong.");
-                res.redirect("/");
-            }
-            res.render("users/show", { user: resultUser, foods: resultFoods });
-        })
     });
 }
 
@@ -203,14 +206,15 @@ const editUserProfile = (req, res) => {
         if (err) {
             req.flash("error", "Something went wrong.");
             res.redirect("/");
+        } else {
+            Food.find().where('author.id').equals(resultUser._id).exec((err, resultFoods) => {
+                if (err) {
+                    req.flash("error", "Something went wrong.");
+                    res.redirect("/")
+                }
+                res.render("users/edit", { user: resultUser, foods: resultFoods });
+            });
         }
-        Food.find().where('author.id').equals(resultUser._id).exec((err, resultFoods) => {
-            if (err) {
-                req.flash("error", "Something went wrong.");
-                res.redirect("/")
-            }
-            res.render("users/edit", { user: resultUser, foods: resultFoods });
-        });
     });
 }
 
