@@ -1,5 +1,11 @@
 const Food = require("../models/food");
 const Rating = require("../models/rating");
+const path = require('path');
+const scriptName = path.dirname(__filename) + "/" + path.basename(__filename);
+
+const errorMessageTryCatch = (err) => {
+    console.log(errorHandler.errorMessage(err, scriptName));
+}
 
 const addRating = (req, res) => {
     Food.findById(req.params.id, (err, resultFood) => {
@@ -13,9 +19,16 @@ const addRating = (req, res) => {
                 rating.author.id = req.user._id;
                 rating.author.username = req.user.username;
                 rating.author.avatar = req.user.avatar;
-                await rating.save();
+                try {
+                    await rating.save();
+                } catch (err) { errorMessageTryCatch(err); }
+                
                 resultFood.ratings.push(rating);
-                await resultFood.save();
+
+                try {
+                    await resultFood.save();
+                } catch (err) { errorMessageTryCatch(err); }
+                
                 req.flash("success", "Your rating is added");
                 res.redirect('/foods/' + req.params.id + '#rating');
             });
