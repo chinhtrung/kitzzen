@@ -27,6 +27,7 @@ const createComment = (req, res) => {
         if (err) {
             req.flash("error", "Cannot find!");
             console.log(err);
+            res.render("errorPage");
         } else {
             Comment.create(req.body.comment, async (err, comment) => {
                 if (err) {
