@@ -34,14 +34,14 @@ const createComment = (req, res) => {
                     // save comment
                     try {
                         await comment.save();
-                    } catch (err) {errorResponse(req, res, err, scriptName);}
+                    } catch (err) { errorResponse(req, res, err, scriptName); }
 
                     food.comments.push(comment);
-                    
+
                     try {
                         await food.save();
-                    } catch (err) {errorResponse(req, res, err, scriptName);}
-                    
+                    } catch (err) { errorResponse(req, res, err, scriptName); }
+
                     req.flash("success", "You added a comment");
                     res.redirect("/foods/" + food._id + "#comment-total");
                 }
