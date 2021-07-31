@@ -3,24 +3,19 @@ const Food = require("../models/food");
 const Comment = require("../models/comment");
 const Rating = require("../models/rating");
 const { cloudinary } = require("../cloudinary");
+const { errorResponse } = require("../utils/errorHandler");
 const path = require('path');
 const scriptName = path.dirname(__filename) + "/" + path.basename(__filename);
-
-const errorMessageTryCatch = (err) => {
-    console.log(errorHandler.errorMessage(err, scriptName));
-}
 
 // USER PROFILE
 const getUserProfile = (req, res) => {
     User.findById(req.params.id, (err, resultUser) => {
         if (err) {
-            req.flash("error", "Something went wrong.");
-            res.redirect("/");
+            errorResponse(req, res, err, scriptName);
         } else {
             Food.find().where('author.id').equals(resultUser._id).exec((err, resultFoods) => {
                 if (err) {
-                    req.flash("error", "Something went wrong.");
-                    res.redirect("/");
+                    errorResponse(req, res, err, scriptName);
                 }
                 res.render("users/show", { user: resultUser, foods: resultFoods });
             });
@@ -32,13 +27,11 @@ const getUserProfile = (req, res) => {
 const editUserProfile = (req, res) => {
     User.findById(req.params.id, (err, resultUser) => {
         if (err) {
-            req.flash("error", "Something went wrong.");
-            res.redirect("/");
+            errorResponse(req, res, err, scriptName);
         } else {
             Food.find().where('author.id').equals(resultUser._id).exec((err, resultFoods) => {
                 if (err) {
-                    req.flash("error", "Something went wrong.");
-                    res.redirect("/")
+                    errorResponse(req, res, err, scriptName);
                 }
                 res.render("users/edit", { user: resultUser, foods: resultFoods });
             });
@@ -63,16 +56,19 @@ const updateUserProfile = async (req, res) => {
 
     try {
         await User.findById(req.params.id, (err, user) => {
+            if (err) {
+                errorResponse(req, res, err, scriptName);
+            }
             // prevent user change avatar without adding new picture
             avatar = user.avatar;
         });
-    } catch (err) { errorMessageTryCatch(err); }
+    } catch (err) { errorResponse(req, res, err, scriptName); }
 
     if (req.file) {
         // Delete avatar from cloudinary
         try {
             await cloudinary.uploader.destroy(cloudinaryID);
-        } catch (err) { errorMessageTryCatch(err); }
+        } catch (err) { errorResponse(req, res, err, scriptName); }
 
         // Upload avatar to cloudinary
         try {
@@ -80,7 +76,7 @@ const updateUserProfile = async (req, res) => {
                 avatar = result.secure_url;
                 cloudinaryID = result.public_id;
             });
-        } catch (err) { errorMessageTryCatch(err); }
+        } catch (err) { errorResponse(req, res, err, scriptName); }
     }
 
     User.findByIdAndUpdate(req.params.id, {
@@ -104,29 +100,38 @@ const updateUserProfile = async (req, res) => {
 
     // Update author avatar of food
     Food.find().where('author.id').equals(req.params.id).exec((err, resultFoods) => {
+        if (err) {
+            errorResponse(req, res, err, scriptName);
+        }
         resultFoods.forEach(async (food) => {
             try {
                 await Food.findByIdAndUpdate(food._id, { 'author.avatar': avatar });
-            } catch (err) { errorMessageTryCatch(err); }
+            } catch (err) { errorResponse(req, res, err, scriptName); }
         });
     });
 
     // Update comment avatar of food
     Comment.find().where('author.id').equals(req.params.id).exec((err, resultComments) => {
+        if (err) {
+            errorResponse(req, res, err, scriptName);
+        }
         resultComments.forEach(async (comment) => {
             try {
                 await Comment.findByIdAndUpdate(comment._id, { 'author.avatar': avatar });
-            } catch (err) { errorMessageTryCatch(err); }
+            } catch (err) { errorResponse(req, res, err, scriptName); }
 
         });
     });
 
     // Update rating avatar of food
     Rating.find().where('author.id').equals(req.params.id).exec((err, resultRatings) => {
+        if (err) {
+            errorResponse(req, res, err, scriptName);
+        }
         resultRatings.forEach(async (rating) => {
             try {
                 await Rating.findByIdAndUpdate(rating._id, { 'author.avatar': avatar });
-            } catch (err) { errorMessageTryCatch(err); }
+            } catch (err) { errorResponse(req, res, err, scriptName); }
 
         });
     });
@@ -137,24 +142,27 @@ const deleteUserAccount = async (req, res) => {
     if (req.params.id === req.body.deleteId) {
         // Delete food associated with this user
         Food.find().where('author.id').equals(req.params.id).exec((err, resultFoods) => {
+            if (err) {
+                errorResponse(req, res, err, scriptName);
+            }
             resultFoods.forEach(async (food) => {
                 // Delete image from cloudinary
                 try {
                     await cloudinary.uploader.destroy(food.cloudinaryID);
-                } catch (err) { errorMessageTryCatch(err); }
+                } catch (err) { errorResponse(req, res, err, scriptName); }
 
                 // Delete ratings of this food in database
                 food.ratings.forEach(async rating => {
                     try {
                         await Rating.findByIdAndRemove(rating._id);
-                    } catch (err) { errorMessageTryCatch(err); }
+                    } catch (err) { errorResponse(req, res, err, scriptName); }
                 });
 
                 // Delete comments of this food in database
                 food.comments.forEach(async comment => {
                     try {
                         await Comment.findByIdAndRemove(comment._id);
-                    } catch (err) { errorMessageTryCatch(err); }
+                    } catch (err) { errorResponse(req, res, err, scriptName); }
                 });
 
                 // Delete Food from this user
@@ -165,12 +173,15 @@ const deleteUserAccount = async (req, res) => {
                             res.redirect("/foods");
                         }
                     });
-                } catch (err) { errorMessageTryCatch(err); }
+                } catch (err) { errorResponse(req, res, err, scriptName); }
             });
         });
 
         // Check all food post to delete user comments, ratings and yums from this user
         Food.find().exec((err, allFood) => {
+            if (err) {
+                errorResponse(req, res, err, scriptName);
+            }
             allFood.forEach(async food => {
                 // check ratings
                 for (let i = 0; i < food.ratings.length; i++) {
@@ -180,13 +191,13 @@ const deleteUserAccount = async (req, res) => {
                         await Rating.findById(rating, "author.id").exec().then(value => {
                             authorId = value ? value.author.id : undefined;
                         });
-                    } catch (err) { errorMessageTryCatch(err); }
-                    
+                    } catch (err) { errorResponse(req, res, err, scriptName); }
+
                     if (authorId && authorId.equals(req.params.id)) {
                         food.ratings.splice(i, 1);
                         try {
                             await food.save();
-                        } catch (err) { errorMessageTryCatch(err); }
+                        } catch (err) { errorResponse(req, res, err, scriptName); }
                     }
 
                     // clean up undefined element in food.ratings array if there is any
@@ -194,7 +205,7 @@ const deleteUserAccount = async (req, res) => {
                         food.ratings.splice(i, 1);
                         try {
                             await food.save();
-                        } catch (err) { errorMessageTryCatch(err); }
+                        } catch (err) { errorResponse(req, res, err, scriptName); }
                         i--; // to iteratively delete all matching element in array
                     }
 
@@ -202,7 +213,7 @@ const deleteUserAccount = async (req, res) => {
                     let avgRating = food.ratings.length == 0 ? 0 : food.ratings.reduce((acc, each) => acc + each.rating, 0) / food.ratings.length;
                     try {
                         await Food.findByIdAndUpdate(food._id, { rating: avgRating ? avgRating : 0 });
-                    } catch (err) { errorMessageTryCatch(err); }
+                    } catch (err) { errorResponse(req, res, err, scriptName); }
                 }
 
                 // check comments
@@ -213,13 +224,13 @@ const deleteUserAccount = async (req, res) => {
                         await Comment.findById(comment, "author.id").exec().then(value => {
                             authorId = value ? value.author.id : undefined;
                         });
-                    } catch (err) { errorMessageTryCatch(err); }
-                    
+                    } catch (err) { errorResponse(req, res, err, scriptName); }
+
                     if (authorId && authorId.equals(req.params.id)) {
                         food.comments.splice(i, 1);
                         try {
                             await food.save();
-                        } catch (err) { errorMessageTryCatch(err); }
+                        } catch (err) { errorResponse(req, res, err, scriptName); }
                         i--; // to iteratively delete all matching element in array
                     }
 
@@ -228,7 +239,7 @@ const deleteUserAccount = async (req, res) => {
                         food.comments.splice(i, 1);
                         try {
                             await food.save();
-                        } catch (err) { errorMessageTryCatch(err); }
+                        } catch (err) { errorResponse(req, res, err, scriptName); }
                         i--; // to iteratively delete all matching element in array
                     }
                 }
@@ -240,7 +251,7 @@ const deleteUserAccount = async (req, res) => {
                         food.yums.splice(i, 1);
                         try {
                             await food.save();
-                        } catch (err) { errorMessageTryCatch(err); }
+                        } catch (err) { errorResponse(req, res, err, scriptName); }
                     }
                 }
             })
@@ -248,29 +259,33 @@ const deleteUserAccount = async (req, res) => {
 
         // Delete comment associated with this user
         Comment.find().where('author.id').equals(req.params.id).exec((err, resultComments) => {
+            if (err) {
+                errorResponse(req, res, err, scriptName);
+            }
             resultComments.forEach(async (comment) => {
                 try {
                     await Comment.findByIdAndRemove(comment._id, (err) => {
                         if (err) {
-                            req.flash("error", err.message);
-                            res.redirect("/foods");
+                            errorResponse(req, res, err.message, scriptName);
                         }
                     });
-                } catch (err) { errorMessageTryCatch(err); }
+                } catch (err) { errorResponse(req, res, err, scriptName); }
             });
         });
 
         // Delete rating associated with this user
         Rating.find().where('author.id').equals(req.params.id).exec((err, resultRatings) => {
+            if (err) {
+                errorResponse(req, res, err, scriptName);
+            }
             resultRatings.forEach(async (rating) => {
                 try {
                     await Rating.findByIdAndRemove(rating._id, (err) => {
                         if (err) {
-                            req.flash("error", err.message);
-                            res.redirect("/foods");
+                            errorResponse(req, res, err, scriptName);
                         }
                     });
-                } catch (err) { errorMessageTryCatch(err); }
+                } catch (err) { errorResponse(req, res, err, scriptName); }
             });
         });
 
@@ -279,11 +294,10 @@ const deleteUserAccount = async (req, res) => {
             // Delete image from cloudinary
             try {
                 await cloudinary.uploader.destroy(resultUser.cloudinaryID);
-            } catch (err) { errorMessageTryCatch(err); }
+            } catch (err) { errorResponse(req, res, err, scriptName); }
 
             if (err) {
-                req.flash("error", err.message);
-                res.redirect("back");
+                errorResponse(req, res, err.message, scriptName);
             } else {
                 req.flash("Success", "successfully remove account");
                 res.redirect("/foods");
