@@ -16,6 +16,7 @@ require('dotenv').load();
 const commentRoutes = require("./routes/comments"),
     foodRoutes = require("./routes/foods"),
     ratingRoutes = require("./routes/ratings"),
+    userRoutes = require("./routes/users"),
     indexRoutes = require("./routes/index");
 
 mongoose.connect(process.env.DATABASEURL, {
@@ -59,6 +60,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/", indexRoutes);
+app.use("/users", userRoutes);
 app.use("/foods", foodRoutes);
 app.use("/foods/:id/ratings", ratingRoutes);
 app.use("/foods/:id/comments", commentRoutes);

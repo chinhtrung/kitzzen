@@ -11,8 +11,8 @@ const scriptName = path.dirname(__filename) + "/" + path.basename(__filename);
 
 const errorMessageRes = (err, req, res) => {
     console.log(errorHandler.errorMessage(err, scriptName));
-    req.flash("error", "We cannot find the page you want, please try again or go back to home page!");
-    res.render("errorPage");
+    req.flash("error", "sadd");
+    res.redirect("/foods");
 }
 
 // INDEX - show app food
