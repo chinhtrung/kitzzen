@@ -178,6 +178,10 @@ const postReset = (req, res) => {
     });
 }
 
+const getError = (req, res) => {
+    res.render("errorPage");
+}
+
 module.exports = {
     rootRoute,
     getRegister,
@@ -187,5 +191,6 @@ module.exports = {
     forgotPassword,
     postForgot,
     getReset,
-    postReset
+    postReset,
+    getError
 }
