@@ -3,12 +3,9 @@ const async = require("async");
 const passport = require("passport");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const { errorResponse } = require("../utils/errorHandler");
 const path = require('path');
 const scriptName = path.dirname(__filename) + "/" + path.basename(__filename);
-
-const errorMessageTryCatch = (err) => {
-    console.log(errorHandler.errorMessage(err, scriptName));
-}
 
 // root route
 const rootRoute = (req, res) => {
@@ -174,7 +171,7 @@ const postReset = (req, res) => {
             });
         }
     ], (err) => {
-        res.redirect('/foods');
+        errorResponse(req, res, err, scriptName);
     });
 }
 
