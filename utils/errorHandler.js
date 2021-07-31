@@ -4,7 +4,7 @@ const errorMessage = (err, path) => {
 
 const errorResponse = (req, res, err, path) => {
     errorMessage(err, path);
-    req.flash("error", "error in errorHandler");
+    req.flash("error", "An error has occurred, please go back to the home page!");
     res.redirect("/error");
 }
 
