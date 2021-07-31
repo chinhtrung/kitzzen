@@ -5,15 +5,9 @@ const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const { cloudinary } = require("../cloudinary");
-const errorHandler = require("../utils/errorHandler");
+const { errorResponse } = require("../utils/errorHandler");
 const path = require('path');
 const scriptName = path.dirname(__filename) + "/" + path.basename(__filename);
-
-const errorMessageRes = (err, req, res) => {
-    console.log(errorHandler.errorMessage(err, scriptName));
-    req.flash("error", "sadd");
-    res.redirect("/foods");
-}
 
 // INDEX - show app food
 // Define escapeRegex function for search feature
@@ -27,7 +21,7 @@ const showAll = (req, res) => {
         // Get all foods from DB
         Food.find({ name: regex }, (err, resultFood) => {
             if (err) {
-                errorMessageRes(err, req, res);
+                errorResponse(req, res, err, scriptName);
             } else {
                 res.status(200).json(resultFood);
             }
@@ -36,7 +30,7 @@ const showAll = (req, res) => {
         // Get all foods from DB
         Food.find({}, (err, resultFood) => {
             if (err) {
-                errorMessageRes(err, req, res);
+                errorResponse(req, res, err, scriptName);
             } else {
                 if (req.xhr) {
                     res.json(resultFood);
@@ -65,7 +59,7 @@ const postCreateFood = async (req, res) => {
             query: location,
             limit: 1
         }).send();
-    } catch (err) { errorMessageRes(err, req, res); }
+    } catch (err) { errorResponse(req, res, err, scriptName); }
 
     const firstMapSearch = geoData.body.features[0]; // take the first result on map of features
     const geometry = firstMapSearch.geometry;
@@ -88,7 +82,7 @@ const postCreateFood = async (req, res) => {
         // create a new food post and save to DB
         Food.create(newFood, (err) => {
             if (err) {
-                errorMessageRes(err, req, res);
+                errorResponse(req, res, err, scriptName);
             } else {
                 //redirect back to foods page
                 res.redirect("/foods");
@@ -107,7 +101,7 @@ const showFood = (req, res) => {
     //find a food with provided ID
     Food.findById(req.params.id).populate("comments").populate("ratings").exec(async (err, resultFood) => {
         if (err) {
-            errorMessageRes(err, req, res);
+            errorResponse(req, res, err, scriptName);
         } else {
             if (resultFood.ratings.length > 0) {
                 const ratings = [];
@@ -123,7 +117,7 @@ const showFood = (req, res) => {
                 try {
                     await resultFood.save();
                 } catch (err) {
-                    errorMessageRes(err, req, res);
+                    errorResponse(req, res, err, scriptName);
                 }
             }
             //render show template with that food
@@ -136,7 +130,7 @@ const showFood = (req, res) => {
 const editFood = (req, res) => {
     Food.findById(req.params.id, function (err, resultFood) {
         if (err) {
-            errorMessageRes(err, req, res);
+            errorResponse(req, res, err, scriptName);
         } else {
             res.render("foods/edit", { food: resultFood });
         }
@@ -152,20 +146,20 @@ const addView = (req, res) => {
             numindex = numindex + 1;
             Food.findByIdAndUpdate(eachin._id, { timestring: timestring }, function (err) {
                 if (err) {
-                    errorMessageRes(err, req, res);
+                    errorResponse(req, res, err, scriptName);
                 }
             });
         });
     });
     Food.findById(req.params.id, (err, resultFood) => {
         if (err) {
-            errorMessageRes(err.message, res);
+            errorResponse(req, res, err.message, scriptName);
         } else {
             //should be an if statement for the fair of view count, might use fingerprintjs2
             const seen = resultFood.seen + 1;
             Food.findByIdAndUpdate(req.params.id, { seen: seen }, err => {
                 if (err) {
-                    errorMessageRes(err, req, res);
+                    errorResponse(req, res, err, scriptName);
                 } else {
                     res.redirect("/foods/" + resultFood._id);
                 }
@@ -194,7 +188,7 @@ const updateFood = async (req, res) => {
         // Delete image from cloudinary
         try {
             await cloudinary.uploader.destroy(cloudinaryID);
-        } catch (err) { errorMessageRes(err, req, res); }
+        } catch (err) { errorResponse(req, res, err, scriptName); }
 
         // Upload image to cloudinary
         try {
@@ -202,7 +196,7 @@ const updateFood = async (req, res) => {
                 image = result.secure_url;
                 cloudinaryID = result.public_id;
             });
-        } catch (err) { errorMessageRes(err, req, res); }
+        } catch (err) { errorResponse(req, res, err, scriptName); }
     }
 
     Food.findByIdAndUpdate(req.params.id, {
@@ -230,25 +224,25 @@ const deleteFood = (req, res) => {
     Food.findByIdAndRemove(req.params.id, async (err, resultFood) => {
         if (err) {
             req.flash("error", err.message);
-            errorMessageRes(err, req, res);
+            errorResponse(req, res, err, scriptName);
         } else {
             // Delete image from cloudinary
             try {
                 await cloudinary.uploader.destroy(resultFood.cloudinaryID);
-            } catch (err) { errorMessageRes(err, req, res); }
+            } catch (err) { errorResponse(req, res, err, scriptName); }
 
             // Delete related comments from database
             resultFood.comments.forEach(async comment => {
                 try {
                     await Comment.findByIdAndRemove(comment._id);
-                } catch (err) { errorMessageRes(err, req, res); }
+                } catch (err) { errorResponse(req, res, err, scriptName); }
             });
 
             // Delete related ratings from database
             resultFood.ratings.forEach(async rating => {
                 try {
                     await Rating.findByIdAndRemove(rating._id);
-                } catch (err) { errorMessageRes(err, req, res); }
+                } catch (err) { errorResponse(req, res, err, scriptName); }
             });
 
             req.flash("success", `Your Food Post (${resultFood.name}) deleted!`);
@@ -266,7 +260,7 @@ const addYum = (req, res) => {
                 { yums: newYumArr },
                 err => {
                     if (err) {
-                        errorMessageRes(err.message, res);
+                        errorResponse(req, res, err.message, scriptName);
                     } else {
                         let backURL = req.header('Referer') || '/';
                         res.redirect(backURL + `#food-id-${req.params.id}`);
