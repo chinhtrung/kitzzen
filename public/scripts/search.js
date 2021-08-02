@@ -7,7 +7,6 @@ $('#food-search').on('input', function() {
     document.querySelectorAll('.food-post').forEach(each => each.classList.add('hidden'));
     data.forEach(function(food) {
       let selectedFood = document.querySelector(`#food-id-${food._id}`);
-      console.dir(selectedFood);
       selectedFood.classList.remove('hidden');
     });
   });
